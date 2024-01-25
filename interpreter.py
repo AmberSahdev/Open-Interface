@@ -48,20 +48,7 @@ class Interpreter:
                 presses = parameters.get('presses', 1)
                 interval = parameters.get('interval', 0.05)
                 interval = 0.05
-
-                """
-                if isinstance(keys_to_press, list):
-                    for key in keys_to_press:
-                        function_to_call(key, presses=presses, interval=interval)
-                else:
-                    function_to_call(keys_to_press, presses=presses, interval=interval)
-                """
-                """
-                for key in keys_to_press:
-                    function_to_call(key, presses=presses, interval=interval)
-                """
                 function_to_call(keys_to_press, presses=presses, interval=interval)
-
             elif function_name == 'hotkey':
                 # 'hotkey' function expects multiple key arguments, not a list
                 function_to_call(*parameters['keys'])
