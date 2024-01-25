@@ -98,6 +98,13 @@ class LLM:
         # Our current LLM model does not guarantee a JSON response, hence we manually parse the JSON part of the response
         start_index = llm_response_data.find("{")
         end_index = llm_response_data.rfind("}")
-        json_response = eval(llm_response_data[start_index:end_index + 1])
+
+        #json_response = eval(llm_response_data[start_index:end_index + 1])
+        try:
+            json_response = json.loads(llm_response_data[start_index:end_index + 1].strip())
+        except Exception as e:
+            print(f"llm_response_data[start_index:end_index + 1] - {llm_response_data[start_index:end_index + 1]}")
+            print(f"Error: {e}")
+            json_response = {}
 
         return json_response

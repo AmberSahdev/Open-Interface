@@ -21,10 +21,16 @@ class Core:
                 Without it the LLM kept looping after finishing the user request.
                 Also, it is needed because the LLM we are using doesn't have a stateful/assistant mode.
         """
-        instructions = self.llm.get_instructions_for_objective(user_request, step_num)
+        try:
+            instructions = self.llm.get_instructions_for_objective(user_request, step_num)
 
-        # Send to Interpreter and Executor
-        self.interpreter.process(instructions["steps"])  # GPTToLocalInterface.py
+            # Send to Interpreter and Executor
+            success = self.interpreter.process(instructions["steps"])
+
+            if not success:
+                return "Unable to execute the request"
+        except:
+            return "Unable to execute the request"
 
         if instructions["done"]:
             # Communicate Results

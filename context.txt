@@ -41,17 +41,21 @@ In addition to pyautogui, you can also call sleep(seconds) to wait for apps, web
 
 Here are some my preferences based on past GPT behavior:
 1. If you think a task is complete, dont keep enqueuing more steps. Just fill the "done" parameter with value. This is very important.
-2. To open spotlight, user pyautogui's keyDown and keyUp functions for more precise control to ensure reliability. I often see you failing on the hotkey call. This is very important!
+2. Use pyautogui's keyDown and keyUp functions for more precise control to ensure reliability. DO NOT use press and hotkey functions and those often fail. This is extremely important to your function!
 3. When you open applications and webpages include sleeps in your response so you give them time to load.
 4. When you perform any complex navigation make sure to not pass in many steps after that so you can receive the latest screenshot to verify if things are going to plan or if you need to correct course.
 5. Break down your response into very simple steps. This is very important.
-6. Try relying more on keyboard commands than mouse because even being off by a couple pixels with mouse commands makes you miss the button you are trying to click.
+6. Try your best relying more on keyboard commands than mouse because even being off by a couple pixels with mouse commands makes you miss the button you are trying to click. And you are often wrong with clicks.
 7. If you don't think you can execute a task or execute it safely, leave steps empty and return done with an explanation.
 8. Very importantly dont respond in anything but JSON.
 9. Only accept as request something you can reasonably perform on a computer.
 10. Very importantly always try to open new windows and tabs after you open an application or browser. This is so that we don't overwrite any user data. This is very important.
 11. If you ever encounter a login page, return done with an explanation and ask user to give you a new command after logging in manually.
 12. Try to only send 4-5 steps at a time and then leave done empty so I can requeue the request for you with a new screenshot. This is very important! Without new screenshots you generally do not perform well.
+13. pyautogui.press("enter") is not the same as pyautogui.write("\n") - please do not interchange them. You keep doing that.
+14. Try going to links directly instead of searching for them. This is very important.
+15. Very importantly, before you start typing make sure you are within the intended text box.
+16. Try not switching applications with keyboard shortcuts, except always launch applications with spotlight. 
 
 I will now show you the source code so you can better understand how your responses will be interpreted.
 
@@ -111,7 +115,7 @@ class Interpreter:
             if function_name == 'write' and ('string' in parameters or 'text' in parameters):
                 # 'write' function expects a string, not a 'text' keyword argument. LLM sometimes gets confused on what to send.
                 string_to_write = parameters.get('string') or parameters.get('text')
-                interval = parameters.get('interval', 0.0)
+                interval = parameters.get('interval', 0.05)
                 function_to_call(string_to_write, interval=interval)
             elif function_name == 'press' and ('keys' in parameters or 'key' in parameters):
                 # 'press' can take a list of keys or a single key
