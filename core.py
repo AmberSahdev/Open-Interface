@@ -1,23 +1,37 @@
+from interpreter import Interpreter
+from llm import LLM
+
+
 class Core:
-	def __init__():
-		self.llm = LLM()
-		
+    def __init__(self):
+        self.llm = LLM()
+        self.interpreter = Interpreter()
 
-	def run():
-		while True:
-			user_request = input()
-			execute(user_request)
-			
-			
-	def execute(user_request, subsequent_app_request=""):
-		# Send to LLM
-		instructions = self.llm.get_instructions_for_objective(user_request, subsequent_app_request)
+    def run(self):
+        print("Make sure to give the application Accessibility permissions in settings (to control mouse and keyboard), and Screen Recording permissions to take screenshots.")
+        while True:
+            user_request = input("\nEnter your request: ").strip()
+            self.execute(user_request)
 
-		# Send to Interpreter and Executor 
-		# GPTToLocalInterface.py
+    def execute(self, user_request, step_num=0):
+        """
+            user_request: The original user request
+            step_number: the number of times we've called the LLM for this request.
+                Used to keep track of whether it's a fresh request we're processing (step number 0), or if we're already in the middle of one.
+                Without it the LLM kept looping after finishing the user request.
+                Also, it is needed because the LLM we are using doesn't have a stateful/assistant mode.
+        """
+        instructions = self.llm.get_instructions_for_objective(user_request, step_num)
 
-		if done:
-			# TODO: Communicate Results 
-		else:
-			# if not done, continue to next phase
-			execute(user_request, instructions["subsequent_app_request"])
+        # Send to Interpreter and Executor
+        self.interpreter.process(instructions["steps"])  # GPTToLocalInterface.py
+
+        if instructions["done"]:
+            # Communicate Results
+            print(instructions["done"])
+        else:
+            # if not done, continue to next phase
+            self.execute(user_request, step_num + 1)
+
+
+Core().run()
