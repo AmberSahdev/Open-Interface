@@ -26,7 +26,7 @@ class Interpreter:
             2. pyautogui calls to interact with system's mouse and keyboard.
         """
         # Sometimes pyautogui needs warming up - i.e. sometimes first call isnt executed. So padding a random first call here.
-        pyautogui.press("command")
+        pyautogui.press("command", interval=0.1)
 
         if function_name == "sleep" and parameters.get("secs"):
             sleep(parameters.get("secs"))
@@ -43,7 +43,7 @@ class Interpreter:
                 function_to_call(string_to_write, interval=interval)
             elif function_name == 'press' and ('keys' in parameters or 'key' in parameters):
                 # 'press' can take a list of keys or a single key
-                print("function_to_call is", function_to_call)
+                # print("function_to_call is", function_to_call)
                 keys_to_press = parameters.get('keys') or parameters.get('key')
                 presses = parameters.get('presses', 1)
                 interval = parameters.get('interval', 0.05)
@@ -56,8 +56,11 @@ class Interpreter:
                 else:
                     function_to_call(keys_to_press, presses=presses, interval=interval)
                 """
+                """
                 for key in keys_to_press:
                     function_to_call(key, presses=presses, interval=interval)
+                """
+                function_to_call(keys_to_press, presses=presses, interval=interval)
 
             elif function_name == 'hotkey':
                 # 'hotkey' function expects multiple key arguments, not a list

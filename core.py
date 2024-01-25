@@ -29,12 +29,14 @@ class Core:
 
             if not success:
                 return "Unable to execute the request"
-        except:
+        except Exception as e:
+            print(f"Exception Unable to execute the request - {e}")
             return "Unable to execute the request"
 
         if instructions["done"]:
             # Communicate Results
             print(instructions["done"])
+            return instructions["done"]
         else:
             # if not done, continue to next phase
             self.execute(user_request, step_num + 1)
