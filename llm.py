@@ -50,6 +50,7 @@ class LLM:
 
         self.context += f"\nDefault browser is {local_info.default_browser}."
         self.context += f" Locally installed apps are {','.join(local_info.locally_installed_apps)}."
+        self.context += f" OS is {local_info.operating_system}."        
         self.context += f" Primary screen size is {Screen().get_size()}.\n"
 
 
