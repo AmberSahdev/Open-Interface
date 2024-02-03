@@ -4,6 +4,7 @@ import speech_recognition as sr
 import threading
 from PIL import Image, ImageTk
 import webbrowser
+import time
 
 def open_link(url):
     webbrowser.open_new(url)  # Replace with your desired URL
@@ -44,8 +45,8 @@ class TkinterApp(tk.Tk):
     def __init__(self):
         super().__init__()
         self.title("Open Interface")
-        self.minsize(450, 250)
-        self.maxsize(450, 250)
+        self.minsize(420, 250)
+        self.maxsize(420, 350)
         self.create_widgets()
 
     def create_widgets(self):
@@ -56,14 +57,14 @@ class TkinterApp(tk.Tk):
 
         self.logo_img = ImageTk.PhotoImage(Image.open("global.png").resize((50, 50))) # PhotoImage object needs to persist as long as the app does
         logo_label = tk.Label(frame, image=self.logo_img)
-        logo_label.grid(column=0, row=0, sticky=tk.W, pady=(10, 10))
+        logo_label.grid(column=0, row=0, sticky=tk.W, pady=(10, 20))
 
         # Heading Label
         heading_label = tk.Label(frame, text="Enter Command Below:", font=('Helvetica', 16))
         heading_label.grid(column=0, row=1, columnspan=3, sticky=tk.W)
 
         # Entry widget
-        self.entry = ttk.Entry(frame, width=25)
+        self.entry = ttk.Entry(frame, width=30)
         self.entry.grid(column=0, row=2, sticky=(tk.W, tk.E))
 
         # Submit Button
@@ -71,9 +72,9 @@ class TkinterApp(tk.Tk):
         button.grid(column=2, row=2)
 
         # Mic Button
-        self.mic_icon = ImageTk.PhotoImage(Image.open("microphone2.png").resize((20, 20)))
-        mic_button = tk.Button(frame, image=self.mic_icon, command=self.start_voice_input_thread)
-        mic_button.grid(column=1, row=2)
+        self.mic_icon = ImageTk.PhotoImage(Image.open("microphone2.png").resize((18, 18)))
+        mic_button = tk.Button(frame, image=self.mic_icon, command=self.start_voice_input_thread, borderwidth=0, highlightthickness=0)
+        mic_button.grid(column=1, row=2, padx=(0, 5))
 
         # Settings Button
         settings_button = ttk.Button(self, text="Settings", command=self.open_settings)
