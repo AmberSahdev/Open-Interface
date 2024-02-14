@@ -7,11 +7,12 @@ class Interpreter:
     def __init__(self):
         pass
 
-    def process(self, json_commands):
+    def process(self, json_commands, ui_display_function):
         for command in json_commands:
             function_name = command["function"]
             parameters = command.get('parameters', {})
             print(f"Now performing - {function_name} - {command.get('human_readable_justification')} - {parameters}")
+            ui_display_function(command.get('human_readable_justification'))
             try:
                 self.execute_function(function_name, parameters)
                 return True

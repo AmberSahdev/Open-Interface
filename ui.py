@@ -10,6 +10,17 @@ def open_link(url):
     webbrowser.open_new(url)  # Replace with your desired URL
 
 class UI:
+    def __init__(self, core):
+        self.core = core
+        self.main_window = self.MainWindow(self.core)
+
+    def run(self):
+        self.main_window.mainloop()
+
+    def display_current_status(self, text):
+        self.main_window.update_message(text)
+
+
     class SettingsWindow(tk.Toplevel):
         def __init__(self, parent):
             super().__init__(parent)
@@ -43,12 +54,13 @@ class UI:
             self.destroy()
 
     class MainWindow(tk.Tk):
-        def __init__(self):
+        def __init__(self, core):
             super().__init__()
             self.title("Open Interface")
             self.minsize(420, 250)
             self.maxsize(420, 350)
             self.create_widgets()
+            self.core = core
 
         def create_widgets(self):
             # Frame
@@ -69,7 +81,7 @@ class UI:
             self.entry.grid(column=0, row=2, sticky=(tk.W, tk.E))
 
             # Submit Button
-            button = ttk.Button(frame, text="Submit", command=self.display_input)
+            button = ttk.Button(frame, text="Submit", command=self.execute_user_request)
             button.grid(column=2, row=2)
 
             # Mic Button
@@ -86,8 +98,8 @@ class UI:
             self.input_display.grid(column=0, row=3, columnspan=3, sticky=tk.W)
 
             # Text display for additional messages
-            self.message_display = tk.Label(frame, text="", font=('Helvetica', 16))
-            self.message_display.grid(column=0, row=4, columnspan=3, sticky=tk.W)
+            self.message_display = tk.Label(frame, text="", font=('Helvetica', 14))
+            self.message_display.grid(column=0, row=5, columnspan=3, sticky=tk.W)
 
         def open_settings(self):
             # Function to open the settings window
@@ -98,10 +110,19 @@ class UI:
             user_input = self.entry.get()
             self.input_display['text'] = f"{user_input}"
 
-            # TODO: Call for Core app logic here
-
             # Clear the entry widget
             self.entry.delete(0, tk.END)
+
+            return user_input.strip()
+
+        def execute_user_request(self):
+            user_request = self.display_input()
+
+            if user_request == "" or user_request is None:
+                return 
+
+            self.update_message("Fetching Instructions")
+            self.core.execute(user_request)
 
         def start_voice_input_thread(self):
             # Start voice input in a separate thread
@@ -133,6 +154,4 @@ class UI:
 
 
 if __name__ == "__main__":
-    ui = UI()
-    app = ui.MainWindow()
-    app.mainloop()
+    ui = UI().run()
