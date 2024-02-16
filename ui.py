@@ -6,6 +6,7 @@ from tkinter import ttk
 
 import speech_recognition as sr
 from PIL import Image, ImageTk
+import os
 
 
 def open_link(url):
@@ -26,7 +27,7 @@ class UI:
         def __init__(self, parent):
             super().__init__(parent)
             self.title("Settings")
-            self.geometry("300x150")
+            self.geometry("300x350")
             self.create_widgets()
 
         def create_widgets(self):
@@ -42,24 +43,43 @@ class UI:
             set_button = ttk.Button(self, text="Set OpenAI API Key", command=self.set_api_key)
             set_button.pack(pady=10)
 
+            # Label for Browser Choice
+            label_browser = tk.Label(self, text="Choose Default Browser:")
+            label_browser.pack(pady=10)
+
+            # Dropdown for Browser Choice
+            self.browser_var = tk.StringVar()
+            self.browser_combobox = ttk.Combobox(self, textvariable=self.browser_var,
+                                                 values=["Safari", "Firefox", "Chrome"])
+            self.browser_combobox.pack(pady=5)
+            self.browser_combobox.set("Choose Browser")  # Placeholder text
+
+            # Button to Set Browser Choice
+            set_browser_button = ttk.Button(self, text="Set Browser", command=self.set_browser)
+            set_browser_button.pack(pady=10)
+
             # Hyperlink Label
             link_label = tk.Label(self, text="Instructions", fg="#499CE4", cursor="hand")
             link_label.pack()
             link_label.bind("<Button-1>", lambda e: open_link("https://www.AmberSah.dev"))
 
         def set_api_key(self):
-            # Function to handle setting of API Key
             api_key = self.api_key_entry.get()
-            # Here you can add code to save the API key or use it as needed
-            print(f"API Key set to: {api_key}")  # For demonstration
+            os.environ["OPENAI_API_KEY"] = api_key
+            print(f"API Key set to: {api_key}")
+            # TODO: Save it persistently someplace
             self.destroy()
+
+        def set_browser(self):
+            selected_browser = self.browser_var.get()
+            print(f"Selected Browser: {selected_browser}")
+            # TODO: Handle the browser setting logic here
 
     class MainWindow(tk.Tk):
         def __init__(self):
             super().__init__()
             self.title("Open Interface")
             self.minsize(420, 250)
-            self.maxsize(420, 350)
             self.create_widgets()
 
             self.user_request_queue = Queue()
@@ -89,7 +109,7 @@ class UI:
             button.grid(column=2, row=2)
 
             # Mic Button
-            self.mic_icon = ImageTk.PhotoImage(Image.open("microphone2.png").resize((18, 18)))
+            self.mic_icon = ImageTk.PhotoImage(Image.open("microphone.png").resize((18, 18)))
             mic_button = tk.Button(frame, image=self.mic_icon, command=self.start_voice_input_thread, borderwidth=0,
                                    highlightthickness=0)
             mic_button.grid(column=1, row=2, padx=(0, 5))
@@ -98,17 +118,24 @@ class UI:
             settings_button = ttk.Button(self, text="Settings", command=self.open_settings)
             settings_button.place(relx=1.0, rely=0.0, anchor='ne', x=-5, y=5)
 
+            # Stop Button
+            stop_button = ttk.Button(self, text="Stop", command=self.stop_previous_request)
+            stop_button.place(relx=1.0, rely=1.0, anchor='se', x=-10, y=-10)
+
             # Text display for echoed input
             self.input_display = tk.Label(frame, text="", font=('Helvetica', 16), wraplength=400)
             self.input_display.grid(column=0, row=3, columnspan=3, sticky=tk.W)
 
             # Text display for additional messages
             self.message_display = tk.Label(frame, text="", font=('Helvetica', 14))
-            self.message_display.grid(column=0, row=5, columnspan=3, sticky=tk.W)
+            self.message_display.grid(column=0, row=6, columnspan=3, sticky=tk.W)
 
         def open_settings(self):
             # Function to open the settings window
             UI.SettingsWindow(self)
+
+        def stop_previous_request(self):
+            self.user_request_queue.put("stop")
 
         def display_input(self):
             # Get the entry and update the input display
@@ -158,7 +185,3 @@ class UI:
                 self.message_display['text'] = message
             else:
                 self.message_display.after(0, lambda: self.message_display.config(text=message))
-
-
-if __name__ == "__main__":
-    ui = UI().run()

@@ -1,36 +1,30 @@
+import time
 from multiprocessing import Queue
 
 from interpreter import Interpreter
 from llm import LLM
+from openai import OpenAI, OpenAIError
 
 
 class Core:
     def __init__(self):
-        self.llm = LLM()
-        self.interpreter = Interpreter()
-
         self.status_queue = Queue()
-        self.executor_process = None
-        self.interrupt_execution = False  # TODO: create a button to set this
+        self.interrupt_execution = False
 
-    def run(self):
-        print(
-            "Make sure to give the application Accessibility permissions in settings (to control mouse and keyboard), and Screen Recording permissions to take screenshots.")
+        self.interpreter = Interpreter()
+        try:
+            self.llm = LLM()
+        except OpenAIError as e:
+            self.status_queue.put("Set your OpenAPI API Key in Settings and Restart the App")
 
-        # while True:
-        #    user_request = input("\nEnter your request: ").strip() # TODO: replace this with getting the input from the UI text box
-        #    self.execute(user_request)
 
     def execute_user_request(self, user_request):
-        self.stop_user_request()  # Stop previous request
-        # self.executor_process = Process(target=self.execute, args=(user_request,))
-        # self.executor_process.start()
+        self.stop_previous_request()  # Stop previous request
+        time.sleep(0.1)
         self.execute(user_request)
 
-    def stop_user_request(self):
-        if self.executor_process and self.executor_process.is_alive():
-            self.executor_process.terminate()  # Terminate the process
-            self.executor_process = None
+    def stop_previous_request(self):
+        self.interrupt_execution = True
 
     def execute(self, user_request, step_num=0):
         """
@@ -40,14 +34,14 @@ class Core:
                 Without it the LLM kept looping after finishing the user request.
                 Also, it is needed because the LLM we are using doesn't have a stateful/assistant mode.
         """
+        self.interrupt_execution = False
         try:
             instructions = self.llm.get_instructions_for_objective(user_request, step_num)
 
-            # success = self.interpreter.process_commands(instructions["steps"], self.status_queue)
             for step in instructions["steps"]:
                 if self.interrupt_execution:
                     self.interrupt_execution = False
-                    print("Interrupted Execution")
+                    print("Interrupted")
                     return "Interrupted"
                 else:
                     success = self.interpreter.process_command(step, self.status_queue)
@@ -57,7 +51,8 @@ class Core:
 
         except Exception as e:
             print(f"Exception Unable to execute the request - {e}")
-            return "Unable to execute the request"
+            self.status_queue.put("Exception Unable to execute the request - if you just set the API key")
+            return f"Unable to execute the request - {e}"
 
         if instructions["done"]:
             # Communicate Results
@@ -67,7 +62,3 @@ class Core:
         else:
             # if not done, continue to next phase
             self.execute(user_request, step_num + 1)
-
-
-if __name__ == "__main__":
-    Core().run()

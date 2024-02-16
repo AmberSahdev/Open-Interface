@@ -1,8 +1,8 @@
 # Open-Interface
 
-A high-level voice-driven way to interact with computers 
+A high-level, voice-driven way to control computers using LLMs
 
 ### Many things it's bad at
-- Accurate spatial-reasoning and hence clicking on things
-- Keeping track of itself in tabular contexts like excel and google sheets 
-- 
+- Accurate spatial-reasoning and hence clicking buttons
+- Keeping track of itself in tabular contexts like excel and google sheets
+- Navigating complex GUI-rich applications like iMovie, etc.

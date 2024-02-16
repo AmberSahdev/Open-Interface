@@ -31,7 +31,11 @@ class App:
         while True:
             user_request = self.ui.main_window.user_request_queue.get()
             print(f"sending user request: {user_request}")
-            self.core.execute_user_request(user_request)
+
+            if user_request == "stop":
+                self.core.stop_previous_request()
+            else:
+                threading.Thread(target=self.core.execute_user_request, args=(user_request,), daemon=True).start()
 
 
 if __name__ == "__main__":

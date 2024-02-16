@@ -12,6 +12,7 @@ class Interpreter:
             success = self.process_command(command, status_queue)
             if not success:
                 return False
+        return True
 
     def process_command(self, json_command, status_queue):
         function_name = json_command["function"]
