@@ -1,25 +1,26 @@
-import tkinter as tk
-from tkinter import ttk
-import speech_recognition as sr
 import threading
-from PIL import Image, ImageTk
+import tkinter as tk
 import webbrowser
-import time
+from multiprocessing import Queue
+from tkinter import ttk
+
+import speech_recognition as sr
+from PIL import Image, ImageTk
+
 
 def open_link(url):
     webbrowser.open_new(url)  # Replace with your desired URL
 
+
 class UI:
-    def __init__(self, core):
-        self.core = core
-        self.main_window = self.MainWindow(self.core)
+    def __init__(self):
+        self.main_window = self.MainWindow()
 
     def run(self):
         self.main_window.mainloop()
 
     def display_current_status(self, text):
         self.main_window.update_message(text)
-
 
     class SettingsWindow(tk.Toplevel):
         def __init__(self, parent):
@@ -54,13 +55,14 @@ class UI:
             self.destroy()
 
     class MainWindow(tk.Tk):
-        def __init__(self, core):
+        def __init__(self):
             super().__init__()
             self.title("Open Interface")
             self.minsize(420, 250)
             self.maxsize(420, 350)
             self.create_widgets()
-            self.core = core
+
+            self.user_request_queue = Queue()
 
         def create_widgets(self):
             # Frame
@@ -68,12 +70,14 @@ class UI:
             frame.grid(column=0, row=0, sticky=(tk.W, tk.E, tk.N, tk.S))
             frame.columnconfigure(0, weight=1)
 
-            self.logo_img = ImageTk.PhotoImage(Image.open("global.png").resize((50, 50))) # PhotoImage object needs to persist as long as the app does
+            self.logo_img = ImageTk.PhotoImage(
+                Image.open("global.png").resize((50, 50)))  # PhotoImage object needs to persist as long as the app does
             logo_label = tk.Label(frame, image=self.logo_img)
             logo_label.grid(column=0, row=0, sticky=tk.W, pady=(10, 20))
 
             # Heading Label
-            heading_label = tk.Label(frame, text="What would you like me to do?", font=('Helvetica', 16), wraplength=400)
+            heading_label = tk.Label(frame, text="What would you like me to do?", font=('Helvetica', 16),
+                                     wraplength=400)
             heading_label.grid(column=0, row=1, columnspan=3, sticky=tk.W)
 
             # Entry widget
@@ -86,7 +90,8 @@ class UI:
 
             # Mic Button
             self.mic_icon = ImageTk.PhotoImage(Image.open("microphone2.png").resize((18, 18)))
-            mic_button = tk.Button(frame, image=self.mic_icon, command=self.start_voice_input_thread, borderwidth=0, highlightthickness=0)
+            mic_button = tk.Button(frame, image=self.mic_icon, command=self.start_voice_input_thread, borderwidth=0,
+                                   highlightthickness=0)
             mic_button.grid(column=1, row=2, padx=(0, 5))
 
             # Settings Button
@@ -119,10 +124,12 @@ class UI:
             user_request = self.display_input()
 
             if user_request == "" or user_request is None:
-                return 
+                return
 
             self.update_message("Fetching Instructions")
-            self.core.execute(user_request)
+
+            self.user_request_queue.put(user_request)
+            print(f"execute_user_request put {user_request} in user_request_queue")
 
         def start_voice_input_thread(self):
             # Start voice input in a separate thread

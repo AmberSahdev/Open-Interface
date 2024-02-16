@@ -1,20 +1,36 @@
+from multiprocessing import Queue
+
 from interpreter import Interpreter
 from llm import LLM
-from ui import UI
+
 
 class Core:
     def __init__(self):
         self.llm = LLM()
         self.interpreter = Interpreter()
-        self.ui = UI(self)
+
+        self.status_queue = Queue()
+        self.executor_process = None
+        self.interrupt_execution = False  # TODO: create a button to set this
 
     def run(self):
-        print("Make sure to give the application Accessibility permissions in settings (to control mouse and keyboard), and Screen Recording permissions to take screenshots.")
-        self.ui.run()
+        print(
+            "Make sure to give the application Accessibility permissions in settings (to control mouse and keyboard), and Screen Recording permissions to take screenshots.")
 
-        #while True:
+        # while True:
         #    user_request = input("\nEnter your request: ").strip() # TODO: replace this with getting the input from the UI text box
         #    self.execute(user_request)
+
+    def execute_user_request(self, user_request):
+        self.stop_user_request()  # Stop previous request
+        # self.executor_process = Process(target=self.execute, args=(user_request,))
+        # self.executor_process.start()
+        self.execute(user_request)
+
+    def stop_user_request(self):
+        if self.executor_process and self.executor_process.is_alive():
+            self.executor_process.terminate()  # Terminate the process
+            self.executor_process = None
 
     def execute(self, user_request, step_num=0):
         """
@@ -24,16 +40,21 @@ class Core:
                 Without it the LLM kept looping after finishing the user request.
                 Also, it is needed because the LLM we are using doesn't have a stateful/assistant mode.
         """
-        # TODO: put this in a thread and then make a stop() function that can stop execution and then put that stop button in the UI
         try:
             instructions = self.llm.get_instructions_for_objective(user_request, step_num)
 
-            # Send to Interpreter and Executor
-            self.ui.display_current_status
-            success = self.interpreter.process(instructions["steps"], self.ui.display_current_status)
+            # success = self.interpreter.process_commands(instructions["steps"], self.status_queue)
+            for step in instructions["steps"]:
+                if self.interrupt_execution:
+                    self.interrupt_execution = False
+                    print("Interrupted Execution")
+                    return "Interrupted"
+                else:
+                    success = self.interpreter.process_command(step, self.status_queue)
 
-            if not success:
-                return "Unable to execute the request"
+                    if not success:
+                        return "Unable to execute the request"
+
         except Exception as e:
             print(f"Exception Unable to execute the request - {e}")
             return "Unable to execute the request"
@@ -41,6 +62,7 @@ class Core:
         if instructions["done"]:
             # Communicate Results
             print(instructions["done"])
+            self.status_queue.put(instructions["done"])
             return instructions["done"]
         else:
             # if not done, continue to next phase

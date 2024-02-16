@@ -2,8 +2,9 @@ import json
 
 from openai import OpenAI
 
-from utils.screen import Screen
 from utils import local_info
+from utils.screen import Screen
+
 
 class LLM:
     """
@@ -50,9 +51,8 @@ class LLM:
 
         self.context += f"\nDefault browser is {local_info.default_browser}."
         self.context += f" Locally installed apps are {','.join(local_info.locally_installed_apps)}."
-        self.context += f" OS is {local_info.operating_system}."        
+        self.context += f" OS is {local_info.operating_system}."
         self.context += f" Primary screen size is {Screen().get_size()}.\n"
-
 
     def get_instructions_for_objective(self, original_user_request, step_num=0):
         message = self.create_message_for_llm(original_user_request, step_num)
@@ -100,7 +100,7 @@ class LLM:
         start_index = llm_response_data.find("{")
         end_index = llm_response_data.rfind("}")
 
-        #json_response = eval(llm_response_data[start_index:end_index + 1])
+        # json_response = eval(llm_response_data[start_index:end_index + 1])
         try:
             json_response = json.loads(llm_response_data[start_index:end_index + 1].strip())
         except Exception as e:

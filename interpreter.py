@@ -7,18 +7,23 @@ class Interpreter:
     def __init__(self):
         pass
 
-    def process(self, json_commands, ui_display_function):
+    def process_commands(self, json_commands, status_queue):
         for command in json_commands:
-            function_name = command["function"]
-            parameters = command.get('parameters', {})
-            print(f"Now performing - {function_name} - {command.get('human_readable_justification')} - {parameters}")
-            ui_display_function(command.get('human_readable_justification'))
-            try:
-                self.execute_function(function_name, parameters)
-                return True
-            except:
-                print("We are having a problem executing this")
+            success = self.process_command(command, status_queue)
+            if not success:
                 return False
+
+    def process_command(self, json_command, status_queue):
+        function_name = json_command["function"]
+        parameters = json_command.get('parameters', {})
+        print(f"Now performing - {function_name} - {json_command.get('human_readable_justification')} - {parameters}")
+        status_queue.put(json_command.get('human_readable_justification'))
+        try:
+            self.execute_function(function_name, parameters)
+            return True
+        except:
+            print("We are having a problem executing this")
+            return False
 
     def execute_function(self, function_name, parameters):
         """
