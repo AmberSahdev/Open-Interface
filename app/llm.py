@@ -46,6 +46,16 @@ class LLM:
     done is None if user request is not complete, and it's a string when it's complete that either contains the
         information that the user asked for, or just acknowledges completion of the user requested task. This is going
         to be communicated to the user if it's present.
+
+    Note: Use code below to check whether gpt4v has assistant support yet.
+        from openai import OpenAI
+        client = OpenAI()
+        assistant = client.beta.assistants.create(
+            name="bot",
+            instructions="bot",
+            model="gpt-4-vision-preview",
+            tools=[{"type": "code_interpreter"}]
+        )
     """
 
     def __init__(self):
