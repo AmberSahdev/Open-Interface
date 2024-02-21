@@ -6,11 +6,12 @@ from tkinter import ttk
 
 import speech_recognition as sr
 from PIL import Image, ImageTk
-import os
+
+from utils.settings import Settings
 
 
 def open_link(url):
-    webbrowser.open_new(url)  # Replace with your desired URL
+    webbrowser.open_new(url)
 
 
 class UI:
@@ -30,18 +31,23 @@ class UI:
             self.geometry("300x350")
             self.create_widgets()
 
+            self.settings = Settings()
+
+            # Populate UI
+            settings_dict = self.settings.get_dict()
+            if 'api_key' in settings_dict:
+                self.api_key_entry.insert(0, settings_dict['api_key'])
+            if 'default_browser' in settings_dict:
+                self.browser_combobox.set(settings_dict['default_browser'])
+
         def create_widgets(self):
-            # Label
-            label = tk.Label(self, text="OpenAI API Key:")
-            label.pack(pady=10)
+            # Label for API Key
+            label_api = tk.Label(self, text="OpenAI API Key:")
+            label_api.pack(pady=10)
 
             # Entry for API Key
             self.api_key_entry = ttk.Entry(self, width=30)
             self.api_key_entry.pack()
-
-            # Button to set API Key
-            set_button = ttk.Button(self, text="Set OpenAI API Key", command=self.set_api_key)
-            set_button.pack(pady=10)
 
             # Label for Browser Choice
             label_browser = tk.Label(self, text="Choose Default Browser:")
@@ -52,28 +58,26 @@ class UI:
             self.browser_combobox = ttk.Combobox(self, textvariable=self.browser_var,
                                                  values=["Safari", "Firefox", "Chrome"])
             self.browser_combobox.pack(pady=5)
-            self.browser_combobox.set("Choose Browser")  # Placeholder text
+            self.browser_combobox.set("Choose Browser")
 
-            # Button to Set Browser Choice
-            set_browser_button = ttk.Button(self, text="Set Browser", command=self.set_browser)
-            set_browser_button.pack(pady=10)
+            # General Save Button
+            save_button = ttk.Button(self, text="Save Settings", command=self.save_button)
+            save_button.pack(pady=20)
 
             # Hyperlink Label
             link_label = tk.Label(self, text="Instructions", fg="#499CE4", cursor="hand")
             link_label.pack()
             link_label.bind("<Button-1>", lambda e: open_link("https://www.AmberSah.dev"))
 
-        def set_api_key(self):
-            api_key = self.api_key_entry.get()
-            os.environ["OPENAI_API_KEY"] = api_key
-            print(f"API Key set to: {api_key}")
-            # TODO: Save it persistently someplace
-            self.destroy()
+        def save_button(self):
+            api_key = self.api_key_entry.get().strip()
+            default_browser = self.browser_var.get()
+            settings_dict = {"api_key": api_key, "default_browser": default_browser}
 
-        def set_browser(self):
-            selected_browser = self.browser_var.get()
-            print(f"Selected Browser: {selected_browser}")
-            # TODO: Handle the browser setting logic here
+            self.settings.save_settings_to_file(settings_dict)
+
+            print(f"Settings saved: API Key - {api_key}, Browser - {default_browser}")
+            self.destroy()
 
     class MainWindow(tk.Tk):
         def __init__(self):

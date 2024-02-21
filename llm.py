@@ -1,10 +1,10 @@
 import json
-
+import os
 from openai import OpenAI
 
 from utils import local_info
 from utils.screen import Screen
-
+from utils.settings import Settings
 
 class LLM:
     """
@@ -43,16 +43,22 @@ class LLM:
     """
 
     def __init__(self):
-        self.client = OpenAI()
-        self.model = "gpt-4-vision-preview"
+        settings_dict = Settings().get_dict()
+        if settings_dict['api_key']:
+            os.environ["OPENAI_API_KEY"] = settings_dict['api_key']
 
         with open('context.txt', 'r') as file:
             self.context = file.read()
 
-        self.context += f"\nDefault browser is {local_info.default_browser}."
+        if settings_dict['default_browser']:
+            self.context += f"\nDefault browser is {settings_dict['default_browser']}."
+
         self.context += f" Locally installed apps are {','.join(local_info.locally_installed_apps)}."
         self.context += f" OS is {local_info.operating_system}."
         self.context += f" Primary screen size is {Screen().get_size()}.\n"
+
+        self.client = OpenAI()
+        self.model = "gpt-4-vision-preview"
 
     def get_instructions_for_objective(self, original_user_request, step_num=0):
         message = self.create_message_for_llm(original_user_request, step_num)

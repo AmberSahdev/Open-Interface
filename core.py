@@ -4,7 +4,7 @@ from multiprocessing import Queue
 from interpreter import Interpreter
 from llm import LLM
 from openai import OpenAI, OpenAIError
-
+import os
 
 class Core:
     def __init__(self):
@@ -51,7 +51,7 @@ class Core:
 
         except Exception as e:
             print(f"Exception Unable to execute the request - {e}")
-            self.status_queue.put("Exception Unable to execute the request - if you just set the API key")
+            self.status_queue.put(f"Exception Unable to execute the request - {e}")
             return f"Unable to execute the request - {e}"
 
         if instructions["done"]:

@@ -9,5 +9,4 @@ try:
 except:
     locally_installed_apps = "Unknown"
 
-default_browser = "firefox"  # "safari" # TODO: Get it from settings
 operating_system = platform.platform()  # "MacOS"
