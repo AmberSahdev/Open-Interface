@@ -9,4 +9,4 @@ try:
 except:
     locally_installed_apps = "Unknown"
 
-operating_system = platform.platform()  # "MacOS"
+operating_system = platform.platform()
