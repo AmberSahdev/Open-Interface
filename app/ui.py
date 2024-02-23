@@ -90,8 +90,8 @@ class UI:
             self.minsize(420, 250)
 
             # PhotoImage object needs to persist as long as the app does, hence it's a class object.
-            self.logo_img = ImageTk.PhotoImage(Image.open('icon.png').resize((50, 50)))
-            self.mic_icon = ImageTk.PhotoImage(Image.open('microphone.png').resize((18, 18)))
+            self.logo_img = ImageTk.PhotoImage(Image.open('resources/icon.png').resize((50, 50)))
+            self.mic_icon = ImageTk.PhotoImage(Image.open('resources/microphone.png').resize((18, 18)))
 
             # MP Queue to facilitate communication between UI and Core.
             # Put user requests received from UI text box into this queue which will then be dequeued in App to be sent

@@ -63,7 +63,7 @@ class LLM:
         if settings_dict['api_key']:
             os.environ["OPENAI_API_KEY"] = settings_dict['api_key']
 
-        with open('context.txt', 'r') as file:
+        with open('resources/context.txt', 'r') as file:
             self.context = file.read()
 
         if settings_dict['default_browser']:
