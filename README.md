@@ -4,7 +4,7 @@
 	<img src="app/resources/icon.png" align="right" alt="Open Interface Logo" width="120" height="120">
 </picture>
 
-### Have LLMs Operate Your Computer 
+### Make LLMs Operate Your Computer for You
 #### Complete Tedious Everyday-tasks with One Command 
 
 Open Interface can

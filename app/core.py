@@ -39,6 +39,10 @@ class Core:
         try:
             instructions = self.llm.get_instructions_for_objective(user_request, step_num)
 
+            if instructions == {}:
+                # Sometimes LLM sends malformed JSON response, in that case retry once more.
+                instructions = self.llm.get_instructions_for_objective(user_request + " Please reply in valid JSON", step_num)
+
             for step in instructions["steps"]:
                 if self.interrupt_execution:
                     self.status_queue.put("Interrupted")
@@ -60,4 +64,5 @@ class Core:
             return instructions["done"]
         else:
             # if not done, continue to next phase
+            self.status_queue.put("Fetching further instructions based on current state")
             return self.execute(user_request, step_num + 1)

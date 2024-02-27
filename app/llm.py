@@ -43,7 +43,7 @@ class LLM:
     function is the function name to call in the executor.
     parameters are the parameters of the above function.
     human_readable_justification is what we can use to debug in case program fails somewhere or to explain to user why we're doing what we're doing.
-    done is None if user request is not complete, and it's a string when it's complete that either contains the
+    done is null if user request is not complete, and it's a string when it's complete that either contains the
         information that the user asked for, or just acknowledges completion of the user requested task. This is going
         to be communicated to the user if it's present.
 
@@ -63,7 +63,7 @@ class LLM:
         if settings_dict['api_key']:
             os.environ["OPENAI_API_KEY"] = settings_dict['api_key']
 
-        with open('resources/context.txt', 'r') as file:
+        with open('./resources/context.txt', 'r') as file:
             self.context = file.read()
 
         if settings_dict['default_browser']:
@@ -121,6 +121,7 @@ class LLM:
         llm_response_data = llm_response.choices[0].message.content.strip()
 
         # Our current LLM model does not guarantee a JSON response, hence we manually parse the JSON part of the response
+        # Check for updates here - https://platform.openai.com/docs/guides/text-generation/json-mode
         start_index = llm_response_data.find('{')
         end_index = llm_response_data.rfind('}')
 
@@ -129,6 +130,11 @@ class LLM:
         except Exception as e:
             print(f'llm_response_data[start_index:end_index + 1] - {llm_response_data[start_index:end_index + 1]}')
             print(f'Error while parsing JSON response - {e}')
+
+            # TODO: Temporary for debugging
+            with open("faulty_json_recieved.json", "w") as f:
+                f.write(llm_response_data[start_index:end_index + 1].strip())
+
             json_response = {}
 
         return json_response
