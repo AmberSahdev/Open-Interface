@@ -3,6 +3,7 @@ Can never get pyisntaller to work
 
 NOTES:
     1. extra steps before using multiprocessing might be required https://www.pyinstaller.org/en/stable/common-issues-and-pitfalls.html#why-is-calling-multiprocessing-freeze-support-required
+    2. Change file reads accordingly https://pyinstaller.org/en/stable/runtime-information.html#placing-data-files-at-expected-locations-inside-the-bundle
 """
 
 import PyInstaller.__main__
@@ -19,7 +20,7 @@ def build():
         '--clean',
         '--noconfirm',
         '--debug=all',
-        '--onefile',
+        '--onefile',  # NOTE: might not work on windows
         '--paths=./venv/lib/python3.9/site-packages',
         '--paths=/usr/local/lib/python3.9/site-packages',
         '--hidden-import=pyautogui',

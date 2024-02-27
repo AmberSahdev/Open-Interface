@@ -2,6 +2,7 @@ import threading
 
 from core import Core
 from ui import UI
+from multiprocessing import freeze_support
 
 
 class App:
@@ -37,5 +38,6 @@ class App:
 
 
 if __name__ == '__main__':
+    freeze_support()  # As required by pyisntaller https://www.pyinstaller.org/en/stable/common-issues-and-pitfalls.html#multi-processing
     app = App()
     app.run()

@@ -1,24 +1,27 @@
-env_variables.yaml
-venvName/
-secrets/
-*/secret.py
-
+# Misc
 .DS_Store
-
+env_variables.yaml
+*/secret.py
+secrets/
 venv/
+venvName/
 
+# Python
 *.pyc
 __pycache__/
-
-instance/
-
 .pytest_cache/
 .coverage
 htmlcov/
 
+# DB
+instance/
+
+# Build files
 dist/
 build/
 *.egg-info/
 .eggs/
+*.spec
 
+# IDE
 .idea/
