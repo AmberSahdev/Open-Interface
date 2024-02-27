@@ -6,7 +6,7 @@ Usage:
 from setuptools import setup
 
 
-PACKAGES = ['urllib3', 'requests', 'openai', 'pyautogui']
+PACKAGES = ['urllib3', 'requests', 'openai', 'pyautogui', 'pillow', 'PyAudio', 'SpeechRecognition']
 print(f'PACKAGES = {PACKAGES}')
 
 
@@ -21,7 +21,7 @@ OPTIONS = {
         'LSUIElement': True,
     },
     'packages': PACKAGES,
-    'excludes': ['rubicon', 'pyobjc-core']
+    # 'excludes': ['rubicon', 'pyobjc-core']
 }
 
 setup(
@@ -30,7 +30,8 @@ setup(
     data_files=DATA_FILES,
     options={'py2app': OPTIONS},
     setup_requires=['py2app'],
-    install_requires=PACKAGES
+    install_requires=PACKAGES,
+    packages=['app', 'app/utils']
 )
 
 """
