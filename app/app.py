@@ -4,9 +4,6 @@ from core import Core
 from ui import UI
 
 
-# Imports to make packaging work
-import appdirs
-
 class App:
     def __init__(self):
         self.core = Core()

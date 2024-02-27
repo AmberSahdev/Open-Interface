@@ -7,6 +7,8 @@ from utils import local_info
 from utils.screen import Screen
 from utils.settings import Settings
 
+from pathlib import Path
+
 
 class LLM:
     """
@@ -63,7 +65,8 @@ class LLM:
         if settings_dict['api_key']:
             os.environ["OPENAI_API_KEY"] = settings_dict['api_key']
 
-        with open('./resources/context.txt', 'r') as file:
+        path_to_context_file = Path(__file__).resolve().parent.joinpath('resources', 'context.txt')
+        with open(path_to_context_file, 'r') as file:
             self.context = file.read()
 
         if settings_dict['default_browser']:

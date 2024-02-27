@@ -1,5 +1,8 @@
 """
 Can never get pyisntaller to work
+
+NOTES:
+    1. extra steps before using multiprocessing might be required https://www.pyinstaller.org/en/stable/common-issues-and-pitfalls.html#why-is-calling-multiprocessing-freeze-support-required
 """
 
 import PyInstaller.__main__
@@ -27,9 +30,9 @@ def build():
         '--hidden-import=speech_recognition',
         # '--windowed',  # Remove this if your application is a console program
         '--name=Open Interface',
-        '--add-data=app/resources/icon.png:img',
-        '--add-data=app/resources/microphone.png:img',
-        '--add-data=app/resources/context.txt:data',
+        '--add-data=app/resources/icon.png:resources',
+        '--add-data=app/resources/microphone.png:resources',
+        '--add-data=app/resources/context.txt:resources',
         '--add-data=app/core.py:.',
         '--add-data=app/interpreter.py:.',
         '--add-data=app/llm.py:.',

@@ -8,7 +8,7 @@ import speech_recognition as sr
 from PIL import Image, ImageTk
 
 from utils.settings import Settings
-
+from pathlib import Path
 
 def open_link(url):
     webbrowser.open_new(url)
@@ -90,8 +90,10 @@ class UI:
             self.minsize(420, 250)
 
             # PhotoImage object needs to persist as long as the app does, hence it's a class object.
-            self.logo_img = ImageTk.PhotoImage(Image.open('resources/icon.png').resize((50, 50)))
-            self.mic_icon = ImageTk.PhotoImage(Image.open('resources/microphone.png').resize((18, 18)))
+            path_to_icon_png = Path(__file__).resolve().parent.joinpath('resources', 'icon.png')
+            path_to_microphone_png = Path(__file__).resolve().parent.joinpath('resources', 'microphone.png')
+            self.logo_img = ImageTk.PhotoImage(Image.open(path_to_icon_png).resize((50, 50)))
+            self.mic_icon = ImageTk.PhotoImage(Image.open(path_to_microphone_png).resize((18, 18)))
 
             # MP Queue to facilitate communication between UI and Core.
             # Put user requests received from UI text box into this queue which will then be dequeued in App to be sent
