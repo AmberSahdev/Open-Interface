@@ -18,7 +18,10 @@ class Settings:
 
         if os.path.exists(self.settings_file_path):
             with open(self.settings_file_path, 'r') as file:
-                settings = json.load(file)
+                try:
+                    settings = json.load(file)
+                except:
+                    settings = {}
 
         for setting_name in settings_dict:
             setting_val = settings_dict[setting_name]
@@ -37,7 +40,10 @@ class Settings:
     def load_settings_from_file(self):
         if os.path.exists(self.settings_file_path):
             with open(self.settings_file_path, 'r') as file:
-                settings = json.load(file)
+                try:
+                    settings = json.load(file)
+                except:
+                    return {}
 
                 # Decode the API key
                 if 'api_key' in settings:

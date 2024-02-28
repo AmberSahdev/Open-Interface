@@ -62,14 +62,14 @@ class LLM:
 
     def __init__(self):
         settings_dict = Settings().get_dict()
-        if settings_dict['api_key']:
+        if 'api_key' in settings_dict.keys() and settings_dict['api_key']:
             os.environ["OPENAI_API_KEY"] = settings_dict['api_key']
 
         path_to_context_file = Path(__file__).resolve().parent.joinpath('resources', 'context.txt')
         with open(path_to_context_file, 'r') as file:
             self.context = file.read()
 
-        if settings_dict['default_browser']:
+        if 'default_browser' in settings_dict.keys() and settings_dict['default_browser']:
             self.context += f'\nDefault browser is {settings_dict["default_browser"]}.'
 
         self.context += f' Locally installed apps are {",".join(local_info.locally_installed_apps)}.'

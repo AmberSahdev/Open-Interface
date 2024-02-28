@@ -8,8 +8,8 @@ PyInstaller build script
 
 NOTES:
     1. For use in future projects, note that pyinstaller will print hundreds of unrelated error messages, but to find
-        the critical error start scrolling upwards from the bottom and find the first error. It will likely be an import
-        or a path error.
+        the critical error start scrolling upwards from the bottom and find the first error before it starts cleanup and
+        destroying resources. It will likely be an import or a path error.
     2. Extra steps before using multiprocessing might be required
         https://www.pyinstaller.org/en/stable/common-issues-and-pitfalls.html#why-is-calling-multiprocessing-freeze-support-required
     3. Change file reads accordingly
@@ -48,7 +48,7 @@ def build():
         '--name=Open Interface',
         '--icon=app/resources/icon.png',
         '--windowed',  # Remove this if your application is a console program, also helps to remove this while debugging
-        # '--onefile',  # NOTE: Might not work on Windows
+        # '--onefile',  # NOTE: Might not work on Windows. Also discouraged to enable both windowed and one file on Mac.
 
         # Where to find necessary packages to bundle (python3 -m pip show xxx)
         '--paths=./venv/lib/python3.9/site-packages',
@@ -93,7 +93,9 @@ def build():
     if platform.system() == 'Darwin':  # MacOS
         app_name = 'Open\\ Interface'
         zip_name = app_name + '-v' + str(version) + '-MacOS' + '.zip'
-        os.system('cd dist/; zip -vr ' + zip_name + ' ' + app_name + '.app')
+        zip_cli_command = 'cd dist/; zip -r9 ' + zip_name + ' ' + app_name + '.app'
+        input(f'zip_cli_command - {zip_cli_command} \nExecute?')
+        os.system(zip_cli_command)
 
 
 if __name__ == "__main__":
