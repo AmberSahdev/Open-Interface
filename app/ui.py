@@ -188,7 +188,7 @@ class UI:
             recognizer = sr.Recognizer()
             with sr.Microphone() as source:
                 self.update_message('Listening...')
-                audio = recognizer.listen(source, timeout=5, phrase_time_limit=5)
+                audio = recognizer.listen(source, timeout=4)
                 try:
                     text = recognizer.recognize_google(audio)
                     self.entry.delete(0, tk.END)

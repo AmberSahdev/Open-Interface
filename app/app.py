@@ -7,6 +7,33 @@ from multiprocessing import freeze_support
 
 
 class App:
+    """
+    +----------------------------------------------------+
+    | App                                                |
+    |                                                    |
+    |    +-------+                                       |
+    |    |  GUI  |                                       |
+    |    +-------+                                       |
+    |        ^                                           |
+    |        |                                           |
+    |        v                                           |
+    |  +-----------+  (Screenshot + Goal)  +-----------+ |
+    |  |           | --------------------> |           | |
+    |  |    Core   |                       |    LLM    | |
+    |  |           | <-------------------- |  (GPT-4V) | |
+    |  +-----------+    (Instructions)     +-----------+ |
+    |        |                                           |
+    |        v                                           |
+    |  +-------------+                                   |
+    |  | Interpreter |                                   |
+    |  +-------------+                                   |
+    |        |                                           |
+    |        v                                           |
+    |  +-------------+                                   |
+    |  |   Executor  |                                   |
+    |  +-------------+                                   |
+    +----------------------------------------------------+
+    """
     def __init__(self):
         self.core = Core()
         self.ui = UI()
@@ -39,7 +66,7 @@ class App:
 
 
 if __name__ == '__main__':
-    freeze_support()  # As required by pyisntaller https://www.pyinstaller.org/en/stable/common-issues-and-pitfalls.html#multi-processing
+    freeze_support()  # As required by pyinstaller https://www.pyinstaller.org/en/stable/common-issues-and-pitfalls.html#multi-processing
     app = App()
     app.run()
     sys.exit(0)
