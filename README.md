@@ -4,7 +4,7 @@
 	<img src="app/resources/icon.png" align="right" alt="Open Interface Logo" width="120" height="120">
 </picture>
 
-### Make LLMs Operate Your Computer for You
+### Operate Your Computer Using LLMs
 #### Complete Tedious Everyday-tasks with One Command 
 
 Open Interface can
@@ -21,7 +21,9 @@ Open Interface can
 
 
 ### Installation
-- Example of uploading binary on github https://github.com/ajeetdsouza/zoxide?tab=readme-ov-file#readme
+- [MacOS](https://github.com/AmberSahdev/Open-Interface/releases/latest)
+- Windows (In Progress)
+- Linux (In Progress)
 
 
 ### Demo
@@ -37,17 +39,40 @@ Open Interface can
 
 ### Future 
 (with better models trained on video walkthroughs like Youtube tutorials) 
-- Take the pictures from my Tahoe trip and make a White Lotus type montage in iMovie.
-- Find my friends' music taste from Spotify and create a party playlist for tonight's event.
-- Create a couple of bass samples for me in Garage Band for my latest project.
+- "Take the pictures from my Tahoe trip and make a White Lotus type montage in iMovie."
+- "Find my friends' music taste from Spotify and create a party playlist for tonight's event."
+- "Create a couple of bass samples for me in Garage Band for my latest project."
 
 ### Notes
 - Cost: $0.05 - $0.20 per request. <br>(This will be much lower in the near future once GPT-4V enables assistant/stateful mode) 
 
 ### System Diagram 
-
+```
++----------------------------------------------------+
+| App                                                |
+|                                                    |
+|    +-------+                                       |
+|    |  GUI  |                                       |
+|    +-------+                                       |
+|        ^                                           |
+|        |                                           |
+|        v                                           |
+|  +-----------+  (Screenshot + Goal)  +-----------+ |
+|  |           | --------------------> |           | |
+|  |    Core   |                       |    LLM    | |
+|  |           | <-------------------- |  (GPT-4V) | |
+|  +-----------+    (Instructions)     +-----------+ |
+|        |                                           |
+|        v                                           |
+|  +-------------+                                   |
+|  | Interpreter |                                   |
+|  +-------------+                                   |
+|        |                                           |
+|        v                                           |
+|  +-------------+                                   |
+|  |   Executor  |                                   |
+|  +-------------+                                   |
++----------------------------------------------------+
+```
 
 ### Links
-
-
-[![forthebadge](https://forthebadge.com/images/featured/featured-built-with-love.svg)](https://AmberSah.dev)

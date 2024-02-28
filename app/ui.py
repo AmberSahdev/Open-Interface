@@ -27,6 +27,10 @@ class UI:
     class SettingsWindow(tk.Toplevel):
         """
         Self-contained settings sub-window for the UI
+
+        TODO:
+        1. Add option for ding after completion
+        2. Show version number
         """
 
         def __init__(self, parent):
