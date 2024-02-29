@@ -5,13 +5,14 @@
 </picture>
 
 ### Operate Your Computer Using LLMs
-#### Complete Tedious Everyday-tasks with One Command 
+#### Complete Tedious Everyday-Tasks with No Effort 
 
 Open Interface can
+- Think for itself.
 - Simulate keyboard and mouse input. 
 - Take user requests through text or voice.
-- Make calls to LLMs (GPT-4V) with your request and a screenshot of the current state of your computer.  
-- Execute the steps received on your behalf to operate your computer, periodically sending back a screenshot of the updated state. 
+- Figure out how to execute user requests by sending the request and a current screenshot to a LLM backend (GPT-4V).
+- Automatically execute the steps received from the LLM to operate your computer, periodically sending back a screenshot of the updated state. 
 
 
 [![Github All Releases](https://img.shields.io/github/downloads/AmberSahdev/Open-Interface/total.svg)]()
@@ -21,16 +22,36 @@ Open Interface can
 
 
 ### Installation
-- [MacOS](https://github.com/AmberSahdev/Open-Interface/releases/latest)
-- Windows (In Progress)
-- Linux (In Progress)
-
+<details>
+    <summary><b>MacOS</b></summary>
+    <ul>
+        <li>Download the MacOS binary from the latest <a href="https://github.com/AmberSahdev/Open-Interface/releases/latest">release</a>.</li>
+    </ul>
+</details>
+<details>
+    <summary><b>Linux</b></summary>
+    <ul>
+        <li>Linux binary has been tested on Ubuntu 20.04 so far.</li>
+        <li>Download the Linux binary from the latest <a href="https://github.com/AmberSahdev/Open-Interface/releases/latest">release</a>.</li>
+        <li>Extract the executable and run it from the Terminal via <br>
+        <code>./Open\ Interface</code></li>
+    </ul>
+</details>
+<details>
+    <summary><b>Windows</b></summary>
+    The Windows executable build is still under progress.
+</details>
+<details>
+    <summary><b>Setup</b></summary>
+    - Set OpenAI Key
+    - SETUP.md
+</details>
 
 ### Demo
 [Video](Video)
 
 
-### Many Things it's Bad at
+### Many of the Things it's Bad at
 
 - Accurate spatial-reasoning and hence clicking buttons.
 - Keeping track of itself in tabular contexts like excel and google sheets for similar reasons as stated above.
@@ -38,10 +59,10 @@ Open Interface can
 
 
 ### Future 
-(with better models trained on video walkthroughs like Youtube tutorials) 
-- "Take the pictures from my Tahoe trip and make a White Lotus type montage in iMovie."
+(*with better models trained on video walkthroughs like Youtube tutorials*)
 - "Find my friends' music taste from Spotify and create a party playlist for tonight's event."
 - "Create a couple of bass samples for me in Garage Band for my latest project."
+- "Take the pictures from my Tahoe trip and make a White Lotus type montage in iMovie."
 
 ### Notes
 - Cost: $0.05 - $0.20 per request. <br>(This will be much lower in the near future once GPT-4V enables assistant/stateful mode) 
