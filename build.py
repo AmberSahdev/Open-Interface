@@ -1,10 +1,20 @@
 """
 PyInstaller build script
 
-> python3.9 -m venv venv
+> python3 -m venv venv
 > source venv/bin/activate
-> python3.9 -m pip install -r requirements.txt
-> python3.9 build.py
+> python3 -m pip install -r requirements.txt
+> python3 -m pip install pyinstaller
+> python3 build.py
+
+
+Platform specific libraries that MIGHT be needed for compiling binaries
+Linux
+- sudo apt install portaudio19-dev
+- sudo apt-get install python3-tk python3-dev
+
+MacOS
+- brew install portaudio
 
 NOTES:
     1. For use in future projects, note that pyinstaller will print hundreds of unrelated error messages, but to find
@@ -73,15 +83,16 @@ def build():
         app_script
     ]
 
-    """
     # Platform-specific options
     if platform.system() == 'Windows':
         pyinstaller_options.extend([])
     elif platform.system() == 'Darwin':  # MacOS
         pyinstaller_options.extend([])
     elif platform.system() == 'Linux':
-        pyinstaller_options.extend([])
-    """
+        pyinstaller_options.extend([
+            '--hidden-import=PIL._tkinter_finder',
+            '--hidden-import=openai'
+        ])
 
     # Run PyInstaller with the specified options
     PyInstaller.__main__.run(pyinstaller_options)
@@ -89,11 +100,16 @@ def build():
 
     # Zip the app
     print('Zipping the executables')
-
+    app_name = 'Open\\ Interface'
+    
     if platform.system() == 'Darwin':  # MacOS
-        app_name = 'Open\\ Interface'
         zip_name = app_name + '-v' + str(version) + '-MacOS' + '.zip'
         zip_cli_command = 'cd dist/; zip -r9 ' + zip_name + ' ' + app_name + '.app'
+        input(f'zip_cli_command - {zip_cli_command} \nExecute?')
+        os.system(zip_cli_command)
+    elif platform.system() == 'Linux':
+        zip_name = app_name + '-v' + str(version) + '-Linux' + '.zip'
+        zip_cli_command = 'cd dist/Open\\ Interface/; zip -r9 ' + zip_name + ' ' + app_name
         input(f'zip_cli_command - {zip_cli_command} \nExecute?')
         os.system(zip_cli_command)
 

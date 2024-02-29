@@ -73,7 +73,7 @@ class UI:
             save_button.pack(pady=20)
 
             # Hyperlink Label
-            link_label = tk.Label(self, text='Instructions', fg='#499CE4', cursor='hand')
+            link_label = tk.Label(self, text='Instructions', fg='#499CE4') #, cursor='hand')
             link_label.pack()
             link_label.bind('<Button-1>', lambda e: open_link('https://www.AmberSah.dev'))
 
@@ -98,6 +98,9 @@ class UI:
             path_to_microphone_png = Path(__file__).resolve().parent.joinpath('resources', 'microphone.png')
             self.logo_img = ImageTk.PhotoImage(Image.open(path_to_icon_png).resize((50, 50)))
             self.mic_icon = ImageTk.PhotoImage(Image.open(path_to_microphone_png).resize((18, 18)))
+
+            # This adds app icon in linux which pyinstaller can't
+            self.tk.call('wm', 'iconphoto', self._w, self.logo_img)
 
             # MP Queue to facilitate communication between UI and Core.
             # Put user requests received from UI text box into this queue which will then be dequeued in App to be sent
@@ -206,3 +209,6 @@ class UI:
                 self.message_display['text'] = message
             else:
                 self.message_display.after(0, lambda: self.message_display.config(text=message))
+
+if __name__ == '__main__':
+    UI().run()
