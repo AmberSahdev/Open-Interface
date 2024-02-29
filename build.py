@@ -91,7 +91,8 @@ def build():
     elif platform.system() == 'Linux':
         pyinstaller_options.extend([
             '--hidden-import=PIL._tkinter_finder',
-            '--hidden-import=openai'
+            '--hidden-import=openai',
+            '--onefile'
         ])
 
     # Run PyInstaller with the specified options
@@ -101,15 +102,15 @@ def build():
     # Zip the app
     print('Zipping the executables')
     app_name = 'Open\\ Interface'
-    
+
     if platform.system() == 'Darwin':  # MacOS
-        zip_name = app_name + '-v' + str(version) + '-MacOS' + '.zip'
+        zip_name = 'Open-Interface-v' + str(version) + '-MacOS' + '.zip'
         zip_cli_command = 'cd dist/; zip -r9 ' + zip_name + ' ' + app_name + '.app'
         input(f'zip_cli_command - {zip_cli_command} \nExecute?')
         os.system(zip_cli_command)
     elif platform.system() == 'Linux':
-        zip_name = app_name + '-v' + str(version) + '-Linux' + '.zip'
-        zip_cli_command = 'cd dist/Open\\ Interface/; zip -r9 ' + zip_name + ' ' + app_name
+        zip_name = 'Open-Interface-v' + str(version) + '-Linux' + '.zip'
+        zip_cli_command = 'cd dist/; zip -r9 ' + zip_name + ' ' + app_name
         input(f'zip_cli_command - {zip_cli_command} \nExecute?')
         os.system(zip_cli_command)
 

@@ -73,7 +73,7 @@ class UI:
             save_button.pack(pady=20)
 
             # Hyperlink Label
-            link_label = tk.Label(self, text='Instructions', fg='#499CE4') #, cursor='hand')
+            link_label = tk.Label(self, text='Instructions', fg='#499CE4')
             link_label.pack()
             link_label.bind('<Button-1>', lambda e: open_link('https://www.AmberSah.dev'))
 
@@ -209,6 +209,3 @@ class UI:
                 self.message_display['text'] = message
             else:
                 self.message_display.after(0, lambda: self.message_display.config(text=message))
-
-if __name__ == '__main__':
-    UI().run()
