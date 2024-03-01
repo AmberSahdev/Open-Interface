@@ -7,7 +7,7 @@
 ### Operate Your Computer Using LLMs
 
 Open Interface can
-- Figure out how to execute user requests by sending them to an LLM backend (GPT-4V) with a current screenshot.
+- Execute user requests by sending them to an LLM backend (GPT-4V) with a current screenshot.
 - Simulate keyboard and mouse input to automatically execute the steps received from the LLM to operate your computer.
 - Take user requests through text or voice.
 
@@ -92,10 +92,10 @@ Open Interface can
 
 - Get your OpenAI API key
   - Open Interface needs access to GPT-4V to perform user requests. GPT-4V keys can be downloaded from your [OpenAI account](https://platform.openai.com/).
-  - [Follow the steps here]((https://help.openai.com/en/articles/8264644-what-is-prepaid-billing)) to add balance to your OpenAI account. To unlock GPT-4V a minimum payment of $5 is needed.
+  - [Follow the steps here](https://help.openai.com/en/articles/8264644-what-is-prepaid-billing) to add balance to your OpenAI account. To unlock GPT-4V a minimum payment of $5 is needed.
   - [More info](https://help.openai.com/en/articles/7102672-how-can-i-access-gpt-4)
 - Save the API key in Open Interface settings
-  - In Open Interface, go to the settings menu on the top right and enter the key you received from OpenAI into the text field like so: <br>
+  - In Open Interface, go to the Settings menu on the top right and enter the key you received from OpenAI into the text field like so: <br>
   <br>
   <picture>
 	<img src="assets/set_openai_api_key.png" align="middle" alt="Set API key in settings" width="400">
@@ -111,7 +111,7 @@ Open Interface can
 
 - Accurate spatial-reasoning and hence clicking buttons.
 - Keeping track of itself in tabular contexts, like Excel and Google Sheets, for similar reasons as stated above.
-- Navigating complex GUI-rich applications like iMovie, Garage Band, etc.
+- Navigating complex GUI-rich applications like Counter-Strike, Spotify, Garage Band, etc due to heavy reliance on cursor actions.
 
 
 ### Future 
