@@ -24,10 +24,12 @@ Open Interface can
     <summary><b>MacOS</b></summary>
     <ul>
         <li>Download the MacOS binary from the latest <a href="https://github.com/AmberSahdev/Open-Interface/releases/latest">release</a>.</li>
+        <br>
         <li>Unzip the file and move Open Interface to the Applications Folder.<br> 
             <img src="assets/macos_unzip_move_to_applications.png" width="350" style="margin: 10px; border-radius: 10px;
     border: 3px solid black;">
         </li>
+        <br>
         <li>
             Launch the app from the Applications folder.<br>
             You might face the standard Mac <i>"Open Interface cannot be opened" error</i>.<br>
@@ -36,10 +38,13 @@ Open Interface can
             In that case, press <i>"Cancel"</i>.<br>
             Then go to <b>System Preferences -> Security and Privacy -> Open Anyway.</b><br>
             <img src="assets/macos_system_preferences.png" width="100" style="margin: 10px; border-radius: 10px;
-    border: 3px solid black;"><img src="assets/macos_security.png" width="100" style="margin: 10px; border-radius: 10px;
-    border: 3px solid black;"><img src="assets/macos_open_anyway.png" width="400" style="margin: 10px; border-radius: 10px;
-    border: 3px solid black;">
+    border: 3px solid black;"> &nbsp; 
+            <img src="assets/macos_security.png" width="100" style="margin: 10px; border-radius: 10px;
+    border: 3px solid black;"> &nbsp;
+            <img src="assets/macos_open_anyway.png" width="400" style="margin: 10px; border-radius: 10px;
+    border: 3px solid black;"> 
         </li>
+        <br>
         <li>
         Lastly, Open Interface will also need Accessibility access to use your keyboard and mouse for you, and Screen Recording access to take a screenshot to assess its progress.<br>
         <img src="assets/macos_accessibility.png" width="400" style="margin: 5px; border-radius: 10px;
@@ -47,6 +52,7 @@ Open Interface can
         <img src="assets/macos_screen_recording.png" width="400" style="margin: 5px; border-radius: 10px;
     border: 3px solid black;">
         </li>
+        <br>
         <li>Checkout the <a href="#setup">Setup</a> section to connect Open Interface to LLMs (OpenAI GPT-4V)</li>
     </ul>
 </details>
