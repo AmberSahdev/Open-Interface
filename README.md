@@ -11,13 +11,17 @@ Open Interface can
 - Simulate keyboard and mouse input to automatically execute the steps received from the LLM to operate your computer.
 - Take user requests through text or voice.
 
-![macOS](https://img.shields.io/badge/mac%20os-000000?style=for-the-badge&logo=apple&logoColor=white)
-![Linux](https://img.shields.io/badge/Linux-FCC624?style=for-the-badge&logo=linux&logoColor=black)
-![Windows](https://img.shields.io/badge/Windows-0078D6?style=for-the-badge&logo=windows&logoColor=white)
-<br>
-[![Github All Releases](https://img.shields.io/github/downloads/AmberSahdev/Open-Interface/total.svg)]()
-![GitHub code size in bytes](https://img.shields.io/github/languages/code-size/AmberSahdev/Open-Interface)
-![GitHub](https://img.shields.io/github/license/AmberSahdev/Open-Interface)
+<div align="center">
+
+  [![macOS](https://img.shields.io/badge/mac%20os-000000?style=for-the-badge&logo=apple&logoColor=white)](https://github.com/AmberSahdev/Open-Interface?tab=readme-ov-file#install)
+  [![Linux](https://img.shields.io/badge/Linux-FCC624?style=for-the-badge&logo=linux&logoColor=black)](https://github.com/AmberSahdev/Open-Interface?tab=readme-ov-file#install)
+  [![Windows](https://img.shields.io/badge/Windows-0078D6?style=for-the-badge&logo=windows&logoColor=white)](https://github.com/AmberSahdev/Open-Interface?tab=readme-ov-file#install)
+  <br>
+  [![Github All Releases](https://img.shields.io/github/downloads/AmberSahdev/Open-Interface/total.svg)]()
+  ![GitHub code size in bytes](https://img.shields.io/github/languages/code-size/AmberSahdev/Open-Interface)
+  ![GitHub](https://img.shields.io/github/license/AmberSahdev/Open-Interface)
+
+</div>
 
 ### Demo
 ![Simple Demo Placeholder](assets/Simple_Bottom_of_Wikipedia-Sped-up-2x.gif)
