@@ -78,9 +78,6 @@ Open Interface can
 ### Demo
 ![Simple Demo Placeholder](assets/Simple_Bottom_of_Wikipedia-Sped-up-2x.gif)
 
-![Simple Demo Placeholder 2](assets/output2.gif)
-
-
 ### Many of the Things it's Bad at
 
 - Accurate spatial-reasoning and hence clicking buttons.
