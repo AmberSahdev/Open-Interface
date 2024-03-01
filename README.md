@@ -16,9 +16,7 @@ Open Interface can
 ![GitHub](https://img.shields.io/github/license/AmberSahdev/Open-Interface)
 [![Code Coverage](https://img.shields.io/codecov/c/github/AmberSahdev/Open-Interface)](https://codecov.io/github/AmberSahdev/Open-Interface)
 
-<details>
-    <summary><h3>Installation</h3></summary>
-
+### Install
 <details>
     <summary><b>MacOS</b></summary>
     <ul>
@@ -69,10 +67,10 @@ Open Interface can
     The Windows executable build is still under progress.
 </details>
 
-</details>
-
 ### Demo
 ![Simple Demo Placeholder](assets/Simple_Bottom_of_Wikipedia-Sped-up-2x.gif)
+
+<hr>
 
 ### Many of the Things it's Bad at
 
