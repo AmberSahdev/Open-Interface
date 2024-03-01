@@ -8,18 +8,17 @@
 
 Open Interface can
 - Figure out how to execute user requests by sending them to an LLM backend (GPT-4V) with a current screenshot.
-- Simulate keyboard and mouse input.
+- Simulate keyboard and mouse input to automatically execute the steps received from the LLM to operate your computer.
 - Take user requests through text or voice.
-- Automatically execute the steps received from the LLM to operate your computer, periodically sending back a screenshot of the updated state. 
-
 
 [![Github All Releases](https://img.shields.io/github/downloads/AmberSahdev/Open-Interface/total.svg)]()
 ![GitHub code size in bytes](https://img.shields.io/github/languages/code-size/AmberSahdev/Open-Interface)
 ![GitHub](https://img.shields.io/github/license/AmberSahdev/Open-Interface)
 [![Code Coverage](https://img.shields.io/codecov/c/github/AmberSahdev/Open-Interface)](https://codecov.io/github/AmberSahdev/Open-Interface)
 
+<details>
+    <summary><h3>Installation</h3></summary>
 
-### Installation
 <details>
     <summary><b>MacOS</b></summary>
     <ul>
@@ -34,7 +33,7 @@ Open Interface can
             You might face the standard Mac <i>"Open Interface cannot be opened" error</i>.<br><br>
             <img src="assets/macos_unverified_developer.png" width="200" style="border-radius: 10px;
     border: 3px solid black;"><br>
-            In that case, press <i>"Cancel"</i>.<br>
+            In that case, press <b><i>"Cancel"</i></b>.<br>
             Then go to <b>System Preferences -> Security and Privacy -> Open Anyway.</b><br><br>
             <img src="assets/macos_system_preferences.png" width="100" style="border-radius: 10px;
     border: 3px solid black;"> &nbsp; 
@@ -51,7 +50,7 @@ Open Interface can
         <img src="assets/macos_screen_recording.png" width="400" style="margin: 5px; border-radius: 10px;
     border: 3px solid black;">
         </li>
-        <li>Checkout the <a href="#setup">Setup</a> section to connect Open Interface to LLMs (OpenAI GPT-4V)</li>
+        <li>Checkout the <a href="https://github.com/AmberSahdev/Open-Interface?tab=readme-ov-file#setup">Setup</a> section to connect Open Interface to LLMs (OpenAI GPT-4V)</li>
     </ul>
 </details>
 <details>
@@ -69,10 +68,7 @@ Open Interface can
     <summary><b>Windows</b></summary>
     The Windows executable build is still under progress.
 </details>
-<details id="setup">
-    <summary><b>Setup/Connect to OpenAI</b></summary>
-    - Set OpenAI Key
-    - SETUP.md
+
 </details>
 
 ### Demo
@@ -124,4 +120,6 @@ Open Interface can
 +----------------------------------------------------+
 ```
 
-### Links
+### Setup
+- Get OpenAI API key
+- Apply in settings
