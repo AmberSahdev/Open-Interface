@@ -76,8 +76,9 @@ Open Interface can
 </details>
 
 ### Demo
-[Video](Video)
+![Simple Demo Placeholder](/assets/Simple_Bottom_of_Wikipedia-Sped-up-2x.mov)
 
+<video src="/assets/Simple_Bottom_of_Wikipedia-Sped-up-2x.mov" controls="controls"></video>
 
 ### Many of the Things it's Bad at
 
