@@ -67,7 +67,7 @@ Open Interface can
     <summary><b>Linux</b></summary>
     <ul>
         <li>Linux binary has been tested on Ubuntu 20.04 so far.</li>
-        <li>Download the Linux binary from the latest <a href="https://github.com/AmberSahdev/Open-Interface/releases/latest">release</a>.</li>
+        <li>Download the Linux zip file from the latest <a href="https://github.com/AmberSahdev/Open-Interface/releases/latest">release</a>.</li>
         <li>
             Extract the executable and run it from the Terminal via <br>
             <code>./Open\ Interface</code>
@@ -76,7 +76,13 @@ Open Interface can
 </details>
 <details>
     <summary><b>Windows</b></summary>
-    The Windows executable build is still under progress.
+    <ul>
+      <li>Windows binary has been tested on Windows 10.</li>
+      <li>Download the Windows zip file from the latest <a href="https://github.com/AmberSahdev/Open-Interface/releases/latest">release</a>.</li>
+      <li>
+          Unzip the folder, move the exe to the desired location, double click to open, and voila.
+      </li>
+    </ul>
 </details>
 
 
