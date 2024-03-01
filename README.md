@@ -72,6 +72,23 @@ Open Interface can
 
 <hr>
 
+### Setup
+<details>
+    <summary><b>Set up OpenAI API key</b></summary>
+
+- Get your OpenAI API key
+  - Open Interface needs access to GPT-4V to perform user requests. GPT-4V keys can be downloaded from your [OpenAI account](https://platform.openai.com/).
+  - [Follow the steps here]((https://help.openai.com/en/articles/8264644-what-is-prepaid-billing)) to add balance to your OpenAI account. To unlock GPT-4V a minimum payment of $5 is needed.
+  - [More info](https://help.openai.com/en/articles/7102672-how-can-i-access-gpt-4)
+- Save the API key in Open Interface settings
+  - In Open Interface, go to the settings menu on the top right and enter the key you received from OpenAI into the text field like so: <br>
+  <picture>
+	<img src="assets/set_openai_api_key.png" align="middle" alt="Set API key in settings" width="400">
+  </picture><br>
+  - After setting the API key for the first time you'll need to restart the app.
+
+</details>
+
 ### Many of the Things it's Bad at
 
 - Accurate spatial-reasoning and hence clicking buttons.
@@ -87,7 +104,9 @@ Open Interface can
 
 ### Notes
 - Cost: $0.05 - $0.20 per user request.<br>
-(This will be much lower in the near future once GPT-4V enables assistant/stateful mode) 
+(This will be much lower in the near future once GPT-4V enables assistant/stateful mode)
+
+<hr>
 
 ### System Diagram 
 ```
@@ -117,15 +136,3 @@ Open Interface can
 |  +-------------+                                   |
 +----------------------------------------------------+
 ```
-
-### Setup
-- Get your OpenAI API key
-  - Open Interface needs access to GPT-4V to perform user requests. GPT-4V keys can be downloaded from your [OpenAI account](https://platform.openai.com/).
-  - [Follow the steps here]((https://help.openai.com/en/articles/8264644-what-is-prepaid-billing)) to add balance to your OpenAI account. To unlock GPT-4V a minimum payment of $5 is needed.
-  - [More info](https://help.openai.com/en/articles/7102672-how-can-i-access-gpt-4)
-- Save the API key in Open Interface settings
-  - In Open Interface, go to the settings menu on the top right and enter the key you received from OpenAI into the text field like so: <br>
-  <picture>
-	<img src="assets/set_openai_api_key.png" align="middle" alt="Set API key in settings" width="400">
-  </picture>
-  - After setting the API key for the first time you'll need to restart the app.
