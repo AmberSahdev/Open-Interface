@@ -11,7 +11,7 @@ from PIL import Image, ImageTk
 from utils.settings import Settings
 
 
-def open_link(url):
+def open_link(url) -> None:
     webbrowser.open_new(url)
 
 
@@ -19,10 +19,10 @@ class UI:
     def __init__(self):
         self.main_window = self.MainWindow()
 
-    def run(self):
+    def run(self) -> None:
         self.main_window.mainloop()
 
-    def display_current_status(self, text):
+    def display_current_status(self, text: str):
         self.main_window.update_message(text)
 
     class SettingsWindow(tk.Toplevel):
@@ -49,7 +49,7 @@ class UI:
             if 'default_browser' in settings_dict:
                 self.browser_combobox.set(settings_dict['default_browser'])
 
-        def create_widgets(self):
+        def create_widgets(self) -> None:
             # Label for API Key
             label_api = tk.Label(self, text='OpenAI API Key:')
             label_api.pack(pady=10)
@@ -79,7 +79,7 @@ class UI:
             link_label.bind('<Button-1>', lambda e: open_link(
                 'https://github.com/AmberSahdev/Open-Interface?tab=readme-ov-file#setup'))
 
-        def save_button(self):
+        def save_button(self) -> None:
             api_key = self.api_key_entry.get().strip()
             default_browser = self.browser_var.get()
             settings_dict = {'api_key': api_key, 'default_browser': default_browser}
@@ -111,7 +111,7 @@ class UI:
 
             self.create_widgets()
 
-        def create_widgets(self):
+        def create_widgets(self) -> None:
             # Creates and arranges the UI elements
             # Frame
             frame = ttk.Frame(self, padding='10 10 10 10')
@@ -155,14 +155,14 @@ class UI:
             self.message_display = tk.Label(frame, text='', font=('Helvetica', 14))
             self.message_display.grid(column=0, row=6, columnspan=3, sticky=tk.W)
 
-        def open_settings(self):
+        def open_settings(self) -> None:
             UI.SettingsWindow(self)
 
-        def stop_previous_request(self):
+        def stop_previous_request(self) -> None:
             # Interrupt currently running request by queueing a stop signal.
             self.user_request_queue.put('stop')
 
-        def display_input(self):
+        def display_input(self) -> str:
             # Get the entry and update the input display
             user_input = self.entry.get()
             self.input_display['text'] = f'{user_input}'
@@ -172,7 +172,7 @@ class UI:
 
             return user_input.strip()
 
-        def execute_user_request(self):
+        def execute_user_request(self) -> None:
             # Puts the user request received from the UI into the MP queue being read in App to be sent to Core.
             user_request = self.display_input()
 
@@ -182,29 +182,31 @@ class UI:
             self.update_message('Fetching Instructions')
 
             self.user_request_queue.put(user_request)
-            print(f'execute_user_request put {user_request} in user_request_queue')
 
-        def start_voice_input_thread(self):
+        def start_voice_input_thread(self) -> None:
             # Start voice input in a separate thread
             threading.Thread(target=self.voice_input, daemon=True).start()
 
-        def voice_input(self):
+        def voice_input(self) -> None:
             # Function to handle voice input
             recognizer = sr.Recognizer()
             with sr.Microphone() as source:
                 self.update_message('Listening...')
-                audio = recognizer.listen(source, timeout=4)
                 try:
-                    text = recognizer.recognize_google(audio)
-                    self.entry.delete(0, tk.END)
-                    self.entry.insert(0, text)
-                    self.update_message('')
-                except sr.UnknownValueError:
-                    self.update_message('Could not understand audio')
-                except sr.RequestError as e:
-                    self.update_message(f'Could not request results - {e}')
+                    audio = recognizer.listen(source, timeout=4)
+                    try:
+                        text = recognizer.recognize_google(audio)
+                        self.entry.delete(0, tk.END)
+                        self.entry.insert(0, text)
+                        self.update_message('')
+                    except sr.UnknownValueError:
+                        self.update_message('Could not understand audio')
+                    except sr.RequestError as e:
+                        self.update_message(f'Could not request results - {e}')
+                except sr.WaitTimeoutError:
+                    self.update_message('Didn\'t hear anything')
 
-        def update_message(self, message):
+        def update_message(self, message: str) -> None:
             # Update the message display with the provided text.
             # Ensure thread safety when updating the Tkinter GUI.
             if threading.current_thread() is threading.main_thread():

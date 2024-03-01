@@ -10,11 +10,11 @@ class Settings:
         os.makedirs(os.path.dirname(self.settings_file_path), exist_ok=True)
         self.settings = self.load_settings_from_file()
 
-    def get_dict(self):
+    def get_dict(self) -> dict[str, str]:
         return self.settings
 
-    def save_settings_to_file(self, settings_dict):
-        settings = {}
+    def save_settings_to_file(self, settings_dict) -> None:
+        settings: dict[str, str] = {}
 
         if os.path.exists(self.settings_file_path):
             with open(self.settings_file_path, 'r') as file:
@@ -37,7 +37,7 @@ class Settings:
         with open(self.settings_file_path, 'w+') as file:
             json.dump(settings, file, indent=4)
 
-    def load_settings_from_file(self):
+    def load_settings_from_file(self) -> dict[str, str]:
         if os.path.exists(self.settings_file_path):
             with open(self.settings_file_path, 'r') as file:
                 try:

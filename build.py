@@ -85,16 +85,14 @@ def build():
     ]
 
     # Platform-specific options
-    if platform.system() == 'Windows':
-        pyinstaller_options.extend([
-            '--onefile'
-        ])
-    elif platform.system() == 'Darwin':  # MacOS
-        pyinstaller_options.extend([])
-    elif platform.system() == 'Linux':
+    if platform.system() == 'Linux':
         pyinstaller_options.extend([
             '--hidden-import=PIL._tkinter_finder',
             '--hidden-import=openai',
+            '--onefile'
+        ])
+    elif platform.system() == 'Windows':
+        pyinstaller_options.extend([
             '--onefile'
         ])
 

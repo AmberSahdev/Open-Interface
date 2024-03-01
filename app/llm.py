@@ -1,7 +1,9 @@
 import json
 import os
 from pathlib import Path
+from typing import Any
 
+from openai import ChatCompletion
 from openai import OpenAI
 
 from utils import local_info
@@ -60,7 +62,7 @@ class LLM:
     """
 
     def __init__(self):
-        settings_dict = Settings().get_dict()
+        settings_dict: dict[str, str] = Settings().get_dict()
         if 'api_key' in settings_dict.keys() and settings_dict['api_key']:
             os.environ["OPENAI_API_KEY"] = settings_dict['api_key']
 
@@ -78,17 +80,17 @@ class LLM:
         self.client = OpenAI()
         self.model = 'gpt-4-vision-preview'
 
-    def get_instructions_for_objective(self, original_user_request, step_num=0):
-        message = self.create_message_for_llm(original_user_request, step_num)
+    def get_instructions_for_objective(self, original_user_request: str, step_num: int = 0) -> dict[str, Any]:
+        message: list[dict[str, Any]] = self.create_message_for_llm(original_user_request, step_num)
         llm_response = self.send_message_to_llm(message)
-        json_instructions = self.convert_llm_response_to_json(llm_response)
+        json_instructions: dict[str, Any] = self.convert_llm_response_to_json(llm_response)
 
         return json_instructions
 
-    def create_message_for_llm(self, original_user_request, step_num):
-        base64_img = Screen().get_screenshot_in_base64()
+    def create_message_for_llm(self, original_user_request, step_num) -> list[dict[str, Any]]:
+        base64_img: str = Screen().get_screenshot_in_base64()
 
-        request_data = json.dumps({
+        request_data: str = json.dumps({
             'original_user_request': original_user_request,
             'step_num': step_num
         })
@@ -106,7 +108,7 @@ class LLM:
 
         return message
 
-    def send_message_to_llm(self, message):
+    def send_message_to_llm(self, message) -> ChatCompletion:
         response = self.client.chat.completions.create(
             model=self.model,
             messages=[
@@ -119,8 +121,8 @@ class LLM:
         )
         return response
 
-    def convert_llm_response_to_json(self, llm_response):
-        llm_response_data = llm_response.choices[0].message.content.strip()
+    def convert_llm_response_to_json(self, llm_response: ChatCompletion) -> dict[str, Any]:
+        llm_response_data: str = llm_response.choices[0].message.content.strip()
 
         # Our current LLM model does not guarantee a JSON response hence we manually parse the JSON part of the response
         # Check for updates here - https://platform.openai.com/docs/guides/text-generation/json-mode

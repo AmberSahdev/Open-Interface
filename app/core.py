@@ -1,5 +1,6 @@
 import time
 from multiprocessing import Queue
+from typing import Optional, Any
 
 from openai import OpenAIError
 
@@ -18,16 +19,18 @@ class Core:
         except OpenAIError as _:
             self.status_queue.put("Set your OpenAPI API Key in Settings and Restart the App")
 
-    def execute_user_request(self, user_request):
+    def execute_user_request(self, user_request: str) -> None:
         self.stop_previous_request()
         time.sleep(0.1)
         self.execute(user_request)
 
-    def stop_previous_request(self):
+    def stop_previous_request(self) -> None:
         self.interrupt_execution = True
 
-    def execute(self, user_request, step_num=0):
+    def execute(self, user_request: str, step_num: int = 0) -> Optional[str]:
         """
+            This function might recurse.
+
             user_request: The original user request
             step_number: the number of times we've called the LLM for this request.
                 Used to keep track of whether it's a fresh request we're processing (step number 0), or if we're already
@@ -37,7 +40,7 @@ class Core:
         """
         self.interrupt_execution = False
         try:
-            instructions = self.llm.get_instructions_for_objective(user_request, step_num)
+            instructions: dict[str, Any] = self.llm.get_instructions_for_objective(user_request, step_num)
 
             if instructions == {}:
                 # Sometimes LLM sends malformed JSON response, in that case retry once more.

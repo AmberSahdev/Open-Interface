@@ -43,21 +43,21 @@ class App:
         self.core_to_ui_connection_thread = threading.Thread(target=self.send_status_from_core_to_ui, daemon=True)
         self.ui_to_core_connection_thread = threading.Thread(target=self.send_user_request_from_ui_to_core, daemon=True)
 
-    def run(self):
+    def run(self) -> None:
         self.core_to_ui_connection_thread.start()
         self.ui_to_core_connection_thread.start()
 
         self.ui.run()
 
-    def send_status_from_core_to_ui(self):
+    def send_status_from_core_to_ui(self) -> None:
         while True:
-            status = self.core.status_queue.get()
+            status: str = self.core.status_queue.get()
             print(f'Sending status: {status}')
             self.ui.display_current_status(status)
 
-    def send_user_request_from_ui_to_core(self):
+    def send_user_request_from_ui_to_core(self) -> None:
         while True:
-            user_request = self.ui.main_window.user_request_queue.get()
+            user_request: str = self.ui.main_window.user_request_queue.get()
             print(f'Sending user request: {user_request}')
 
             if user_request == 'stop':

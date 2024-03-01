@@ -1,15 +1,17 @@
+from multiprocessing import Queue
 from time import sleep
+from typing import Any
 
 import pyautogui
 
 
 class Interpreter:
-    def __init__(self, status_queue):
+    def __init__(self, status_queue: Queue):
         # MP Queue to put current status of execution in while processes commands.
         # It helps us reflect the current status on the UI.
         self.status_queue = status_queue
 
-    def process_commands(self, json_commands):
+    def process_commands(self, json_commands: list[dict[str, Any]]) -> bool:
         """
         Reads a list of JSON commands and runs the corresponding function call as specified in context.txt
         :param json_commands: List of JSON Objects with format as described in context.txt
@@ -21,7 +23,7 @@ class Interpreter:
                 return False  # End early and return
         return True
 
-    def process_command(self, json_command):
+    def process_command(self, json_command: dict[str, Any]) -> bool:
         """
         Reads the passed in JSON object and extracts relevant details. Format is specified in context.txt.
         After interpretation, it proceeds to execute the appropriate function call.
@@ -40,7 +42,7 @@ class Interpreter:
             print(f'We are having a problem executing this - {e}')
             return False
 
-    def execute_function(self, function_name, parameters):
+    def execute_function(self, function_name: str, parameters: dict[str, Any]) -> None:
         """
             We are expecting only two types of function calls below
             1. time.sleep() - to wait for web pages, applications, and other things to load.
