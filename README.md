@@ -93,6 +93,7 @@ Open Interface can
   <picture>
 	<img src="assets/set_openai_api_key.png" align="middle" alt="Set API key in settings" width="400">
   </picture><br>
+
   - After setting the API key for the first time you'll need to restart the app.
 
 </details>
