@@ -46,7 +46,7 @@ class Interpreter:
             1. time.sleep() - to wait for web pages, applications, and other things to load.
             2. pyautogui calls to interact with system's mouse and keyboard.
         """
-        # Sometimes pyautogui needs warming up - i.e. sometimes first call isn't executed hence padding a random call here.
+        # Sometimes pyautogui needs warming up i.e. sometimes first call isn't executed hence padding a random call here
         pyautogui.press("command", interval=0.1)
 
         if function_name == "sleep" and parameters.get("secs"):

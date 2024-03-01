@@ -1,13 +1,12 @@
 import json
 import os
+from pathlib import Path
 
 from openai import OpenAI
 
 from utils import local_info
 from utils.screen import Screen
 from utils.settings import Settings
-
-from pathlib import Path
 
 
 class LLM:
@@ -123,7 +122,7 @@ class LLM:
     def convert_llm_response_to_json(self, llm_response):
         llm_response_data = llm_response.choices[0].message.content.strip()
 
-        # Our current LLM model does not guarantee a JSON response, hence we manually parse the JSON part of the response
+        # Our current LLM model does not guarantee a JSON response hence we manually parse the JSON part of the response
         # Check for updates here - https://platform.openai.com/docs/guides/text-generation/json-mode
         start_index = llm_response_data.find('{')
         end_index = llm_response_data.rfind('}')
@@ -131,13 +130,7 @@ class LLM:
         try:
             json_response = json.loads(llm_response_data[start_index:end_index + 1].strip())
         except Exception as e:
-            print(f'llm_response_data[start_index:end_index + 1] - {llm_response_data[start_index:end_index + 1]}')
             print(f'Error while parsing JSON response - {e}')
-
-            # TODO: Temporary for debugging
-            with open("faulty_json_recieved.json", "w") as f:
-                f.write(llm_response_data[start_index:end_index + 1].strip())
-
             json_response = {}
 
         return json_response

@@ -37,6 +37,7 @@ import os
 import platform
 
 import PyInstaller.__main__
+
 from app.version import version
 
 

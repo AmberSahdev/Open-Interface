@@ -2,13 +2,14 @@ import threading
 import tkinter as tk
 import webbrowser
 from multiprocessing import Queue
+from pathlib import Path
 from tkinter import ttk
 
 import speech_recognition as sr
 from PIL import Image, ImageTk
 
 from utils.settings import Settings
-from pathlib import Path
+
 
 def open_link(url):
     webbrowser.open_new(url)
@@ -75,7 +76,8 @@ class UI:
             # Hyperlink Label
             link_label = tk.Label(self, text='Instructions', fg='#499CE4')
             link_label.pack()
-            link_label.bind('<Button-1>', lambda e: open_link('https://www.AmberSah.dev'))
+            link_label.bind('<Button-1>', lambda e: open_link(
+                'https://github.com/AmberSahdev/Open-Interface?tab=readme-ov-file#installation'))
 
         def save_button(self):
             api_key = self.api_key_entry.get().strip()

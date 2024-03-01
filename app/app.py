@@ -1,9 +1,9 @@
 import sys
 import threading
+from multiprocessing import freeze_support
 
 from core import Core
 from ui import UI
-from multiprocessing import freeze_support
 
 
 class App:
@@ -15,7 +15,7 @@ class App:
     |    |  GUI  |                                       |
     |    +-------+                                       |
     |        ^                                           |
-    |        |                                           |
+    |        | (via MP Queues)                           |
     |        v                                           |
     |  +-----------+  (Screenshot + Goal)  +-----------+ |
     |  |           | --------------------> |           | |
@@ -34,6 +34,7 @@ class App:
     |  +-------------+                                   |
     +----------------------------------------------------+
     """
+
     def __init__(self):
         self.core = Core()
         self.ui = UI()

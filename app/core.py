@@ -15,7 +15,7 @@ class Core:
         self.interpreter = Interpreter(self.status_queue)
         try:
             self.llm = LLM()
-        except OpenAIError as e:
+        except OpenAIError as _:
             self.status_queue.put("Set your OpenAPI API Key in Settings and Restart the App")
 
     def execute_user_request(self, user_request):
@@ -41,18 +41,19 @@ class Core:
 
             if instructions == {}:
                 # Sometimes LLM sends malformed JSON response, in that case retry once more.
-                instructions = self.llm.get_instructions_for_objective(user_request + " Please reply in valid JSON", step_num)
+                instructions = self.llm.get_instructions_for_objective(user_request + " Please reply in valid JSON",
+                                                                       step_num)
 
             for step in instructions["steps"]:
                 if self.interrupt_execution:
                     self.status_queue.put("Interrupted")
                     self.interrupt_execution = False
                     return "Interrupted"
-                else:
-                    success = self.interpreter.process_command(step)
 
-                    if not success:
-                        return "Unable to execute the request"
+                success = self.interpreter.process_command(step)
+
+                if not success:
+                    return "Unable to execute the request"
 
         except Exception as e:
             self.status_queue.put(f"Exception Unable to execute the request - {e}")
