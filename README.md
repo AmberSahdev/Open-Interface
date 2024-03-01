@@ -88,7 +88,7 @@ Open Interface can
 
 ### Setup
 <details>
-    <summary><b>Set up OpenAI API key</b></summary>
+    <summary><b>Set up the OpenAI API key</b></summary>
 
 - Get your OpenAI API key
   - Open Interface needs access to GPT-4V to perform user requests. GPT-4V keys can be downloaded from your [OpenAI account](https://platform.openai.com/).
