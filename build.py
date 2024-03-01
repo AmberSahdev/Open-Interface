@@ -1,8 +1,8 @@
 """
 PyInstaller build script
 
-> python3 -m venv venv
-> source venv/bin/activate
+> python3 -m venv env
+> source env/bin/activate (env Scripts activate for Windows)
 > python3 -m pip install -r requirements.txt
 > python3 -m pip install pyinstaller
 > python3 build.py
@@ -86,7 +86,9 @@ def build():
 
     # Platform-specific options
     if platform.system() == 'Windows':
-        pyinstaller_options.extend([])
+        pyinstaller_options.extend([
+            '--onefile'
+        ])
     elif platform.system() == 'Darwin':  # MacOS
         pyinstaller_options.extend([])
     elif platform.system() == 'Linux':
@@ -112,6 +114,11 @@ def build():
     elif platform.system() == 'Linux':
         zip_name = 'Open-Interface-v' + str(version) + '-Linux' + '.zip'
         zip_cli_command = 'cd dist/; zip -r9 ' + zip_name + ' ' + app_name
+        input(f'zip_cli_command - {zip_cli_command} \nExecute?')
+        os.system(zip_cli_command)
+    elif platform.system() == 'Windows':
+        zip_name = 'Open-Interface-v' + str(version) + '-Windows' + '.zip'
+        zip_cli_command = 'cd dist & powershell Compress-Archive -Path \'Open Interface.exe\' -DestinationPath ' + zip_name
         input(f'zip_cli_command - {zip_cli_command} \nExecute?')
         os.system(zip_cli_command)
 
