@@ -16,6 +16,9 @@ Open Interface can
 ![GitHub](https://img.shields.io/github/license/AmberSahdev/Open-Interface)
 [![Code Coverage](https://img.shields.io/codecov/c/github/AmberSahdev/Open-Interface)](https://codecov.io/github/AmberSahdev/Open-Interface)
 
+### Demo
+![Simple Demo Placeholder](assets/Simple_Bottom_of_Wikipedia-Sped-up-2x.gif)
+
 ### Install
 <details>
     <summary><b>MacOS</b></summary>
@@ -67,9 +70,6 @@ Open Interface can
     The Windows executable build is still under progress.
 </details>
 
-### Demo
-![Simple Demo Placeholder](assets/Simple_Bottom_of_Wikipedia-Sped-up-2x.gif)
-
 <hr>
 
 ### Many of the Things it's Bad at
@@ -119,5 +119,13 @@ Open Interface can
 ```
 
 ### Setup
-- Get OpenAI API key
-- Apply in settings
+- Get your OpenAI API key
+  - Open Interface needs access to GPT-4V to perform user requests. GPT-4V keys can be downloaded from your [OpenAI account](https://platform.openai.com/).
+  - [Follow the steps here]((https://help.openai.com/en/articles/8264644-what-is-prepaid-billing)) to add balance to your OpenAI account. To unlock GPT-4V a minimum payment of $5 is needed.
+  - [More info](https://help.openai.com/en/articles/7102672-how-can-i-access-gpt-4)
+- Save the API key in Open Interface settings
+  - In Open Interface, go to the settings menu on the top right and enter the key you received from OpenAI into the text field like so: <br>
+  <picture>
+	<img src="assets/set_openai_api_key.png" align="middle" alt="Set API key in settings" width="400">
+  </picture>
+  - After setting the API key for the first time you'll need to restart the app.

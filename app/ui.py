@@ -77,7 +77,7 @@ class UI:
             link_label = tk.Label(self, text='Instructions', fg='#499CE4')
             link_label.pack()
             link_label.bind('<Button-1>', lambda e: open_link(
-                'https://github.com/AmberSahdev/Open-Interface?tab=readme-ov-file#installation'))
+                'https://github.com/AmberSahdev/Open-Interface?tab=readme-ov-file#setup'))
 
         def save_button(self):
             api_key = self.api_key_entry.get().strip()
