@@ -90,10 +90,11 @@ Open Interface can
   - [More info](https://help.openai.com/en/articles/7102672-how-can-i-access-gpt-4)
 - Save the API key in Open Interface settings
   - In Open Interface, go to the settings menu on the top right and enter the key you received from OpenAI into the text field like so: <br>
+  <br>
   <picture>
 	<img src="assets/set_openai_api_key.png" align="middle" alt="Set API key in settings" width="400">
   </picture><br>
-
+  <br>
   - After setting the API key for the first time you'll need to restart the app.
 
 </details>
