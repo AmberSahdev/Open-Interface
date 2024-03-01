@@ -11,13 +11,18 @@ Open Interface can
 - Simulate keyboard and mouse input to automatically execute the steps received from the LLM to operate your computer.
 - Take user requests through text or voice.
 
+![macOS](https://img.shields.io/badge/mac%20os-000000?style=for-the-badge&logo=apple&logoColor=white)
+![Linux](https://img.shields.io/badge/Linux-FCC624?style=for-the-badge&logo=linux&logoColor=black)
+![Windows](https://img.shields.io/badge/Windows-0078D6?style=for-the-badge&logo=windows&logoColor=white)
+<br>
 [![Github All Releases](https://img.shields.io/github/downloads/AmberSahdev/Open-Interface/total.svg)]()
 ![GitHub code size in bytes](https://img.shields.io/github/languages/code-size/AmberSahdev/Open-Interface)
 ![GitHub](https://img.shields.io/github/license/AmberSahdev/Open-Interface)
-[![Code Coverage](https://img.shields.io/codecov/c/github/AmberSahdev/Open-Interface)](https://codecov.io/github/AmberSahdev/Open-Interface)
 
 ### Demo
 ![Simple Demo Placeholder](assets/Simple_Bottom_of_Wikipedia-Sped-up-2x.gif)
+
+<hr>
 
 ### Install
 <details>
@@ -70,7 +75,6 @@ Open Interface can
     The Windows executable build is still under progress.
 </details>
 
-<hr>
 
 ### Setup
 <details>
@@ -88,6 +92,8 @@ Open Interface can
   - After setting the API key for the first time you'll need to restart the app.
 
 </details>
+
+<hr>
 
 ### Many of the Things it's Bad at
 
