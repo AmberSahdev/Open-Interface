@@ -2,5 +2,5 @@ ffmpeg -i input.mp4 -vf "fps=10,scale=1080:-1:flags=lanczos" -c:v gif -f gif out
 
 or if the output from the last one has some visual artifacts, try a different downsampler like below
 
-ffmpeg -i Simple_Bottom_of_Wikipedia-Sped-up-2x.mov -vf "fps=10,scale=1080:-1:flags=bicubic,palettegen" -y palette.png
-ffmpeg -i Simple_Bottom_of_Wikipedia-Sped-up-2x.mov -i palette.png -lavfi "fps=10,scale=1080:-1:flags=bicubic [x]; [x][1:v] paletteuse" output.gif
+ffmpeg -i meal_plan_demo_2x.mov -vf "fps=10,scale=1080:-1:flags=bicubic,palettegen" -y palette.png
+ffmpeg -i meal_plan_demo_2x.mov -i palette.png -lavfi "fps=8,scale=900:-1:flags=bicubic [x]; [x][1:v] paletteuse" meal_plan_demo_2x.gif

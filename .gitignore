@@ -1,5 +1,6 @@
 # Misc
 .DS_Store
+*.mov
 env_variables.yaml
 */secret.py
 secrets/

@@ -25,7 +25,8 @@ Open Interface can
 </div>
 
 ### Demo
-![Simple Demo Placeholder](assets/Simple_Bottom_of_Wikipedia-Sped-up-2x.gif)
+![Make Meal Plan Demo](assets/meal_plan_demo_2x.gif)
+["Make me a meal plan in Google Docs"]
 
 <hr>
 
@@ -155,3 +156,6 @@ Open Interface can
 |  +-------------+                                   |
 +----------------------------------------------------+
 ```
+
+### Links
+- Check out more of my projects at [AmberSah.dev](https://AmberSah.dev)
