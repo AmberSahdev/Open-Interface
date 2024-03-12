@@ -7,6 +7,7 @@
 ### Operate Your Computer Using LLMs
 
 Open Interface can
+- Self-operate computers based on user input.
 - Execute user requests by sending them to an LLM backend (GPT-4V) with a current screenshot.
 - Simulate keyboard and mouse input to automatically execute the steps received from the LLM to operate your computer.
 - Take user requests through text or voice.
@@ -24,13 +25,14 @@ Open Interface can
 
 </div>
 
-### Demo
+### <ins>Demo</ins> 💻
 ![Make Meal Plan Demo](assets/meal_plan_demo_2x.gif)
+
 ["Make me a meal plan in Google Docs"]
 
 <hr>
 
-### Install
+### <ins>Install</ins> 💽
 <details>
     <summary><b>MacOS</b></summary>
     <ul>
@@ -74,21 +76,21 @@ Open Interface can
             Extract the executable and run it from the Terminal via <br>
             <code>./Open\ Interface</code>
         </li>
+	<li>Checkout the <a href="https://github.com/AmberSahdev/Open-Interface?tab=readme-ov-file#setup">Setup</a> section to connect Open Interface to LLMs (OpenAI GPT-4V)</li>
     </ul>
 </details>
 <details>
     <summary><b>Windows</b></summary>
     <ul>
-      <li>Windows binary has been tested on Windows 10.</li>
-      <li>Download the Windows zip file from the latest <a href="https://github.com/AmberSahdev/Open-Interface/releases/latest">release</a>.</li>
-      <li>
-          Unzip the folder, move the exe to the desired location, double click to open, and voila.
-      </li>
+	<li>Windows binary has been tested on Windows 10.</li>
+	<li>Download the Windows zip file from the latest <a href="https://github.com/AmberSahdev/Open-Interface/releases/latest">release</a>.</li>
+	<li>Unzip the folder, move the exe to the desired location, double click to open, and voila.</li>
+	<li>Checkout the <a href="https://github.com/AmberSahdev/Open-Interface?tab=readme-ov-file#setup">Setup</a> section to connect Open Interface to LLMs (OpenAI GPT-4V)</li>
     </ul>
 </details>
 
 
-### Setup
+### <ins>Setup</ins> 🛠️
 <details>
     <summary><b>Set up the OpenAI API key</b></summary>
 
@@ -103,32 +105,33 @@ Open Interface can
 	<img src="assets/set_openai_api_key.png" align="middle" alt="Set API key in settings" width="400">
   </picture><br>
   <br>
-  - After setting the API key for the first time you'll need to restart the app.
+
+- After setting the API key for the first time you'll need to restart the app.
 
 </details>
 
 <hr>
 
-### Many of the Things it's Bad at
+### <ins>Many of the Things It’s Bad At</ins> 😬
 
 - Accurate spatial-reasoning and hence clicking buttons.
 - Keeping track of itself in tabular contexts, like Excel and Google Sheets, for similar reasons as stated above.
 - Navigating complex GUI-rich applications like Counter-Strike, Spotify, Garage Band, etc due to heavy reliance on cursor actions.
 
 
-### Future 
+### <ins>Future</ins> 🔮
 (*with better models trained on video walkthroughs like Youtube tutorials*)
 - "Find my friends' music taste from Spotify and create a party playlist for tonight's event."
 - "Create a couple of bass samples for me in Garage Band for my latest project."
 - "Take the pictures from my Tahoe trip and make a White Lotus type montage in iMovie."
 
-### Notes
+### <ins>Notes</ins> 📝
 - Cost: $0.05 - $0.20 per user request.<br>
 (This will be much lower in the near future once GPT-4V enables assistant/stateful mode)
 
 <hr>
 
-### System Diagram 
+### <ins>System Diagram</ins> 🖼️
 ```
 +----------------------------------------------------+
 | App                                                |
@@ -157,5 +160,5 @@ Open Interface can
 +----------------------------------------------------+
 ```
 
-### Links
+### <ins>Links</ins> 🔗
 - Check out more of my projects at [AmberSah.dev](https://AmberSah.dev)
