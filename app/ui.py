@@ -29,15 +29,12 @@ class UI:
     class SettingsWindow(tk.Toplevel):
         """
         Self-contained settings sub-window for the UI
-
-        TODO:
-        1. Add text box for custom LLM instructions to include with every request
         """
 
         def __init__(self, parent):
             super().__init__(parent)
             self.title('Settings')
-            self.geometry('300x350')
+            self.minsize(300, 450)
             self.create_widgets()
 
             self.settings = Settings()
@@ -51,6 +48,8 @@ class UI:
                 self.browser_combobox.set(settings_dict['default_browser'])
             if 'play_ding_on_completion' in settings_dict:
                 self.play_ding.set(1 if settings_dict['play_ding_on_completion'] else 0)
+            if 'custom_llm_instructions' in settings_dict:
+                self.llm_instructions_text.insert('1.0', settings_dict['custom_llm_instructions'])
 
         def create_widgets(self) -> None:
             # Label for API Key
@@ -72,6 +71,14 @@ class UI:
             self.browser_combobox.pack(pady=5)
             self.browser_combobox.set('Choose Browser')
 
+            # Label for Custom LLM Instructions
+            label_llm = tk.Label(self, text='Custom LLM Instructions:')
+            label_llm.pack(pady=10)
+
+            # Text Box for Custom LLM Instructions
+            self.llm_instructions_text = tk.Text(self, height=5, width=40)
+            self.llm_instructions_text.pack(pady=5)
+
             # Checkbox for "Play Ding" option
             self.play_ding = tk.IntVar()
             play_ding_checkbox = ttk.Checkbutton(self, text="Play Ding on Completion", variable=self.play_ding)
@@ -85,7 +92,7 @@ class UI:
             link_label = tk.Label(self, text='Instructions', fg='#499CE4')
             link_label.pack()
             link_label.bind('<Button-1>', lambda e: open_link(
-                'https://github.com/AmberSahdev/Open-Interface?tab=readme-ov-file#setup'))
+                'https://github.com/AmberSahdev/Open-Interface?tab=readme-ov-file#setup-%EF%B8%8F'))
 
             # Version Label
             version_label = tk.Label(self, text=f'Version: {str(version)}', font=('Helvetica', 10))
@@ -94,8 +101,12 @@ class UI:
         def save_button(self) -> None:
             api_key = self.api_key_entry.get().strip()
             default_browser = self.browser_var.get()
-            settings_dict = {'api_key': api_key, 'default_browser': default_browser,
-                             'play_ding_on_completion': bool(self.play_ding.get())}
+            settings_dict = {
+                'api_key': api_key,
+                'default_browser': default_browser,
+                'play_ding_on_completion': bool(self.play_ding.get()),
+                'custom_llm_instructions': self.llm_instructions_text.get("1.0", "end-1c").strip()
+            }
 
             self.settings.save_settings_to_file(settings_dict)
             self.destroy()

@@ -70,12 +70,15 @@ class LLM:
         with open(path_to_context_file, 'r') as file:
             self.context = file.read()
 
-        if 'default_browser' in settings_dict.keys() and settings_dict['default_browser']:
-            self.context += f'\nDefault browser is {settings_dict["default_browser"]}.'
-
         self.context += f' Locally installed apps are {",".join(local_info.locally_installed_apps)}.'
         self.context += f' OS is {local_info.operating_system}.'
         self.context += f' Primary screen size is {Screen().get_size()}.\n'
+
+        if 'default_browser' in settings_dict.keys() and settings_dict['default_browser']:
+            self.context += f'\nDefault browser is {settings_dict["default_browser"]}.'
+
+        if 'custom_llm_instructions' in settings_dict:
+            self.context += f'\nCustom user-added info: {settings_dict["custom_llm_instructions"]}.'
 
         self.client = OpenAI()
         self.model = 'gpt-4-vision-preview'
