@@ -9,6 +9,7 @@ import speech_recognition as sr
 from PIL import Image, ImageTk
 
 from utils.settings import Settings
+from version import version
 
 
 def open_link(url) -> None:
@@ -31,7 +32,7 @@ class UI:
 
         TODO:
         1. Add option for ding after completion
-        2. Show version number
+        2. Add text box for custom LLM instructions to include with every request
         """
 
         def __init__(self, parent):
@@ -78,6 +79,10 @@ class UI:
             link_label.pack()
             link_label.bind('<Button-1>', lambda e: open_link(
                 'https://github.com/AmberSahdev/Open-Interface?tab=readme-ov-file#setup'))
+
+            # Version Label
+            version_label = tk.Label(self, text=f'Version: {str(version)}', font=('Helvetica', 10))
+            version_label.pack(side="bottom", pady=10)
 
         def save_button(self) -> None:
             api_key = self.api_key_entry.get().strip()
