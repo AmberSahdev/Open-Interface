@@ -25,7 +25,7 @@ class Settings:
 
         for setting_name in settings_dict:
             setting_val = settings_dict[setting_name]
-            if setting_val:
+            if setting_val is not None:
                 if setting_name == "api_key":
                     api_key = settings_dict["api_key"]
                     os.environ["OPENAI_API_KEY"] = api_key  # Set environment variable

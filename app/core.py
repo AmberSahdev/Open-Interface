@@ -6,12 +6,14 @@ from openai import OpenAIError
 
 from interpreter import Interpreter
 from llm import LLM
+from utils.settings import Settings
 
 
 class Core:
     def __init__(self):
         self.status_queue = Queue()
         self.interrupt_execution = False
+        self.settings_dict = Settings().get_dict()
 
         self.interpreter = Interpreter(self.status_queue)
         try:
@@ -65,8 +67,15 @@ class Core:
         if instructions["done"]:
             # Communicate Results
             self.status_queue.put(instructions["done"])
+            self.play_ding_on_completion()
+
             return instructions["done"]
         else:
             # if not done, continue to next phase
             self.status_queue.put("Fetching further instructions based on current state")
             return self.execute(user_request, step_num + 1)
+
+    def play_ding_on_completion(self):
+        # Play ding sound to signal completion
+        if 'play_ding_on_completion' in self.settings_dict and self.settings_dict['play_ding_on_completion']:
+            print('\a')

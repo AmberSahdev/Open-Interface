@@ -31,8 +31,7 @@ class UI:
         Self-contained settings sub-window for the UI
 
         TODO:
-        1. Add option for ding after completion
-        2. Add text box for custom LLM instructions to include with every request
+        1. Add text box for custom LLM instructions to include with every request
         """
 
         def __init__(self, parent):
@@ -45,10 +44,13 @@ class UI:
 
             # Populate UI
             settings_dict = self.settings.get_dict()
+
             if 'api_key' in settings_dict:
                 self.api_key_entry.insert(0, settings_dict['api_key'])
             if 'default_browser' in settings_dict:
                 self.browser_combobox.set(settings_dict['default_browser'])
+            if 'play_ding_on_completion' in settings_dict:
+                self.play_ding.set(1 if settings_dict['play_ding_on_completion'] else 0)
 
         def create_widgets(self) -> None:
             # Label for API Key
@@ -70,6 +72,11 @@ class UI:
             self.browser_combobox.pack(pady=5)
             self.browser_combobox.set('Choose Browser')
 
+            # Checkbox for "Play Ding" option
+            self.play_ding = tk.IntVar()
+            play_ding_checkbox = ttk.Checkbutton(self, text="Play Ding on Completion", variable=self.play_ding)
+            play_ding_checkbox.pack(pady=10)
+
             # Save Button
             save_button = ttk.Button(self, text='Save Settings', command=self.save_button)
             save_button.pack(pady=20)
@@ -87,11 +94,10 @@ class UI:
         def save_button(self) -> None:
             api_key = self.api_key_entry.get().strip()
             default_browser = self.browser_var.get()
-            settings_dict = {'api_key': api_key, 'default_browser': default_browser}
+            settings_dict = {'api_key': api_key, 'default_browser': default_browser,
+                             'play_ding_on_completion': bool(self.play_ding.get())}
 
             self.settings.save_settings_to_file(settings_dict)
-
-            print(f'Settings saved: API Key - {api_key}, Browser - {default_browser}')
             self.destroy()
 
     class MainWindow(tk.Tk):
