@@ -4,13 +4,13 @@
 	<img src="assets/icon.png" align="right" alt="Open Interface Logo" width="120" height="120">
 </picture>
 
-### Operate Your Computer Using LLMs
+### Self-Operate Computers Using LLMs
 
-Open Interface can
-- Self-operate computers based on user input.
-- Execute user requests by sending them to an LLM backend (GPT-4V) with a current screenshot.
-- Simulate keyboard and mouse input to automatically execute the steps received from the LLM to operate your computer.
-- Take user requests through text or voice.
+Open Interface
+- Self-operates computers based on user input.
+- Executes user requests by sending them to an LLM backend (GPT-4V) with a current screenshot.
+- Simulates keyboard and mouse input to automatically execute the steps received from the LLM to operate your computer.
+- Takes user requests through text or voice.
 
 <div align="center">
 
@@ -20,15 +20,17 @@ Open Interface can
   <br>
   [![Github All Releases](https://img.shields.io/github/downloads/AmberSahdev/Open-Interface/total.svg)]((https://github.com/AmberSahdev/Open-Interface/releases/latest))
   ![GitHub code size in bytes](https://img.shields.io/github/languages/code-size/AmberSahdev/Open-Interface)
+  ![GitHub Repo stars](https://img.shields.io/github/stars/AmberSahdev/Open-Interface)
   ![GitHub](https://img.shields.io/github/license/AmberSahdev/Open-Interface) 
   [![GitHub Latest Release)](https://img.shields.io/github/v/release/AmberSahdev/Open-Interface)](https://github.com/AmberSahdev/Open-Interface/releases/latest)
 
 </div>
 
 ### <ins>Demo</ins> 💻
+["Make me a meal plan in Google Docs"]
 ![Make Meal Plan Demo](assets/meal_plan_demo_2x.gif)
 
-["Make me a meal plan in Google Docs"]
+
 
 <hr>
 
