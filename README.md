@@ -7,12 +7,13 @@
 ### Self-Operate Computers Using LLMs
 
 Open Interface
-- Self-operates computers based on user input.
+- Self-operates computers based on user requests.
 - Executes user requests by sending them to an LLM backend (GPT-4V) with a current screenshot.
-- Simulates keyboard and mouse input to automatically execute the steps received from the LLM to operate your computer.
-- Takes user requests through text or voice.
+- Simulates keyboard and mouse input to automatically execute the steps received from the LLM.
+
 
 <div align="center">
+<h4>Self-Driving Software for All Your Computers</h4>
 
   [![macOS](https://img.shields.io/badge/mac%20os-000000?style=for-the-badge&logo=apple&logoColor=white)](https://github.com/AmberSahdev/Open-Interface?tab=readme-ov-file#install)
   [![Linux](https://img.shields.io/badge/Linux-FCC624?style=for-the-badge&logo=linux&logoColor=black)](https://github.com/AmberSahdev/Open-Interface?tab=readme-ov-file#install)
@@ -130,6 +131,7 @@ Open Interface
 ### <ins>Notes</ins> 📝
 - Cost: $0.05 - $0.20 per user request.<br>
 (This will be much lower in the near future once GPT-4V enables assistant/stateful mode)
+- You can interrupt the app anytime by pressing the Stop button, or by dragging your cursor to any of the screen corners.
 
 <hr>
 
