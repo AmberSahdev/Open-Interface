@@ -166,5 +166,7 @@ Open Interface
 
 ### <ins>Links</ins> 🔗
 - Check out more of my projects at [AmberSah.dev](https://AmberSah.dev)
-- ![GitHub Repo stars](https://img.shields.io/github/stars/AmberSahdev/Open-Interface?style=social) ![GitHub Release](https://img.shields.io/github/v/release/AmberSahdev/Open-Interface)
-
+  
+<div align="center">
+	<img alt="GitHub Repo stars" src="https://img.shields.io/github/stars/AmberSahdev/Open-Interface">
+</div>
