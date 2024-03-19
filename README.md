@@ -132,6 +132,7 @@ Open Interface
 - Cost: $0.05 - $0.20 per user request.<br>
 (This will be much lower in the near future once GPT-4V enables assistant/stateful mode)
 - You can interrupt the app anytime by pressing the Stop button, or by dragging your cursor to any of the screen corners.
+- While using multiple displays, Open Interface can only see your main display. Therefore, it might keep retrying the same actions if it is unable to see its progress (especially in MacOS with launching Spotlight).
 
 <hr>
 
