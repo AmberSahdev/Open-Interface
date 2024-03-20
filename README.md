@@ -165,6 +165,14 @@ Open Interface
 +----------------------------------------------------+
 ```
 
+--- 
+
+## Star History
+
+<picture>
+	<img src="https://api.star-history.com/svg?repos=AmberSahdev/Open-Interface&type=Date" alt="Star History" width="720">
+</picture>
+
 ### <ins>Links</ins> 🔗
 - Check out more of my projects at [AmberSah.dev](https://AmberSah.dev)
   
