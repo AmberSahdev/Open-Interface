@@ -7,9 +7,9 @@
 ### Self-Operate Computers Using LLMs
 
 Open Interface
-- Self-operates computers based on user requests.
-- Executes user requests by sending them to an LLM backend (GPT-4V) with a current screenshot.
-- Simulates keyboard and mouse input to automatically execute the steps received from the LLM.
+- Self-drives computers by sending user requests to an LLM backend (GPT-4V) to figure out the required steps.
+- Automatically executes the steps by simulating keyboard and mouse input.
+- Corrects course by sending the LLMs a current screenshot of the computer. 
 
 
 <div align="center">
@@ -167,7 +167,7 @@ Open Interface
 
 --- 
 
-## Star History
+## Star History ⭐️
 
 <picture>
 	<img src="https://api.star-history.com/svg?repos=AmberSahdev/Open-Interface&type=Date" alt="Star History" width="720">
@@ -178,6 +178,6 @@ Open Interface
   
 <div align="center">
 	<img alt="GitHub Repo stars" src="https://img.shields.io/github/stars/AmberSahdev/Open-Interface">
-	<br>
-	<img alt="GitHub followers" src="https://img.shields.io/github/followers/AmberSahdev?style=flat-square">
+	<!-- <br>
+	<img alt="GitHub followers" src="https://img.shields.io/github/followers/AmberSahdev?style=flat-square">-->
 </div>
