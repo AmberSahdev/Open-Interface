@@ -174,7 +174,8 @@ Open Interface
 </picture>
 
 ### <ins>Links</ins> 🔗
-- Check out more of my projects at [AmberSah.dev](https://AmberSah.dev)
+- Check out more of my projects at [AmberSah.dev](https://AmberSah.dev).
+- Other demos and media resources can be found in [MEDIA.md](MEDIA.md).
   
 <div align="center">
 	<img alt="GitHub Repo stars" src="https://img.shields.io/github/stars/AmberSahdev/Open-Interface">

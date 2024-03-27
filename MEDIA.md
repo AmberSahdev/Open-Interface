@@ -8,7 +8,7 @@ This document is an extension of [README.md](README.md) which I recommend to che
 
 
 ### "Go to the Bottom of Chet Baker's Wikiedia Page"
-![Go to the Bottom of Chet Baker's Wikiedia Page Demo](assets/Simple_Bottom_of_Wikipedia-Sped-up-2x.gif)
+![Go to the Bottom of Chet Baker's Wikiedia Page Demo](assets/Simple_Bottom_of_Wikipedia_2x.gif)
 
 
 ### "Make me a meal plan in Google Docs"
@@ -18,4 +18,4 @@ This document is an extension of [README.md](README.md) which I recommend to che
 ---
 
 ### UI:
-![Open Interface UI](assets/ui.png)
+![Open Interface UI](assets/ui2.png)
