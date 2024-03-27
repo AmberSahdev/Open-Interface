@@ -7,12 +7,25 @@ This document is an extension of [README.md](README.md) which I recommend to che
 ![Write a Web App Demo](assets/code_web_app_demo_2x.gif)
 
 
+https://github.com/AmberSahdev/Open-Interface/assets/23853621/956ac674-2c70-4011-9aad-50bd338b2674
+
+
+
+
 ### "Go to the Bottom of Chet Baker's Wikiedia Page"
 ![Go to the Bottom of Chet Baker's Wikiedia Page Demo](assets/Simple_Bottom_of_Wikipedia_2x.gif)
 
 
+https://github.com/AmberSahdev/Open-Interface/assets/23853621/bf9041b8-3c14-407f-8a72-1cddd7bc6ff9
+
+
+
 ### "Make me a meal plan in Google Docs"
 ![Make Meal Plan Demo](assets/meal_plan_demo_2x.gif)
+
+
+
+https://github.com/AmberSahdev/Open-Interface/assets/23853621/424f61ad-5ee6-425f-b922-a1eecad2ef7b
 
 
 ---
