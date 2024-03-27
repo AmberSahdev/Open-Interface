@@ -2,11 +2,11 @@ from moviepy.editor import VideoFileClip, concatenate_videoclips, vfx
 import os
 
 # Load the video
-video_name = "Simple_Bottom_of_Wikipedia"
+video_name = "meal_plan_demo"
 video = VideoFileClip(video_name + ".mov")
 
 # Define the segments to remove (in seconds) as tuples (start, end)
-segments_to_remove = [(0, 8), (19, 39), (46, 52), (65, int(video.duration))]
+segments_to_remove = [(7, 25), (55, 74), (99, int(video.duration))]
 
 # Create a list to hold the subclips
 subclips = []
@@ -38,4 +38,4 @@ os.system(f"ffmpeg -i {output_video} -vf \"fps=10,scale=1080:-1:flags=bicubic,pa
 # Create the GIF using the generated palette
 output_gif = video_name + "_2x.gif"
 os.system(f"rm {output_gif}")
-os.system(f"ffmpeg -i {output_video} -i palette.png -lavfi \"fps=10,scale=900:-1:flags=bicubic [x]; [x][1:v] paletteuse\" {output_gif}")
+os.system(f"ffmpeg -i {output_video} -i palette.png -lavfi \"fps=10,scale=1080:-1:flags=bicubic [x]; [x][1:v] paletteuse\" {output_gif}")

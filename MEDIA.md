@@ -1,4 +1,4 @@
-# Open Interface Demos and Media
+# Open Interface Demos and Media Resources
 
 This document is an extension of [README.md](README.md) which I recommend to check out first.
 
@@ -18,4 +18,12 @@ This document is an extension of [README.md](README.md) which I recommend to che
 ---
 
 ### UI:
+![Open Interface UI](assets/ui.png)
+
 ![Open Interface UI](assets/ui2.png)
+
+![code_web_app_image.png](assets/code_web_app_image.png)
+
+![meal_plan_demo_image.png](assets/meal_plan_demo_image.png)
+
+![simple_bottom_of_wikipedia_image.png](assets/simple_bottom_of_wikipedia_image.png)
