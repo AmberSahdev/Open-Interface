@@ -9,7 +9,7 @@
 Open Interface
 - Self-drives computers by sending user requests to an LLM backend (GPT-4V) to figure out the required steps.
 - Automatically executes the steps by simulating keyboard and mouse input.
-- Corrects course by sending the LLMs a current screenshot of the computer. 
+- Course-corrects by sending the LLMs a current screenshot of the computer as needed. 
 
 
 <div align="center">
