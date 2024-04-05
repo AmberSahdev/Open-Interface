@@ -63,8 +63,11 @@ class LLM:
 
     def __init__(self):
         settings_dict: dict[str, str] = Settings().get_dict()
-        if 'api_key' in settings_dict.keys() and settings_dict['api_key']:
-            os.environ["OPENAI_API_KEY"] = settings_dict['api_key']
+
+        base_url = settings_dict.get('base_url', 'https://api.openai.com/v1/').rstrip('/') + '/'
+        api_key = settings_dict.get('api_key')
+        if api_key:
+            os.environ["OPENAI_API_KEY"] = api_key
 
         path_to_context_file = Path(__file__).resolve().parent.joinpath('resources', 'context.txt')
         with open(path_to_context_file, 'r') as file:
@@ -81,7 +84,11 @@ class LLM:
             self.context += f'\nCustom user-added info: {settings_dict["custom_llm_instructions"]}.'
 
         self.client = OpenAI()
-        self.model = 'gpt-4-vision-preview'
+
+        self.model = settings_dict.get('model')
+        if not self.model:
+            self.model = 'gpt-4-vision-preview'
+        self.client = OpenAI(api_key=os.environ["OPENAI_API_KEY"], base_url=base_url)
 
     def get_instructions_for_objective(self, original_user_request: str, step_num: int = 0) -> dict[str, Any]:
         message: list[dict[str, Any]] = self.create_message_for_llm(original_user_request, step_num)

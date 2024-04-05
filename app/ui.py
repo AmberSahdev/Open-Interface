@@ -26,6 +26,57 @@ class UI:
     def display_current_status(self, text: str):
         self.main_window.update_message(text)
 
+    class AdvancedSettingsWindow(tk.Toplevel):
+        """
+        Self-contained settings sub-window for the UI
+        """
+
+        def __init__(self, parent):
+            super().__init__(parent)
+            self.title('Advanced Settings')
+            self.minsize(300, 300)
+            self.create_widgets()
+            self.settings = Settings()
+
+            # Populate UI
+            settings_dict = self.settings.get_dict()
+
+            if 'base_url' in settings_dict:
+                self.base_url_entry.insert(0, settings_dict['base_url'])
+            if 'model' in settings_dict:
+                self.model_entry.insert(0, settings_dict['model'])
+
+        def create_widgets(self) -> None:
+            label_base_url = tk.Label(self, text='Custom OpenAI-Like API Model Base URL')
+            label_base_url.pack(pady=10)
+
+            # Entry for Base URL
+            self.base_url_entry = ttk.Entry(self, width=30)
+            self.base_url_entry.pack()
+
+            # Model Label
+            label_model = tk.Label(self, text='Custom Model Name:')
+            label_model.pack(pady=10)
+
+            # Entry for Model
+            self.model_entry = ttk.Entry(self, width=30)
+            self.model_entry.pack()
+
+            # Save Button
+            save_button = ttk.Button(self, text='Save Settings', command=self.save_button)
+            save_button.pack(pady=20)
+
+        def save_button(self) -> None:
+            base_url = self.base_url_entry.get().strip()
+            model = self.model_entry.get().strip()
+            settings_dict = {
+                "base_url": base_url,
+                "model": model,
+            }
+
+            self.settings.save_settings_to_file(settings_dict)
+            self.destroy()
+
     class SettingsWindow(tk.Toplevel):
         """
         Self-contained settings sub-window for the UI
@@ -86,7 +137,11 @@ class UI:
 
             # Save Button
             save_button = ttk.Button(self, text='Save Settings', command=self.save_button)
-            save_button.pack(pady=20)
+            save_button.pack(pady=(10, 0))
+
+            # Button to open Advanced Settings
+            advanced_settings_button = ttk.Button(self, text='Advanced Settings', command=self.open_advanced_settings)
+            advanced_settings_button.pack(pady=(0, 10))
 
             # Hyperlink Label
             link_label = tk.Label(self, text='Instructions', fg='#499CE4')
@@ -110,6 +165,10 @@ class UI:
 
             self.settings.save_settings_to_file(settings_dict)
             self.destroy()
+
+        def open_advanced_settings(self):
+            # Open the advanced settings window
+            UI.AdvancedSettingsWindow(self)
 
     class MainWindow(tk.Tk):
         def __init__(self):
