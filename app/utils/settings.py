@@ -16,6 +16,7 @@ class Settings:
     def save_settings_to_file(self, settings_dict) -> None:
         settings: dict[str, str] = {}
 
+        # Preserve previous settings in case new dict doesn't contain them
         if os.path.exists(self.settings_file_path):
             with open(self.settings_file_path, 'r') as file:
                 try:
