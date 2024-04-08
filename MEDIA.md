@@ -29,16 +29,20 @@ https://github.com/AmberSahdev/Open-Interface/assets/23853621/424f61ad-5ee6-425f
 
 ## Images:
 
-![Open Interface UI](assets/ui.png)
-
-![Open Interface UI](assets/ui2.png)
-
+UI and Custom LLM Models:
 ![Open Interface UI - Custom Models](assets/advanced_settings.png)
 
+Old UI:
+![Open Interface UI](assets/ui.png)
+<!-- ![Open Interface UI](assets/ui2.png)-->
+
+Making a Web App:
 ![code_web_app_image.png](assets/code_web_app_image.png)
 
+Writing a Meal Plan:
 ![meal_plan_demo_image.png](assets/meal_plan_demo_image.png)
 
+Navigating Wikipedia:
 ![simple_bottom_of_wikipedia_image.png](assets/simple_bottom_of_wikipedia_image.png)
 
 
