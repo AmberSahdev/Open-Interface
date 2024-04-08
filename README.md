@@ -4,10 +4,10 @@
 	<img src="assets/icon.png" align="right" alt="Open Interface Logo" width="120" height="120">
 </picture>
 
-### Self-Operate Computers Using LLMs
+### Full Autopilot for All Computers Using LLMs
 
 Open Interface
-- Self-drives computers by sending user requests to an LLM backend (GPT-4V) to figure out the required steps.
+- Self-drives computers by sending user requests to an LLM backend (GPT-4V, etc) to figure out the required steps.
 - Automatically executes the steps by simulating keyboard and mouse input.
 - Course-corrects by sending the LLMs a current screenshot of the computer as needed. 
 
@@ -30,6 +30,7 @@ Open Interface
 ### <ins>Demo</ins> 💻
 ["Make me a meal plan in Google Docs"]
 ![Make Meal Plan Demo](assets/meal_plan_demo_2x.gif)
+![Other Demos](https://github.com/AmberSahdev/Open-Interface/blob/main/MEDIA.md#demos)
 
 
 
@@ -115,7 +116,7 @@ Open Interface
 
 <hr>
 
-### <ins>Many of the Things It’s Bad At</ins> 😬
+### <ins>Stuff It’s Bad At (For Now)</ins> 😬
 
 - Accurate spatial-reasoning and hence clicking buttons.
 - Keeping track of itself in tabular contexts, like Excel and Google Sheets, for similar reasons as stated above.
@@ -124,8 +125,9 @@ Open Interface
 
 ### <ins>Future</ins> 🔮
 (*with better models trained on video walkthroughs like Youtube tutorials*)
-- "Find my friends' music taste from Spotify and create a party playlist for tonight's event."
 - "Create a couple of bass samples for me in Garage Band for my latest project."
+- "Read this design document for a new feature, edit the code on Github, and submit it for review."
+- "Find my friends' music taste from Spotify and create a party playlist for tonight's event."
 - "Take the pictures from my Tahoe trip and make a White Lotus type montage in iMovie."
 
 ### <ins>Notes</ins> 📝
@@ -175,7 +177,7 @@ Open Interface
 
 ### <ins>Links</ins> 🔗
 - Check out more of my projects at [AmberSah.dev](https://AmberSah.dev).
-- Other demos and media resources can be found in [MEDIA.md](MEDIA.md).
+- Other demos and press kit can be found at [MEDIA.md](MEDIA.md).
   
 <div align="center">
 	<img alt="GitHub Repo stars" src="https://img.shields.io/github/stars/AmberSahdev/Open-Interface">
