@@ -4,6 +4,10 @@ This document is an extension of [README.md](README.md) which I recommend to che
 
 Feel free to use these images and videos in publication and reach out to me for any questions.
 
+Sections
+- [Demo Videos](https://github.com/AmberSahdev/Open-Interface/blob/main/MEDIA.md#demos)
+- [Images](https://github.com/AmberSahdev/Open-Interface/blob/main/MEDIA.md#images)
+
 ## Demos
 
 ### "Write a Web App"
