@@ -30,7 +30,7 @@ Open Interface
 ### <ins>Demo</ins> 💻
 ["Make me a meal plan in Google Docs"]
 ![Make Meal Plan Demo](assets/meal_plan_demo_2x.gif)
-![Other Demos](https://github.com/AmberSahdev/Open-Interface/blob/main/MEDIA.md#demos)
+[Other Demos](https://github.com/AmberSahdev/Open-Interface/blob/main/MEDIA.md#demos)
 
 
 
