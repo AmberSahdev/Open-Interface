@@ -184,6 +184,3 @@ Open Interface
 	<!-- <br>
 	<img alt="GitHub followers" src="https://img.shields.io/github/followers/AmberSahdev?style=flat-square">-->
 </div>
-
-
-<img alt="Sonatype Nexus (Releases)" src="https://img.shields.io/nexus/r/:groupId/:artifactId">
