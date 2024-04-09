@@ -51,7 +51,7 @@ Open Interface
             You might face the standard Mac <i>"Open Interface cannot be opened" error</i>.<br><br>
             <img src="assets/macos_unverified_developer.png" width="200" style="border-radius: 10px;
     border: 3px solid black;"><br>
-            In that case, press <b><i>"Cancel"</i></b>.<br>
+            In that case, press <b><i><ins>"Cancel"</ins></i></b>.<br>
             Then go to <b>System Preferences -> Security and Privacy -> Open Anyway.</b><br><br>
             <img src="assets/macos_system_preferences.png" width="100" style="border-radius: 10px;
     border: 3px solid black;"> &nbsp; 
@@ -169,7 +169,7 @@ Open Interface
 
 --- 
 
-## Star History ⭐️
+## <ins>Star History</ins> ⭐️
 
 <picture>
 	<img src="https://api.star-history.com/svg?repos=AmberSahdev/Open-Interface&type=Date" alt="Star History" width="720">
