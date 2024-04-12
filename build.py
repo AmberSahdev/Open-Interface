@@ -15,6 +15,8 @@ Linux
 
 MacOS
 - brew install portaudio
+- if you're using pyenv, you might also need to install tkinter manually. 
+    I followed this guide https://dev.to/xshapira/using-tkinter-with-pyenv-a-simple-two-step-guide-hh5. 
 
 NOTES:
     1. For use in future projects, note that pyinstaller will print hundreds of unrelated error messages, but to find
@@ -35,15 +37,32 @@ NOTES:
 
 import os
 import platform
+import sys
 
 import PyInstaller.__main__
 
 from app.version import version
 
 
-def build():
+def build(signing_key=None):
     input("Did you remember to increment version.py?")
+    macos = platform.system() == 'Darwin'
 
+    compile(signing_key)
+
+    if macos and signing_key:  # Codesign
+        os.system(
+            f'codesign --deep --force --verbose --sign "{signing_key}" dist/Open\\ Interface.app --options runtime')
+
+    # TODO: codesigning is invalid after I zip using this method, but remains valid if I zip using UI Archive.
+    zip_name = zip()
+
+    if macos and signing_key:  # Notarize
+        keychain_profile = signing_key.split('(')[0].strip()
+        os.system(f'xcrun notarytool submit --wait --keychain-profile "{keychain_profile}" --verbose dist/{zip_name}')
+
+
+def compile(signing_key=None):
     # Path to your main application script
     app_script = os.path.join('app', 'app.py')
 
@@ -85,7 +104,11 @@ def build():
     ]
 
     # Platform-specific options
-    if platform.system() == 'Linux':
+    if platform.system() == 'Darwin':  # MacOS
+        pyinstaller_options.extend([
+            f'--codesign-identity={signing_key}'
+        ])
+    elif platform.system() == 'Linux':
         pyinstaller_options.extend([
             '--hidden-import=PIL._tkinter_finder',
             '--hidden-import=openai',
@@ -100,26 +123,32 @@ def build():
     PyInstaller.__main__.run(pyinstaller_options)
     print('Done. Check dist/ for executables.')
 
+
+def zip():
     # Zip the app
     print('Zipping the executables')
     app_name = 'Open\\ Interface'
 
+    zip_name = 'Open-Interface-v' + str(version)
     if platform.system() == 'Darwin':  # MacOS
-        zip_name = 'Open-Interface-v' + str(version) + '-MacOS' + '.zip'
+        zip_name = zip_name + '-MacOS' + '.zip'
         zip_cli_command = 'cd dist/; zip -r9 ' + zip_name + ' ' + app_name + '.app'
-        input(f'zip_cli_command - {zip_cli_command} \nExecute?')
-        os.system(zip_cli_command)
     elif platform.system() == 'Linux':
-        zip_name = 'Open-Interface-v' + str(version) + '-Linux' + '.zip'
+        zip_name = zip_name + '-Linux' + '.zip'
         zip_cli_command = 'cd dist/; zip -r9 ' + zip_name + ' ' + app_name
-        input(f'zip_cli_command - {zip_cli_command} \nExecute?')
-        os.system(zip_cli_command)
     elif platform.system() == 'Windows':
-        zip_name = 'Open-Interface-v' + str(version) + '-Windows' + '.zip'
+        zip_name = zip_name + '-Windows' + '.zip'
         zip_cli_command = 'cd dist & powershell Compress-Archive -Path \'Open Interface.exe\' -DestinationPath ' + zip_name
-        input(f'zip_cli_command - {zip_cli_command} \nExecute?')
-        os.system(zip_cli_command)
+
+    # input(f'zip_cli_command - {zip_cli_command} \nExecute?')
+    os.system(zip_cli_command)
+    return zip_name
 
 
 if __name__ == "__main__":
-    build()
+    apple_code_signing_key = None
+    if len(sys.argv) > 1:
+        apple_code_signing_key = sys.argv[1]  # Developer ID Application: ... (...)
+        print("apple_code_signing_key: ", apple_code_signing_key)
+
+    build(apple_code_signing_key)
