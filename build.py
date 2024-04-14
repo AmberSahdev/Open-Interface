@@ -115,13 +115,14 @@ def compile(signing_key=None):
 
     # Platform-specific options
     if platform.system() == 'Darwin':  # MacOS
-        pyinstaller_options.extend([
-            f'--codesign-identity={signing_key}'
-        ])
+        if signing_key:
+            pyinstaller_options.extend([
+                f'--codesign-identity={signing_key}'
+            ])
 
-        # Apple Notarization has a problem because this binary used in speech_recognition is signed with too old an SDK
-        from PyInstaller.utils.osx import set_macos_sdk_version
-        set_macos_sdk_version('env/lib/python3.12/site-packages/speech_recognition/flac-mac', 10, 9, 0) # NOTE: Change the path according to where your binary is located
+            # Apple Notarization has a problem because this binary used in speech_recognition is signed with too old an SDK
+            from PyInstaller.utils.osx import set_macos_sdk_version
+            set_macos_sdk_version('venv/lib/python3.9/site-packages/speech_recognition/flac-mac', 10, 9, 0) # NOTE: Change the path according to where your binary is located
 
     elif platform.system() == 'Linux':
         pyinstaller_options.extend([
