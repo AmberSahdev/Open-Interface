@@ -28,8 +28,8 @@ Open Interface
 </div>
 
 ### <ins>Demo</ins> 💻
-["Make me a meal plan in Google Docs"]
-![Make Meal Plan Demo](assets/meal_plan_demo_2x.gif)
+["Make me a meal plan in Google Docs"]<br>
+![Make Meal Plan Demo](assets/meal_plan_demo_2x.gif)<br>
 [More Demos](https://github.com/AmberSahdev/Open-Interface/blob/main/MEDIA.md#demos)
 
 
@@ -45,7 +45,26 @@ Open Interface
             <img src="assets/macos_unzip_move_to_applications.png" width="350" style="border-radius: 10px;
     border: 3px solid black;">
         </li>
+    </ul>
+  <details>
+    <summary><b>M-Series Macs</b></summary>
+    <ul>
+      <li>
+        Open Interface will ask you for Accessibility access to operate your keyboard and mouse for you, and Screen Recording access to take screenshots to assess its progress.<br>
+      </li>
+      <li>
+        In case it doesn't, manually add these permission via <b>System Settings</b> -> <b>Privacy and Security</b>
         <br>
+        <img src="assets/mac_m3_accessibility.png" width="400" style="margin: 5px; border-radius: 10px;
+    border: 3px solid black;"><br>
+        <img src="assets/mac_m3_screenrecording.png" width="400" style="margin: 5px; border-radius: 10px;
+    border: 3px solid black;">
+      </li>
+    </ul>
+  </details>
+  <details>
+    <summary><b>Intel Macs</b></summary>
+    <ul>
         <li>
             Launch the app from the Applications folder.<br>
             You might face the standard Mac <i>"Open Interface cannot be opened" error</i>.<br><br>
@@ -62,13 +81,16 @@ Open Interface
         </li>
         <br>
         <li>
-        Lastly, Open Interface will also need Accessibility access to use your keyboard and mouse for you, and Screen Recording access to take a screenshot to assess its progress.<br><br>
+        Open Interface will also need Accessibility access to operate your keyboard and mouse for you, and Screen Recording access to take screenshots to assess its progress.<br><br>
         <img src="assets/macos_accessibility.png" width="400" style="margin: 5px; border-radius: 10px;
     border: 3px solid black;"><br>
         <img src="assets/macos_screen_recording.png" width="400" style="margin: 5px; border-radius: 10px;
     border: 3px solid black;">
         </li>
-        <li>Checkout the <a href="https://github.com/AmberSahdev/Open-Interface?tab=readme-ov-file#setup">Setup</a> section to connect Open Interface to LLMs (OpenAI GPT-4V)</li>
+      </ul>
+</details>
+      <ul>
+        <li>Lastly, checkout the <a href="#setup">Setup</a> section to connect Open Interface to LLMs (OpenAI GPT-4V)</li>
     </ul>
 </details>
 <details>
@@ -94,7 +116,7 @@ Open Interface
 </details>
 
 
-### <ins>Setup</ins> 🛠️
+### <ins id="setup">Setup</ins> 🛠️
 <details>
     <summary><b>Set up the OpenAI API key</b></summary>
 
