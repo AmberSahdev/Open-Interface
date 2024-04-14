@@ -45,21 +45,31 @@ from app.version import version
 
 
 def build(signing_key=None):
-    input("Did you remember to increment version.py?")
-    macos = platform.system() == 'Darwin'
+    input("Did you remember to increment version.py? " + str(version))
+    app_name = "Open\\ Interface"
 
     compile(signing_key)
 
-    if macos and signing_key:  # Codesign
+    macos = platform.system() == 'Darwin'
+    if macos and signing_key:  
+        # Codesign
         os.system(
-            f'codesign --deep --force --verbose --sign "{signing_key}" dist/Open\\ Interface.app --options runtime')
+            f'codesign --deep --force --verbose --sign "{signing_key}" dist/{app_name}.app --options runtime')
 
-    # TODO: codesigning is invalid after I zip using this method, but remains valid if I zip using UI Archive.
     zip_name = zip()
 
-    if macos and signing_key:  # Notarize
+    if macos and signing_key:  
         keychain_profile = signing_key.split('(')[0].strip()
+        
+        # Notarize
         os.system(f'xcrun notarytool submit --wait --keychain-profile "{keychain_profile}" --verbose dist/{zip_name}')
+        input(f'Check whether notarization was successful. You can check further logs using "xcrun notarytool log --keychain-profile {keychain_profile} <run-id>"')
+
+        # Staple
+        os.system(f'xcrun stapler staple dist/{app_name}.app')
+
+        # Zip the signed, stapled file
+        zip_name = zip()
 
 
 def compile(signing_key=None):
@@ -108,6 +118,11 @@ def compile(signing_key=None):
         pyinstaller_options.extend([
             f'--codesign-identity={signing_key}'
         ])
+
+        # Apple Notarization has a problem because this binary used in speech_recognition is signed with too old an SDK
+        from PyInstaller.utils.osx import set_macos_sdk_version
+        set_macos_sdk_version('env/lib/python3.12/site-packages/speech_recognition/flac-mac', 10, 9, 0) # NOTE: Change the path according to where your binary is located
+
     elif platform.system() == 'Linux':
         pyinstaller_options.extend([
             '--hidden-import=PIL._tkinter_finder',
@@ -131,13 +146,18 @@ def zip():
 
     zip_name = 'Open-Interface-v' + str(version)
     if platform.system() == 'Darwin':  # MacOS
-        zip_name = zip_name + '-MacOS' + '.zip'
-        zip_cli_command = 'cd dist/; zip -r9 ' + zip_name + ' ' + app_name + '.app'
+        if platform.processor() == 'arm':
+            zip_name = zip_name + '-MacOS-M-Series' + '.zip'
+        else:
+            zip_name = zip_name + '-MacOS-Intel' + '.zip'
+        
+        # Special zip command for macos to keep the complex directory metadata intact to keep the codesigning valid 
+        zip_cli_command = 'cd dist/; ditto -c -k --sequesterRsrc --keepParent ' + app_name + '.app ' + zip_name
     elif platform.system() == 'Linux':
-        zip_name = zip_name + '-Linux' + '.zip'
+        zip_name = zip_name + '-Linux.zip'
         zip_cli_command = 'cd dist/; zip -r9 ' + zip_name + ' ' + app_name
     elif platform.system() == 'Windows':
-        zip_name = zip_name + '-Windows' + '.zip'
+        zip_name = zip_name + '-Windows.zip'
         zip_cli_command = 'cd dist & powershell Compress-Archive -Path \'Open Interface.exe\' -DestinationPath ' + zip_name
 
     # input(f'zip_cli_command - {zip_cli_command} \nExecute?')

@@ -273,6 +273,7 @@ class UI:
             recognizer = sr.Recognizer()
             with sr.Microphone() as source:
                 self.update_message('Listening...')
+                recognizer.adjust_for_ambient_noise(source) # This might also help with asking for mic permissions on Macs
                 try:
                     audio = recognizer.listen(source, timeout=4)
                     try:
