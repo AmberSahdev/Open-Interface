@@ -136,6 +136,21 @@ Open Interface
 
 </details>
 
+<details>
+    <summary><b>Optional: Setup a Custom LLM</b></summary>
+
+- Open Interface supports using other OpenAI API style LLMs (such as Llava) as a backend and can be configured easily in the Advanced Settings window.
+- Enter the custom base url and model name in the Advanced Settings window and the API key in the Settings window as needed.
+  <br>
+  <picture>
+	<img src="assets/advanced_settings.png" align="middle" alt="Set API key in settings" width="400">
+  </picture><br>
+  <br>
+- If your LLM does not support an OpenAI style API, you can use a library like [this](https://github.com/BerriAI/litellm) to convert it to one.
+- You will need to restart the app after these changes.
+
+</details>
+
 <hr>
 
 ### <ins>Stuff It’s Bad At (For Now)</ins> 😬
