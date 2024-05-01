@@ -91,7 +91,7 @@ def compile(signing_key=None):
         # '--onefile',  # NOTE: Might not work on Windows. Also discouraged to enable both windowed and one file on Mac.
 
         # Where to find necessary packages to bundle (python3 -m pip show xxx)
-        '--paths=./venv/lib/python3.9/site-packages',
+        '--paths=./env/lib/python3.12/site-packages',
 
         # Packaging fails without explicitly including these modules here as shown by the logs outputted by debug=all
         '--hidden-import=pyautogui',
