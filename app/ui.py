@@ -149,7 +149,7 @@ class UI:
             link_label.bind('<Button-1>', lambda e: open_link(
                 'https://github.com/AmberSahdev/Open-Interface?tab=readme-ov-file#setup-%EF%B8%8F'))
             
-            # Check for Updates Label
+            # Check for updates Label
             update_label = tk.Label(self, text='Check for Updates', fg='#499CE4', font=('Helvetica', 10))
             update_label.pack()
             update_label.bind('<Button-1>', lambda e: open_link(
