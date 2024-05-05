@@ -47,7 +47,7 @@ Open Interface
         </li>
     </ul>
   <details>
-    <summary><b>M-Series Macs</b></summary>
+    <summary><b>Apple Silicon M-Series Macs</b></summary>
     <ul>
       <li>
         Open Interface will ask you for Accessibility access to operate your keyboard and mouse for you, and Screen Recording access to take screenshots to assess its progress.<br>
@@ -206,7 +206,7 @@ Open Interface
 
 --- 
 
-## <ins>Star History</ins> ⭐️
+### <ins>Star History</ins> ⭐️
 
 <picture>
 	<img src="https://api.star-history.com/svg?repos=AmberSahdev/Open-Interface&type=Date" alt="Star History" width="720">
