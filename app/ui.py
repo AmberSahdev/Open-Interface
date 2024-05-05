@@ -210,7 +210,7 @@ class UI:
 
             # Heading Label
             heading_label = tk.Label(frame, text='What would you like me to do?', font=('Helvetica', 16),
-                                     wraplength=400)
+                                     wraplength=300)
             heading_label.grid(column=0, row=1, columnspan=3, sticky=tk.W)
 
             # Entry widget
@@ -239,7 +239,7 @@ class UI:
             self.input_display.grid(column=0, row=3, columnspan=3, sticky=tk.W)
 
             # Text display for additional messages
-            self.message_display = tk.Label(frame, text='', font=('Helvetica', 14))
+            self.message_display = tk.Label(frame, text='', font=('Helvetica', 14), wraplength=400)
             self.message_display.grid(column=0, row=6, columnspan=3, sticky=tk.W)
 
         def open_settings(self) -> None:
