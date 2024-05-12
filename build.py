@@ -51,14 +51,14 @@ def build(signing_key=None):
     compile(signing_key)
 
     macos = platform.system() == 'Darwin'
-    if macos and signing_key:  
+    if macos and signing_key:
         # Codesign
         os.system(
             f'codesign --deep --force --verbose --sign "{signing_key}" dist/{app_name}.app --options runtime')
 
     zip_name = zip()
 
-    if macos and signing_key:  
+    if macos and signing_key:
         keychain_profile = signing_key.split('(')[0].strip()
         
         # Notarize
@@ -122,7 +122,7 @@ def compile(signing_key=None):
 
             # Apple Notarization has a problem because this binary used in speech_recognition is signed with too old an SDK
             from PyInstaller.utils.osx import set_macos_sdk_version
-            set_macos_sdk_version('venv/lib/python3.9/site-packages/speech_recognition/flac-mac', 10, 9, 0) # NOTE: Change the path according to where your binary is located
+            set_macos_sdk_version('env/lib/python3.12/site-packages/speech_recognition/flac-mac', 10, 9, 0) # NOTE: Change the path according to where your binary is located
 
     elif platform.system() == 'Linux':
         pyinstaller_options.extend([
@@ -171,5 +171,7 @@ if __name__ == "__main__":
     if len(sys.argv) > 1:
         apple_code_signing_key = sys.argv[1]  # Developer ID Application: ... (...)
         print("apple_code_signing_key: ", apple_code_signing_key)
+    elif len(sys.argv) == 1 and platform.system() == 'Darwin':
+        input("Are you sure you don't wanna sign your code? ")
 
     build(apple_code_signing_key)
