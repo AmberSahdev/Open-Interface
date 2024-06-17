@@ -49,26 +49,34 @@ class LLM:
     done is null if user request is not complete, and it's a string when it's complete that either contains the
         information that the user asked for, or just acknowledges completion of the user requested task. This is going
         to be communicated to the user if it's present.
-
-    Note: Use code below to check whether gpt4v has assistant support yet.
-        from openai import OpenAI
-        client = OpenAI()
-        assistant = client.beta.assistants.create(
-            name="bot",
-            instructions="bot",
-            model="gpt-4-vision-preview",
-            tools=[{"type": "code_interpreter"}]
-        )
     """
+
+    # TODO
+    # [x] switch to 4o
+    # [ ] set response format to json
+    # [ ] Remove json pleadings from context.txt
+    # [ ] Add assistant mode
+    # [ ] Look into function calling - https://platform.openai.com/docs/guides/function-calling
 
     def __init__(self):
         settings_dict: dict[str, str] = Settings().get_dict()
 
-        base_url = settings_dict.get('base_url', 'https://api.openai.com/v1/').rstrip('/') + '/'
+        self.model = settings_dict.get('model')
+        if not self.model:
+            self.model = 'gpt-4o'
+
+        base_url = settings_dict.get('base_url', '')
+        if not base_url:
+            base_url = 'https://api.openai.com/v1/'
+        base_url = base_url.rstrip('/') + '/'
+
         api_key = settings_dict.get('api_key')
         if api_key:
             os.environ["OPENAI_API_KEY"] = api_key
 
+        self.client = OpenAI(api_key=os.environ["OPENAI_API_KEY"], base_url=base_url)
+
+        # Construct context for the assistant
         path_to_context_file = Path(__file__).resolve().parent.joinpath('resources', 'context.txt')
         with open(path_to_context_file, 'r') as file:
             self.context = file.read()
@@ -83,12 +91,6 @@ class LLM:
         if 'custom_llm_instructions' in settings_dict:
             self.context += f'\nCustom user-added info: {settings_dict["custom_llm_instructions"]}.'
 
-        self.client = OpenAI()
-
-        self.model = settings_dict.get('model')
-        if not self.model:
-            self.model = 'gpt-4-vision-preview'
-        self.client = OpenAI(api_key=os.environ["OPENAI_API_KEY"], base_url=base_url)
 
     def get_instructions_for_objective(self, original_user_request: str, step_num: int = 0) -> dict[str, Any]:
         message: list[dict[str, Any]] = self.create_message_for_llm(original_user_request, step_num)
