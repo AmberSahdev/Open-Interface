@@ -58,7 +58,7 @@ class LLM:
     # [-] set response format to json - not supported for assistants
     # [x] Add assistant mode
     # [ ] Function calling with assistants api - https://platform.openai.com/docs/assistants/tools/function-calling/quickstart
-    # Current Status: OpenAI calls randomly fail with Invalid image error since switching to OpenAI's file upload rather than sending base64 images.
+    # Current Status: Second OpenAI call always fails with Invalid image error since switching to OpenAI's file upload rather than sending base64 images.
 
     def __init__(self):
         self.settings_dict: dict[str, str] = Settings().get_dict()
@@ -88,6 +88,8 @@ class LLM:
         )
 
         self.thread = self.client.beta.threads.create()
+
+        self.list_of_image_ids = []
 
     def read_context_txt_file(self) -> str:
         # Construct context for the assistant by reading context.txt and adding extra system information
@@ -172,6 +174,7 @@ class LLM:
     def get_instructions_for_objective_v2(self, original_user_request: str, step_num: int = 0) -> dict[str, Any]:
         # Upload screenshot to OpenAI
         openai_file_id_for_screenshot, temp_filename = self.upload_screenshot_and_get_file_id()
+        self.list_of_image_ids.append(openai_file_id_for_screenshot)
 
         # Format user request to send to LLM
         formatted_user_request = self.format_user_request_for_llm(original_user_request, step_num,
@@ -183,14 +186,14 @@ class LLM:
 
         # Cleanup file from filesystem and OpenAI
         os.unlink(temp_filename)
-        self.client.files.delete(openai_file_id_for_screenshot)
+        # Note: Don't delete files from openai while the thread is active
 
         return json_instructions
 
     def upload_screenshot_and_get_file_id(self):
         # Files are used to upload documents like images that can be used with features like Assistants
         # Assistants API cannot take base64 images like chat.completions API
-        filepath = Screen().get_temp_filename_for_current_screenshot()  # in-memory files don't work with the API because of missing filename attribute
+        filepath = Screen().get_screenshot_file()
 
         response = self.client.files.create(
             file=open(filepath, 'rb'),
@@ -216,11 +219,11 @@ class LLM:
             time.sleep(1)
 
             if run.status == 'failed':
-                print(f'failed run run.required_action:{run.required_action} run.last_error: {run.last_error}')
-                input("Enter to continue")
+                print(f'failed run run.required_action:{run.required_action} run.last_error: {run.last_error}\n\n')
+                return None
 
         if run.status == 'completed':
-            # TODO: Apparently right now the API doesn't have a way to retrieve just the last message???
+            # NOTE: Apparently right now the API doesn't have a way to retrieve just the last message???
             #  So instead you get all messages and take the latest one
             response = self.client.beta.threads.messages.list(
                 thread_id=self.thread.id
@@ -268,5 +271,11 @@ class LLM:
             json_response = {}
 
         return json_response
+
+    def cleanup_images_from_openai_account(self):
+        # Note: Cannot delete screenshots while the thread is active. Cleanup during shut down.
+        for id in self.list_of_image_ids:
+            self.client.files.delete(id)
+        self.thread = self.client.beta.threads.create()  # Using old thread would cause Image errors
 
     ### ### ###
