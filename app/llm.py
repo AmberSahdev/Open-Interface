@@ -55,11 +55,10 @@ class LLM:
 
     # TODO
     # [x] switch to 4o
-    # [ ] set response format to json
-    # [ ] Remove json pleadings from context.txt
-    # [ ] Add assistant mode
-    # [ ] Look into function calling - https://platform.openai.com/docs/guides/function-calling
+    # [-] set response format to json - not supported for assistants
+    # [x] Add assistant mode
     # [ ] Function calling with assistants api - https://platform.openai.com/docs/assistants/tools/function-calling/quickstart
+    # Current Status: OpenAI calls randomly fail with Invalid image error since switching to OpenAI's file upload rather than sending base64 images.
 
     def __init__(self):
         self.settings_dict: dict[str, str] = Settings().get_dict()
@@ -110,13 +109,13 @@ class LLM:
         return context
 
     def get_instructions_for_objective(self, original_user_request: str, step_num: int = 0) -> dict[str, Any]:
-        return self.get_instructions_for_objective_v2(original_user_request, step_num)
-
-        message: list[dict[str, Any]] = self.create_message_for_llm(original_user_request, step_num)
-        llm_response = self.send_message_to_llm(message)
-        json_instructions: dict[str, Any] = self.convert_llm_response_to_json(llm_response)
-
-        return json_instructions
+        if self.model == 'gpt-4o':
+            return self.get_instructions_for_objective_v2(original_user_request, step_num)
+        else:  # gpt-4v, llava, etc
+            message: list[dict[str, Any]] = self.create_message_for_llm(original_user_request, step_num)
+            llm_response = self.send_message_to_llm(message)
+            json_instructions: dict[str, Any] = self.convert_llm_response_to_json(llm_response)
+            return json_instructions
 
     def create_message_for_llm(self, original_user_request, step_num) -> list[dict[str, Any]]:
         base64_img: str = Screen().get_screenshot_in_base64()
@@ -150,6 +149,7 @@ class LLM:
             ],
             max_tokens=800,
         )
+        return response
 
     def convert_llm_response_to_json(self, llm_response: ChatCompletion) -> dict[str, Any]:
         llm_response_data: str = llm_response.choices[0].message.content.strip()
@@ -167,6 +167,8 @@ class LLM:
 
         return json_response
 
+
+    ### V2 Functions Below for Support with GPT-4o Omni ###
     def get_instructions_for_objective_v2(self, original_user_request: str, step_num: int = 0) -> dict[str, Any]:
         # Upload screenshot to OpenAI
         openai_file_id_for_screenshot, temp_filename = self.upload_screenshot_and_get_file_id()
@@ -210,8 +212,12 @@ class LLM:
         )
 
         while run.status != 'completed':
-            print("Waiting for response, sleeping for 0.1")
-            time.sleep(0.1)
+            print(f'Waiting for response, sleeping for 1. run.status={run.status}')
+            time.sleep(1)
+
+            if run.status == 'failed':
+                print(f'failed run run.required_action:{run.required_action} run.last_error: {run.last_error}')
+                input("Enter to continue")
 
         if run.status == 'completed':
             # TODO: Apparently right now the API doesn't have a way to retrieve just the last message???
@@ -220,7 +226,6 @@ class LLM:
                 thread_id=self.thread.id
             )
 
-            print(f"retunr type: {type(response.data[0])}")
             return response.data[0]
         else:
             print("Run did not complete successfully.")
@@ -263,3 +268,5 @@ class LLM:
             json_response = {}
 
         return json_response
+
+    ### ### ###
