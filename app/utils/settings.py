@@ -6,9 +6,12 @@ from pathlib import Path
 
 class Settings:
     def __init__(self):
-        self.settings_file_path = str(Path.home()) + "/.open-interface/settings.json"
+        self.settings_file_path = self.get_settings_directory_path() + '/settings.json'
         os.makedirs(os.path.dirname(self.settings_file_path), exist_ok=True)
         self.settings = self.load_settings_from_file()
+
+    def get_settings_directory_path(self):
+        return str(Path.home()) + '/.open-interface'
 
     def get_dict(self) -> dict[str, str]:
         return self.settings
