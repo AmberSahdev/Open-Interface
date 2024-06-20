@@ -20,8 +20,8 @@ class Core:
         self.llm = None
         try:
             self.llm = LLM()
-        except OpenAIError as _:
-            self.status_queue.put('Set your OpenAPI API Key in Settings and Restart the App')
+        except OpenAIError as e:
+            self.status_queue.put(f'Set your OpenAPI API Key in Settings and Restart the App. Error: {e}')
 
     def execute_user_request(self, user_request: str) -> None:
         self.stop_previous_request()

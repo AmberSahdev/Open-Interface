@@ -45,8 +45,8 @@ from app.version import version
 
 
 def build(signing_key=None):
-    input("Did you remember to increment version.py? " + str(version))
-    app_name = "Open\\ Interface"
+    input('Did you remember to increment version.py? ' + str(version))
+    app_name = 'Open\\ Interface'
 
     compile(signing_key)
 
@@ -166,7 +166,7 @@ def zip():
     return zip_name
 
 
-if __name__ == "__main__":
+if __name__ == '__main__':
     apple_code_signing_key = None
     if len(sys.argv) > 1:
         apple_code_signing_key = sys.argv[1]  # Developer ID Application: ... (...)
