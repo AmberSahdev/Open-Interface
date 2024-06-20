@@ -92,8 +92,8 @@ class UI:
             base_url = self.base_url_entry.get().strip()
             model = self.model_var.get() if self.model_var.get() != 'custom' else self.model_entry.get().strip()
             settings_dict = {
-                "base_url": base_url,
-                "model": model,
+                'base_url': base_url,
+                'model': model,
             }
 
             self.settings.save_settings_to_file(settings_dict)
