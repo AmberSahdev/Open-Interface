@@ -65,9 +65,13 @@ class App:
             else:
                 threading.Thread(target=self.core.execute_user_request, args=(user_request,), daemon=True).start()
 
+    def cleanup(self):
+        self.core.cleanup()
+
 
 if __name__ == '__main__':
     freeze_support()  # As required by pyinstaller https://www.pyinstaller.org/en/stable/common-issues-and-pitfalls.html#multi-processing
     app = App()
     app.run()
+    app.cleanup()
     sys.exit(0)

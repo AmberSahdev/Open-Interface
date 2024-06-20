@@ -87,3 +87,6 @@ class Core:
         # Play ding sound to signal completion
         if self.settings_dict.get('play_ding_on_completion'):
             print('\a')
+
+    def cleanup(self):
+        self.llm.cleanup()
