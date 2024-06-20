@@ -15,16 +15,6 @@ class Model:
         if api_key:
             os.environ['OPENAI_API_KEY'] = api_key
 
-    '''
-    def __new__(cls, model_name, *args):
-        if model_name == "gpt-4o":
-            return GPT4o(model_name, *args)
-        elif model_name == 'gpt-4v':
-            return GPT4v(model_name, *args)
-        else:
-            raise ValueError("Unsupported model type. Create entry in app/models/")
-    '''
-
     def get_instructions_for_objective(self, *args) -> dict[str, Any]:
         pass
 

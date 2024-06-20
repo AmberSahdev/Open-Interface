@@ -3,7 +3,6 @@ import time
 from typing import Any
 
 from models.model import Model
-from openai import ChatCompletion
 from openai.types.beta.threads.message import Message
 from utils.screen import Screen
 
@@ -17,10 +16,10 @@ class GPT4o(Model):
 
         # GPT4o has Assistant Mode enabled that we can utilize to make Open Interface be more contextually aware
         self.assistant = self.client.beta.assistants.create(
-            name="Open Interface Backend",
+            name='Open Interface Backend',
             instructions=self.context,
             # tools=[],
-            model="gpt-4o",
+            model='gpt-4o',
         )
 
         self.thread = self.client.beta.threads.create()
@@ -47,7 +46,7 @@ class GPT4o(Model):
     def send_message_to_llm(self, formatted_user_request) -> Message:
         message = self.client.beta.threads.messages.create(
             thread_id=self.thread.id,
-            role="user",
+            role='user',
             content=formatted_user_request
         )
 
@@ -74,7 +73,7 @@ class GPT4o(Model):
 
             return response.data[0]
         else:
-            print("Run did not complete successfully.")
+            print('Run did not complete successfully.')
             return None
 
     def upload_screenshot_and_get_file_id(self):

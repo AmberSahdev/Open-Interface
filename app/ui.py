@@ -8,6 +8,7 @@ from tkinter import ttk
 import speech_recognition as sr
 from PIL import Image, ImageTk
 
+from llm import DEFAULT_MODEL_NAME
 from utils.settings import Settings
 from version import version
 
@@ -45,8 +46,29 @@ class UI:
                 self.base_url_entry.insert(0, settings_dict['base_url'])
             if 'model' in settings_dict:
                 self.model_entry.insert(0, settings_dict['model'])
+                self.model_var.set(settings_dict.get('model', 'custom'))
+            else:
+                self.model_entry.insert(0, DEFAULT_MODEL_NAME)
+                self.model_var.set(DEFAULT_MODEL_NAME)
 
         def create_widgets(self) -> None:
+            # Radio buttons for model selection
+            tk.Label(self, text='Select Model:').pack(pady=10, padx=10)
+            self.model_var = tk.StringVar(value='custom')  # default selection
+
+            # Create a frame to hold the radio buttons
+            radio_frame = ttk.Frame(self)
+            radio_frame.pack(padx=20, pady=10)  # Add padding around the frame
+
+            models = [
+                ('GPT-4v (Most Accurate, Slowest)', 'gpt-4-vision-preview'),
+                ('GPT-4o (Medium Accurate, Medium Fast)', 'gpt-4o'),
+                ('GPT-4-Turbo (Least Accurate, Fastest)', 'gpt-4-turbo'),
+                ('Custom (Specify Settings Below)', 'custom')
+            ]
+            for text, value in models:
+                ttk.Radiobutton(radio_frame, text=text, value=value, variable=self.model_var).pack(anchor=tk.W)
+
             label_base_url = tk.Label(self, text='Custom OpenAI-Like API Model Base URL')
             label_base_url.pack(pady=10)
 
@@ -68,7 +90,7 @@ class UI:
 
         def save_button(self) -> None:
             base_url = self.base_url_entry.get().strip()
-            model = self.model_entry.get().strip()
+            model = self.model_var.get() if self.model_var.get() != 'custom' else self.model_entry.get().strip()
             settings_dict = {
                 "base_url": base_url,
                 "model": model,
@@ -148,7 +170,7 @@ class UI:
             link_label.pack()
             link_label.bind('<Button-1>', lambda e: open_link(
                 'https://github.com/AmberSahdev/Open-Interface?tab=readme-ov-file#setup-%EF%B8%8F'))
-            
+
             # Check for updates Label
             update_label = tk.Label(self, text='Check for Updates', fg='#499CE4', font=('Helvetica', 10))
             update_label.pack()
@@ -279,7 +301,8 @@ class UI:
             recognizer = sr.Recognizer()
             with sr.Microphone() as source:
                 self.update_message('Listening...')
-                recognizer.adjust_for_ambient_noise(source) # This might also help with asking for mic permissions on Macs
+                # This might also help with asking for mic permissions on Macs
+                recognizer.adjust_for_ambient_noise(source)
                 try:
                     audio = recognizer.listen(source, timeout=4)
                     try:

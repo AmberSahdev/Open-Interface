@@ -6,6 +6,8 @@ from utils import local_info
 from utils.screen import Screen
 from utils.settings import Settings
 
+DEFAULT_MODEL_NAME = "gpt-4o"
+
 
 class LLM:
     """
@@ -59,7 +61,7 @@ class LLM:
     def get_settings_values(self) -> tuple[str, str, str]:
         model_name = self.settings_dict.get('model')
         if not model_name:
-            model_name = 'gpt-4o'
+            model_name = DEFAULT_MODEL_NAME
 
         base_url = self.settings_dict.get('base_url', '')
         if not base_url:
