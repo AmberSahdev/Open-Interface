@@ -1,13 +1,7 @@
-import json
-import os
-import time
 from pathlib import Path
 from typing import Any
 
-from openai import ChatCompletion
-from openai import OpenAI
-from openai.types.beta.threads.message import Message
-
+from models.factory import ModelFactory
 from utils import local_info
 from utils.screen import Screen
 from utils.settings import Settings
@@ -53,19 +47,19 @@ class LLM:
         to be communicated to the user if it's present.
     """
 
-    # TODO
-    # [x] switch to 4o
-    # [-] set response format to json - not supported for assistants
-    # [x] Add assistant mode
-    # [ ] Function calling with assistants api - https://platform.openai.com/docs/assistants/tools/function-calling/quickstart
-    # Current Status: Second OpenAI call always fails with Invalid image error since switching to OpenAI's file upload rather than sending base64 images.
-
     def __init__(self):
         self.settings_dict: dict[str, str] = Settings().get_dict()
+        model_name, base_url, api_key = self.get_settings_values()
 
-        self.model = self.settings_dict.get('model')
-        if not self.model:
-            self.model = 'gpt-4o'
+        self.model_name = model_name
+        context = self.read_context_txt_file()
+
+        self.model = ModelFactory.create_model(self.model_name, base_url, api_key, context)
+
+    def get_settings_values(self) -> tuple[str, str, str]:
+        model_name = self.settings_dict.get('model')
+        if not model_name:
+            model_name = 'gpt-4o'
 
         base_url = self.settings_dict.get('base_url', '')
         if not base_url:
@@ -73,23 +67,8 @@ class LLM:
         base_url = base_url.rstrip('/') + '/'
 
         api_key = self.settings_dict.get('api_key')
-        if api_key:
-            os.environ["OPENAI_API_KEY"] = api_key
 
-        self.client = OpenAI(api_key=os.environ["OPENAI_API_KEY"], base_url=base_url)
-
-        self.context = self.read_context_txt_file()
-
-        self.assistant = self.client.beta.assistants.create(
-            name="Open Interface Backend",
-            instructions=self.context,
-            # tools=[],
-            model="gpt-4o",
-        )
-
-        self.thread = self.client.beta.threads.create()
-
-        self.list_of_image_ids = []
+        return model_name, base_url, api_key
 
     def read_context_txt_file(self) -> str:
         # Construct context for the assistant by reading context.txt and adding extra system information
@@ -111,171 +90,7 @@ class LLM:
         return context
 
     def get_instructions_for_objective(self, original_user_request: str, step_num: int = 0) -> dict[str, Any]:
-        if self.model == 'gpt-4o':
-            return self.get_instructions_for_objective_v2(original_user_request, step_num)
-        else:  # gpt-4v, llava, etc
-            message: list[dict[str, Any]] = self.create_message_for_llm(original_user_request, step_num)
-            llm_response = self.send_message_to_llm(message)
-            json_instructions: dict[str, Any] = self.convert_llm_response_to_json(llm_response)
-            return json_instructions
+        return self.model.get_instructions_for_objective(original_user_request, step_num)
 
-    def create_message_for_llm(self, original_user_request, step_num) -> list[dict[str, Any]]:
-        base64_img: str = Screen().get_screenshot_in_base64()
-
-        request_data: str = json.dumps({
-            'original_user_request': original_user_request,
-            'step_num': step_num
-        })
-
-        # We have to add context every request for now which is expensive because our chosen model doesn't have a
-        #   stateful/Assistant mode yet.
-        message = [
-            {'type': 'text', 'text': self.context + request_data},
-            {'type': 'image_url',
-             'image_url': {
-                 'url': f'data:image/jpeg;base64,{base64_img}'
-             }
-             }
-        ]
-
-        return message
-
-    def send_message_to_llm(self, message) -> ChatCompletion:
-        response = self.client.chat.completions.create(
-            model=self.model,
-            messages=[
-                {
-                    'role': 'user',
-                    'content': message,
-                }
-            ],
-            max_tokens=800,
-        )
-        return response
-
-    def convert_llm_response_to_json(self, llm_response: ChatCompletion) -> dict[str, Any]:
-        llm_response_data: str = llm_response.choices[0].message.content.strip()
-
-        # Our current LLM model does not guarantee a JSON response hence we manually parse the JSON part of the response
-        # Check for updates here - https://platform.openai.com/docs/guides/text-generation/json-mode
-        start_index = llm_response_data.find('{')
-        end_index = llm_response_data.rfind('}')
-
-        try:
-            json_response = json.loads(llm_response_data[start_index:end_index + 1].strip())
-        except Exception as e:
-            print(f'Error while parsing JSON response - {e}')
-            json_response = {}
-
-        return json_response
-
-
-    ### V2 Functions Below for Support with GPT-4o Omni ###
-    def get_instructions_for_objective_v2(self, original_user_request: str, step_num: int = 0) -> dict[str, Any]:
-        # Upload screenshot to OpenAI
-        openai_file_id_for_screenshot, temp_filename = self.upload_screenshot_and_get_file_id()
-        self.list_of_image_ids.append(openai_file_id_for_screenshot)
-
-        # Format user request to send to LLM
-        formatted_user_request = self.format_user_request_for_llm(original_user_request, step_num,
-                                                                  openai_file_id_for_screenshot)
-
-        # Read response
-        llm_response = self.send_message_to_llm_v2(formatted_user_request)
-        json_instructions: dict[str, Any] = self.convert_llm_response_to_json_v2(llm_response)
-
-        # Cleanup file from filesystem and OpenAI
-        os.unlink(temp_filename)
-        # Note: Don't delete files from openai while the thread is active
-
-        return json_instructions
-
-    def upload_screenshot_and_get_file_id(self):
-        # Files are used to upload documents like images that can be used with features like Assistants
-        # Assistants API cannot take base64 images like chat.completions API
-        filepath = Screen().get_screenshot_file()
-
-        response = self.client.files.create(
-            file=open(filepath, 'rb'),
-            purpose='vision'
-        )
-        return response.id, filepath
-
-    def send_message_to_llm_v2(self, formatted_user_request) -> Message:
-        message = self.client.beta.threads.messages.create(
-            thread_id=self.thread.id,
-            role="user",
-            content=formatted_user_request
-        )
-
-        run = self.client.beta.threads.runs.create_and_poll(
-            thread_id=self.thread.id,
-            assistant_id=self.assistant.id,
-            instructions=''
-        )
-
-        while run.status != 'completed':
-            print(f'Waiting for response, sleeping for 1. run.status={run.status}')
-            time.sleep(1)
-
-            if run.status == 'failed':
-                print(f'failed run run.required_action:{run.required_action} run.last_error: {run.last_error}\n\n')
-                return None
-
-        if run.status == 'completed':
-            # NOTE: Apparently right now the API doesn't have a way to retrieve just the last message???
-            #  So instead you get all messages and take the latest one
-            response = self.client.beta.threads.messages.list(
-                thread_id=self.thread.id
-            )
-
-            return response.data[0]
-        else:
-            print("Run did not complete successfully.")
-            return None
-
-    def format_user_request_for_llm(self, original_user_request, step_num, openai_file_id_for_screenshot) -> list[
-        dict[str, Any]]:
-        request_data: str = json.dumps({
-            'original_user_request': original_user_request,
-            'step_num': step_num
-        })
-
-        content = [
-            {
-                'type': 'text',
-                'text': request_data
-            },
-            {
-                'type': 'image_file',
-                'image_file': {
-                    'file_id': openai_file_id_for_screenshot
-                }
-            }
-        ]
-
-        return content
-
-    def convert_llm_response_to_json_v2(self, llm_response: ChatCompletion) -> dict[str, Any]:
-        llm_response_data: str = llm_response.content[0].text.value.strip()
-
-        # Our current LLM model does not guarantee a JSON response hence we manually parse the JSON part of the response
-        # Check for updates here - https://platform.openai.com/docs/guides/text-generation/json-mode
-        start_index = llm_response_data.find('{')
-        end_index = llm_response_data.rfind('}')
-
-        try:
-            json_response = json.loads(llm_response_data[start_index:end_index + 1].strip())
-        except Exception as e:
-            print(f'Error while parsing JSON response - {e}')
-            json_response = {}
-
-        return json_response
-
-    def cleanup_images_from_openai_account(self):
-        # Note: Cannot delete screenshots while the thread is active. Cleanup during shut down.
-        for id in self.list_of_image_ids:
-            self.client.files.delete(id)
-        self.thread = self.client.beta.threads.create()  # Using old thread would cause Image errors
-
-    ### ### ###
+    def cleanup(self):
+        self.model.cleanup()
