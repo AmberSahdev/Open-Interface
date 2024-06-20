@@ -12,17 +12,21 @@ from multiprocessing import freeze_support
 
 
 def main():
-    # Says hi, waits 12 seconds, requests to open chrome
     app = App()
-    threading.Thread(target=put_requests_in_app, args=(app,), daemon=True).start()
+    threading.Thread(target=simple_test, args=(app,), daemon=True).start()
     app.run()
-    return
 
 
-def put_requests_in_app(app):
-    app.ui.main_window.user_request_queue.put('hi there')
+def simple_test(app):
+    # Says hi, waits 12 seconds, requests to open chrome
+    time.sleep(1)
+    put_requests_in_app(app, 'Hello')
     time.sleep(12)
-    app.ui.main_window.user_request_queue.put('open chrome')
+    put_requests_in_app(app, 'Open Chrome')
+
+
+def put_requests_in_app(app, request):
+    app.ui.main_window.user_request_queue.put(request)
 
 
 if __name__ == '__main__':
