@@ -63,7 +63,7 @@ def build(signing_key=None):
         
         # Notarize
         os.system(f'xcrun notarytool submit --wait --keychain-profile "{keychain_profile}" --verbose dist/{zip_name}')
-        input(f'Check whether notarization was successful. You can check further logs using "xcrun notarytool log --keychain-profile {keychain_profile} <run-id>"')
+        input(f'Check whether notarization was successful using \n\t xcrun notarytool history --keychain-profile {keychain_profile}.\nYou can check debug logs using \n\t xcrun notarytool log --keychain-profile "{keychain_profile}" <run-id>')
 
         # Staple
         os.system(f'xcrun stapler staple dist/{app_name}.app')
@@ -109,6 +109,7 @@ def compile(signing_key=None):
         # Manually including source code and submodules because app doesn't launch without it
         '--add-data=app/*.py:.',
         '--add-data=app/utils/*.py:utils',  # Submodules need to be included manually
+        '--add-data=app/models/*.py:models',  # Submodules need to be included manually
 
         app_script
     ]
