@@ -49,7 +49,7 @@ class Interpreter:
             2. pyautogui calls to interact with system's mouse and keyboard.
         """
         # Sometimes pyautogui needs warming up i.e. sometimes first call isn't executed hence padding a random call here
-        pyautogui.press("command", interval=0.1)
+        pyautogui.press("command", interval=0.2)
 
         if function_name == "sleep" and parameters.get("secs"):
             sleep(parameters.get("secs"))
@@ -61,13 +61,13 @@ class Interpreter:
             if function_name == 'write' and ('string' in parameters or 'text' in parameters):
                 # 'write' function expects a string, not a 'text' keyword argument but LLM sometimes gets confused on the parameter name.
                 string_to_write = parameters.get('string') or parameters.get('text')
-                interval = parameters.get('interval', 0.05)
+                interval = parameters.get('interval', 0.1)
                 function_to_call(string_to_write, interval=interval)
             elif function_name == 'press' and ('keys' in parameters or 'key' in parameters):
                 # 'press' can take a list of keys or a single key
                 keys_to_press = parameters.get('keys') or parameters.get('key')
                 presses = parameters.get('presses', 1)
-                interval = parameters.get('interval', 0.05)
+                interval = parameters.get('interval', 0.1)
                 function_to_call(keys_to_press, presses=presses, interval=interval)
             elif function_name == 'hotkey':
                 # 'hotkey' function expects multiple key arguments, not a list
