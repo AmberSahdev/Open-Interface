@@ -15,8 +15,8 @@ Sections
 
 https://github.com/AmberSahdev/Open-Interface/assets/23853621/956ac674-2c70-4011-9aad-50bd338b2674
 
-### "Go to the Bottom of Chet Baker's Wikiedia Page"
-![Go to the Bottom of Chet Baker's Wikiedia Page Demo](assets/Simple_Bottom_of_Wikipedia_2x.gif)
+### "Go to the Bottom of Chet Baker's Wikipedia Page"
+![Go to the Bottom of Chet Baker's Wikipedia Page Demo](assets/Simple_Bottom_of_Wikipedia_2x.gif)
 
 https://github.com/AmberSahdev/Open-Interface/assets/23853621/bf9041b8-3c14-407f-8a72-1cddd7bc6ff9
 
