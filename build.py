@@ -60,7 +60,7 @@ def build(signing_key=None):
 
     if macos and signing_key:
         keychain_profile = signing_key.split('(')[0].strip()
-        
+
         # Notarize
         os.system(f'xcrun notarytool submit --wait --keychain-profile "{keychain_profile}" --verbose dist/{zip_name}')
         input(f'Check whether notarization was successful using \n\t xcrun notarytool history --keychain-profile {keychain_profile}.\nYou can check debug logs using \n\t xcrun notarytool log --keychain-profile "{keychain_profile}" <run-id>')
@@ -152,7 +152,7 @@ def zip():
             zip_name = zip_name + '-MacOS-M-Series' + '.zip'
         else:
             zip_name = zip_name + '-MacOS-Intel' + '.zip'
-        
+
         # Special zip command for macos to keep the complex directory metadata intact to keep the codesigning valid 
         zip_cli_command = 'cd dist/; ditto -c -k --sequesterRsrc --keepParent ' + app_name + '.app ' + zip_name
     elif platform.system() == 'Linux':
@@ -170,7 +170,7 @@ def zip():
 if __name__ == '__main__':
     apple_code_signing_key = None
     if len(sys.argv) > 1:
-        apple_code_signing_key = sys.argv[1]  # Developer ID Application: ... (...)
+        apple_code_signing_key = sys.argv[1]  # python3 build.py "Developer ID Application: ... (...)"
         print("apple_code_signing_key: ", apple_code_signing_key)
     elif len(sys.argv) == 1 and platform.system() == 'Darwin':
         input("Are you sure you don't wanna sign your code? ")
