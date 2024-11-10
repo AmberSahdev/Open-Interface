@@ -1,19 +1,20 @@
 import threading
-import ttkbootstrap as ttk
-import tkinter as tk
-from ttkbootstrap.constants import *
 import webbrowser
 from multiprocessing import Queue
 from pathlib import Path
-from PIL import Image, ImageTk
 
 import speech_recognition as sr
+import ttkbootstrap as ttk
+from PIL import Image, ImageTk
+
 from llm import DEFAULT_MODEL_NAME
 from utils.settings import Settings
 from version import version
 
+
 def open_link(url) -> None:
     webbrowser.open_new(url)
+
 
 class UI:
     def __init__(self):
@@ -29,6 +30,7 @@ class UI:
         """
         Self-contained settings sub-window for the UI
         """
+
         def __init__(self, parent):
             super().__init__(parent)
             self.title('Advanced Settings')
@@ -64,7 +66,8 @@ class UI:
                 ('Custom (Specify Settings Below)', 'custom')
             ]
             for text, value in models:
-                ttk.Radiobutton(radio_frame, text=text, value=value, variable=self.model_var, bootstyle="info").pack(anchor=ttk.W)
+                ttk.Radiobutton(radio_frame, text=text, value=value, variable=self.model_var, bootstyle="info").pack(
+                    anchor=ttk.W)
 
             label_base_url = ttk.Label(self, text='Custom OpenAI-Like API Model Base URL', bootstyle="secondary")
             label_base_url.pack(pady=10)
@@ -97,14 +100,15 @@ class UI:
             self.destroy()
 
     class SettingsWindow(ttk.Toplevel):
-        THEMES = ['darkly', 'cyborg', 'journal', 'solar', 'superhero']
         """
         Self-contained settings sub-window for the UI
         """
+
         def __init__(self, parent):
             super().__init__(parent)
             self.title('Settings')
             self.minsize(300, 450)
+            self.available_themes = ['darkly', 'cyborg', 'journal', 'solar', 'superhero']
             self.create_widgets()
 
             self.settings = Settings()
@@ -112,43 +116,25 @@ class UI:
             # Populate UI
             settings_dict = self.settings.get_dict()
 
-            if 'theme' in settings_dict:
-                self.theme_combobox.set(settings_dict['theme'])
-            else:
-                self.theme_combobox.set('superhero')
-
             if 'api_key' in settings_dict:
                 self.api_key_entry.insert(0, settings_dict['api_key'])
             if 'default_browser' in settings_dict:
                 self.browser_combobox.set(settings_dict['default_browser'])
             if 'play_ding_on_completion' in settings_dict:
                 self.play_ding.set(1 if settings_dict['play_ding_on_completion'] else 0)
-            if 'custom_llm_instructions' in settings_dict:
+            if 'custom_llm_instructions':
                 self.llm_instructions_text.insert('1.0', settings_dict['custom_llm_instructions'])
+            self.theme_combobox.set(settings_dict.get('theme', 'superhero'))
 
         def create_widgets(self) -> None:
-            # Customize the style for Combobox to make it larger
-            style = ttk.Style()
-
-            # Theme Selection Widgets
-            label_theme = ttk.Label(self, text='Choose Theme:', bootstyle="secondary")
-            label_theme.pack(pady=10)
-            self.theme_var = ttk.StringVar()
-            self.theme_combobox = ttk.Combobox(self, textvariable=self.theme_var, values=self.THEMES)
-            self.theme_combobox.pack(pady=5)
-            self.theme_combobox.set('superhero')
-        
-            # Add binding for immediate theme change
-            self.theme_combobox.bind('<<ComboboxSelected>>', self.on_theme_change)
-
             # API Key Widgets
-            label_api = ttk.Label(self, text='OpenAI API Key:', bootstyle="secondary")
+            label_api = ttk.Label(self, text='OpenAI API Key:', bootstyle="info")
             label_api.pack(pady=10)
             self.api_key_entry = ttk.Entry(self, width=30)
             self.api_key_entry.pack()
 
             # Label for Browser Choice
-            label_browser = ttk.Label(self, text='Choose Default Browser:', bootstyle="secondary")
+            label_browser = ttk.Label(self, text='Choose Default Browser:', bootstyle="info")
             label_browser.pack(pady=10)
 
             # Dropdown for Browser Choice
@@ -159,12 +145,12 @@ class UI:
             self.browser_combobox.set('Choose Browser')
 
             # Label for Custom LLM Instructions
-            label_llm = ttk.Label(self, text='Custom LLM Instructions:', bootstyle="secondary")
+            label_llm = ttk.Label(self, text='Custom LLM Instructions:', bootstyle="info")
             label_llm.pack(pady=10)
 
             # Text Box for Custom LLM Instructions
-            self.llm_instructions_text = ttk.Text(self, height=5, width=40)
-            self.llm_instructions_text.pack(pady=5)
+            self.llm_instructions_text = ttk.Text(self, height=10, width=50)
+            self.llm_instructions_text.pack(padx=(10, 10), pady=(0, 10))
 
             # Checkbox for "Play Ding" option
             self.play_ding = ttk.IntVar()
@@ -172,9 +158,20 @@ class UI:
                                                  bootstyle="round-toggle")
             play_ding_checkbox.pack(pady=10)
 
+            # Theme Selection Widgets
+            label_theme = ttk.Label(self, text='UI Theme:', bootstyle="info")
+            label_theme.pack()
+            self.theme_var = ttk.StringVar()
+            self.theme_combobox = ttk.Combobox(self, textvariable=self.theme_var, values=self.available_themes,
+                                               state="readonly")
+            self.theme_combobox.pack(pady=5)
+            self.theme_combobox.set('superhero')
+            # Add binding for immediate theme change
+            self.theme_combobox.bind('<<ComboboxSelected>>', self.on_theme_change)
+
             # Save Button
             save_button = ttk.Button(self, text='Save Settings', bootstyle="success", command=self.save_button)
-            save_button.pack(pady=(10, 0))
+            save_button.pack(pady=(10, 5))
 
             # Button to open Advanced Settings
             advanced_settings_button = ttk.Button(self, text='Advanced Settings', bootstyle="info",
@@ -182,13 +179,13 @@ class UI:
             advanced_settings_button.pack(pady=(0, 10))
 
             # Hyperlink Label
-            link_label = ttk.Label(self, text='Instructions', bootstyle="secondary")
+            link_label = ttk.Label(self, text='Instructions', bootstyle="primary")
             link_label.pack()
             link_label.bind('<Button-1>', lambda e: open_link(
                 'https://github.com/AmberSahdev/Open-Interface?tab=readme-ov-file#setup-%EF%B8%8F'))
 
             # Check for updates Label
-            update_label = ttk.Label(self, text='Check for Updates', bootstyle="secondary")
+            update_label = ttk.Label(self, text='Check for Updates', bootstyle="primary")
             update_label.pack()
             update_label.bind('<Button-1>', lambda e: open_link(
                 'https://github.com/AmberSahdev/Open-Interface/releases/latest'))
@@ -229,23 +226,20 @@ class UI:
         def __init__(self):
             settings = Settings()
             settings_dict = settings.get_dict()
-            theme = settings_dict.get('theme', 'superhero')  # Default to 'superhero' if not set
+            theme = settings_dict.get('theme', 'superhero')
 
             super().__init__(themename=theme)
             self.title('Open Interface')
-            self.minsize(420, 250)
-
-            # Calculate position for bottom right corner
-            screen_width = self.winfo_screenwidth()
-            screen_height = self.winfo_screenheight()
             window_width = 420
             window_height = 250
-            x_position = screen_width - window_width - 10  # 10px margin from the right edge
-            y_position = 50  # 50px margin from the bottom edge
+            self.minsize(window_width, window_height)
 
             # Set the geometry of the window
+            # Calculate position for bottom right corner
+            screen_width = self.winfo_screenwidth()
+            x_position = screen_width - window_width - 10  # 10px margin from the right edge
+            y_position = 50  # 50px margin from the bottom edge
             self.geometry(f'{window_width}x{window_height}+{x_position}+{y_position}')
-
 
             # PhotoImage object needs to persist as long as the app does, hence it's a class object.
             path_to_icon_png = Path(__file__).resolve().parent.joinpath('resources', 'icon.png')
