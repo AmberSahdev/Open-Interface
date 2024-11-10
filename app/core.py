@@ -23,7 +23,9 @@ class Core:
         except OpenAIError as e:
             self.status_queue.put(f'Set your OpenAPI API Key in Settings and Restart the App. Error: {e}')
         except Exception as e:
-            self.status_queue.put(f'An error occurred during startup. Please fix and restart the app. Error: {e}')
+            self.status_queue.put(f'An error occurred during startup. Please fix and restart the app.\n'
+                                  f'Error likely in file {Settings().settings_file_path}.\n'
+                                  f'Error: {e}')
 
     def execute_user_request(self, user_request: str) -> None:
         self.stop_previous_request()
