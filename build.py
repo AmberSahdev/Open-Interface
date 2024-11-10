@@ -97,6 +97,7 @@ def compile(signing_key=None):
         '--hidden-import=pyautogui',
         '--hidden-import=appdirs',
         '--hidden-import=pyparsing',
+        '--hidden-import=ttkbootstrap',
         # NOTE: speech_recognition is the name of the directory that this package is in within ../site-packages/,
         # whereas the pypi name is SpeechRecognition (pip install SpeechRecognition).
         # This was hard to pin down and took a long time to debug.
