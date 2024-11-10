@@ -129,7 +129,6 @@ class UI:
         def create_widgets(self) -> None:
             # Customize the style for Combobox to make it larger
             style = ttk.Style()
-            style.configure("TCombobox", padding=50, font=('Helvetica', 20))  # Adjust padding and font size as needed
 
             # Theme Selection Widgets
             label_theme = ttk.Label(self, text='Choose Theme:', bootstyle="secondary")
