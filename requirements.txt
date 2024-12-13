@@ -22,9 +22,9 @@ PyGetWindow==0.0.9
 pyinstaller==6.11.0
 pyinstaller-hooks-contrib==2024.9
 PyMsgBox==1.0.9
-pyobjc-core==10.1
-pyobjc-framework-Cocoa==10.1
-pyobjc-framework-Quartz==10.1
+pyobjc-core==10.1; sys_platform == 'darwin'
+pyobjc-framework-Cocoa==10.1; sys_platform == 'darwin'
+pyobjc-framework-Quartz==10.1; sys_platform == 'darwin'
 pyperclip==1.8.2
 PyRect==0.2.0
 PyScreeze==0.1.30
