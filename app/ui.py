@@ -228,7 +228,11 @@ class UI:
             settings_dict = settings.get_dict()
             theme = settings_dict.get('theme', 'superhero')
 
-            super().__init__(themename=theme)
+            try:
+                super().__init__(themename=theme)
+            except:
+                super().__init__()  # https://github.com/AmberSahdev/Open-Interface/issues/35  
+            
             self.title('Open Interface')
             window_width = 420
             window_height = 250
