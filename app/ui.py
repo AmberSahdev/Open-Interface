@@ -60,14 +60,15 @@ class UI:
             radio_frame.pack(padx=20, pady=10)  # Add padding around the frame
 
             models = [
-                ('GPT-4v (Most Accurate, Slowest)', 'gpt-4-vision-preview'),
-                ('GPT-4o (Medium Accurate, Medium Fast)', 'gpt-4o'),
-                ('GPT-4-Turbo (Least Accurate, Fastest)', 'gpt-4-turbo'),
+                ('GPT-4o (Default. Medium-Accurate, Medium-Fast)', 'gpt-4o'),
+                ('GPT-4o-mini (Cheapest, Fastest)', 'gpt-4o-mini'),
+                ('GPT-4v (Deprecated. Most-Accurate, Slowest)', 'gpt-4-vision-preview'),
+                ('GPT-4-Turbo (Least Accurate, Fast)', 'gpt-4-turbo'),
                 ('Custom (Specify Settings Below)', 'custom')
             ]
             for text, value in models:
                 ttk.Radiobutton(radio_frame, text=text, value=value, variable=self.model_var, bootstyle="info").pack(
-                    anchor=ttk.W)
+                    anchor=ttk.W, pady=5)
 
             label_base_url = ttk.Label(self, text='Custom OpenAI-Like API Model Base URL', bootstyle="secondary")
             label_base_url.pack(pady=10)
@@ -179,7 +180,7 @@ class UI:
             advanced_settings_button.pack(pady=(0, 10))
 
             # Hyperlink Label
-            link_label = ttk.Label(self, text='Instructions', bootstyle="primary")
+            link_label = ttk.Label(self, text='Setup Instructions', bootstyle="primary")
             link_label.pack()
             link_label.bind('<Button-1>', lambda e: open_link(
                 'https://github.com/AmberSahdev/Open-Interface?tab=readme-ov-file#setup-%EF%B8%8F'))

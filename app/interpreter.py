@@ -1,3 +1,4 @@
+import json
 from multiprocessing import Queue
 from time import sleep
 from typing import Any
@@ -39,7 +40,12 @@ class Interpreter:
             self.execute_function(function_name, parameters)
             return True
         except Exception as e:
-            print(f'We are having a problem executing this - {e}')
+            print(f'We are having a problem executing this step - {type(e)} - {e}')
+            print(f'This was the json we received from the LLM: {json.dumps(json_command, indent=2)}')
+            print(f'This is what we extracted:')
+            print(f'\t function_name:{function_name}')
+            print(f'\t parameters:{parameters}')
+
             return False
 
     def execute_function(self, function_name: str, parameters: dict[str, Any]) -> None:
@@ -67,11 +73,11 @@ class Interpreter:
                 # 'press' can take a list of keys or a single key
                 keys_to_press = parameters.get('keys') or parameters.get('key')
                 presses = parameters.get('presses', 1)
-                interval = parameters.get('interval', 0.1)
+                interval = parameters.get('interval', 0.2)
                 function_to_call(keys_to_press, presses=presses, interval=interval)
             elif function_name == 'hotkey':
                 # 'hotkey' function expects multiple key arguments, not a list
-                function_to_call(*parameters['keys'])
+                function_to_call(list(parameters.values()))
             else:
                 # For other functions, pass the parameters as they are
                 function_to_call(**parameters)

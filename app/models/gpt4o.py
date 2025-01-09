@@ -18,8 +18,8 @@ class GPT4o(Model):
         self.assistant = self.client.beta.assistants.create(
             name='Open Interface Backend',
             instructions=self.context,
+            model=model_name,
             # tools=[],
-            model='gpt-4o',
         )
 
         self.thread = self.client.beta.threads.create()
