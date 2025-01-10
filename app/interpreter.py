@@ -40,7 +40,7 @@ class Interpreter:
             self.execute_function(function_name, parameters)
             return True
         except Exception as e:
-            print(f'We are having a problem executing this step - {type(e)} - {e}')
+            print(f'\nError:\nWe are having a problem executing this step - {type(e)} - {e}')
             print(f'This was the json we received from the LLM: {json.dumps(json_command, indent=2)}')
             print(f'This is what we extracted:')
             print(f'\t function_name:{function_name}')

@@ -235,8 +235,8 @@ class UI:
                 super().__init__()  # https://github.com/AmberSahdev/Open-Interface/issues/35  
             
             self.title('Open Interface')
-            window_width = 420
-            window_height = 250
+            window_width = 460
+            window_height = 270
             self.minsize(window_width, window_height)
 
             # Set the geometry of the window
@@ -279,7 +279,7 @@ class UI:
             heading_label.grid(column=0, row=1, columnspan=3, sticky=ttk.W)
 
             # Entry widget
-            self.entry = ttk.Entry(frame, width=30)
+            self.entry = ttk.Entry(frame, width=35)
             self.entry.grid(column=0, row=2, sticky=(ttk.W, ttk.E))
 
             # Bind the Enter key to the submit function
