@@ -36,7 +36,7 @@ https://github.com/AmberSahdev/Open-Interface/assets/23853621/424f61ad-5ee6-425f
 ## Images:
 
 UI and Custom LLM Models:
-![Open Interface UI - Custom Models](assets/ui_0_6.png)
+![Open Interface UI - Custom Models](assets/ui0.8.0.png)
 
 Making a Web App:
 ![code_web_app_image.png](assets/code_web_app_image.png)
