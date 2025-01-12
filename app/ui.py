@@ -145,8 +145,8 @@ class UI:
             self.browser_combobox.pack(pady=5)
             self.browser_combobox.set('Choose Browser')
 
-            # Label for Custom LLM Instructions
-            label_llm = ttk.Label(self, text='Custom LLM Instructions:', bootstyle="info")
+            # Label for Custom LLM Guidance
+            label_llm = ttk.Label(self, text='Custom LLM Guidance:', bootstyle="info")
             label_llm.pack(pady=10)
 
             # Text Box for Custom LLM Instructions
