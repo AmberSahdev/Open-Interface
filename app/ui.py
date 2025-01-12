@@ -3,7 +3,7 @@ import webbrowser
 from multiprocessing import Queue
 from pathlib import Path
 
-import speech_recognition as sr
+# import speech_recognition as sr
 import ttkbootstrap as ttk
 from PIL import Image, ImageTk
 
@@ -233,9 +233,9 @@ class UI:
                 super().__init__(themename=theme)
             except:
                 super().__init__()  # https://github.com/AmberSahdev/Open-Interface/issues/35  
-            
+
             self.title('Open Interface')
-            window_width = 460
+            window_width = 450
             window_height = 270
             self.minsize(window_width, window_height)
 
@@ -248,9 +248,9 @@ class UI:
 
             # PhotoImage object needs to persist as long as the app does, hence it's a class object.
             path_to_icon_png = Path(__file__).resolve().parent.joinpath('resources', 'icon.png')
-            path_to_microphone_png = Path(__file__).resolve().parent.joinpath('resources', 'microphone.png')
+            # path_to_microphone_png = Path(__file__).resolve().parent.joinpath('resources', 'microphone.png')
             self.logo_img = ImageTk.PhotoImage(Image.open(path_to_icon_png).resize((50, 50)))
-            self.mic_icon = ImageTk.PhotoImage(Image.open(path_to_microphone_png).resize((18, 18)))
+            # self.mic_icon = ImageTk.PhotoImage(Image.open(path_to_microphone_png).resize((18, 18)))
 
             # This adds app icon in linux which pyinstaller can't
             self.tk.call('wm', 'iconphoto', self._w, self.logo_img)
@@ -279,20 +279,20 @@ class UI:
             heading_label.grid(column=0, row=1, columnspan=3, sticky=ttk.W)
 
             # Entry widget
-            self.entry = ttk.Entry(frame, width=35)
+            self.entry = ttk.Entry(frame, width=38)
             self.entry.grid(column=0, row=2, sticky=(ttk.W, ttk.E))
 
             # Bind the Enter key to the submit function
             self.entry.bind("<Return>", lambda event: self.execute_user_request())
             self.entry.bind("<KP_Enter>", lambda event: self.execute_user_request())
 
+            # Mic Button
+            # mic_button = ttk.Button(frame, image=self.mic_icon, bootstyle="link", command=self.start_voice_input_thread)
+            # mic_button.grid(column=1, row=2, padx=(0, 5))
+
             # Submit Button
             button = ttk.Button(frame, text='Submit', bootstyle="success", command=self.execute_user_request)
-            button.grid(column=2, row=2)
-
-            # Mic Button
-            mic_button = ttk.Button(frame, image=self.mic_icon, bootstyle="link", command=self.start_voice_input_thread)
-            mic_button.grid(column=1, row=2, padx=(0, 5))
+            button.grid(column=2, row=2, padx=10)
 
             # Settings Button
             settings_button = ttk.Button(self, text='Settings', bootstyle="info-outline", command=self.open_settings)
@@ -344,6 +344,9 @@ class UI:
 
         def voice_input(self) -> None:
             # Function to handle voice input
+            # Currently commented out because the speech_recognition library doesn't compile well on MacOS.
+            # TODO: Replace with an alternative library
+            """
             recognizer = sr.Recognizer()
             with sr.Microphone() as source:
                 self.update_message('Listening...')
@@ -362,6 +365,7 @@ class UI:
                         self.update_message(f'Could not request results - {e}')
                 except sr.WaitTimeoutError:
                     self.update_message('Didn\'t hear anything')
+            """
 
         def update_message(self, message: str) -> None:
             # Update the message display with the provided text.

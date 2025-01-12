@@ -98,10 +98,12 @@ def compile(signing_key=None):
         '--hidden-import=appdirs',
         '--hidden-import=pyparsing',
         '--hidden-import=ttkbootstrap',
+        '--hidden-import=openai',
+
         # NOTE: speech_recognition is the name of the directory that this package is in within ../site-packages/,
         # whereas the pypi name is SpeechRecognition (pip install SpeechRecognition).
         # This was hard to pin down and took a long time to debug.
-        '--hidden-import=speech_recognition',
+        # '--hidden-import=speech_recognition',
 
         # Static files and resources --add-data=src:dest
         # - File reads change accordingly - https://pyinstaller.org/en/stable/runtime-information.html#placing-data-files-at-expected-locations-inside-the-bundle
@@ -121,15 +123,12 @@ def compile(signing_key=None):
             pyinstaller_options.extend([
                 f'--codesign-identity={signing_key}'
             ])
-
             # Apple Notarization has a problem because this binary used in speech_recognition is signed with too old an SDK
-            from PyInstaller.utils.osx import set_macos_sdk_version
-            set_macos_sdk_version('env/lib/python3.12/site-packages/speech_recognition/flac-mac', 10, 9, 0) # NOTE: Change the path according to where your binary is located
-
+            # from PyInstaller.utils.osx import set_macos_sdk_version
+            # set_macos_sdk_version('env/lib/python3.12/site-packages/speech_recognition/flac-mac', 10, 9, 0) # NOTE: Change the path according to where your binary is located
     elif platform.system() == 'Linux':
         pyinstaller_options.extend([
             '--hidden-import=PIL._tkinter_finder',
-            '--hidden-import=openai',
             '--onefile'
         ])
     elif platform.system() == 'Windows':
