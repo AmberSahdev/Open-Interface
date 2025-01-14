@@ -2,11 +2,12 @@ from moviepy.editor import VideoFileClip, concatenate_videoclips, vfx
 import os
 
 # Load the video
-video_name = "meal_plan_demo"
+# NOTE: If the video is too big you might have to trim it yourself first
+video_name = "wordle_demo"
 video = VideoFileClip(video_name + ".mov")
 
 # Define the segments to remove (in seconds) as tuples (start, end)
-segments_to_remove = [(7, 25), (55, 74), (99, int(video.duration))]
+segments_to_remove = [(4, 20), (30, 40), (55, 80), (87, 97)]
 
 # Create a list to hold the subclips
 subclips = []
