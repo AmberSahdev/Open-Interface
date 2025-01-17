@@ -4,7 +4,7 @@
 	<img src="assets/icon.png" align="right" alt="Open Interface Logo" width="120" height="120">
 </picture>
 
-### Full Autopilot for All Computers Using LLMs
+### Control Your Computer Using LLMs
 
 Open Interface
 - Self-drives your computer by sending your requests to an LLM backend (GPT-4o, etc) to figure out the required steps.
@@ -13,7 +13,7 @@ Open Interface
 
 
 <div align="center">
-<h4>Self-Driving Software for Your Computer</h4>
+<h4>Full Autopilot for All Computers Using LLMs</h4>
 
   [![macOS](https://img.shields.io/badge/mac%20os-000000?style=for-the-badge&logo=apple&logoColor=white)](https://github.com/AmberSahdev/Open-Interface?tab=readme-ov-file#install)
   [![Linux](https://img.shields.io/badge/Linux-FCC624?style=for-the-badge&logo=linux&logoColor=black)](https://github.com/AmberSahdev/Open-Interface?tab=readme-ov-file#install)
@@ -25,16 +25,25 @@ Open Interface
   ![GitHub](https://img.shields.io/github/license/AmberSahdev/Open-Interface) 
   [![GitHub Latest Release)](https://img.shields.io/github/v/release/AmberSahdev/Open-Interface)](https://github.com/AmberSahdev/Open-Interface/releases/latest)
 
-<h4>Control Any Computer Using LLMs</h4>
-
 </div>
 
 ### <ins>Demo</ins> 💻
-["Make me a meal plan in Google Docs"]<br>
-![Make Meal Plan Demo](assets/meal_plan_demo_2x.gif)<br>
-[More Demos](https://github.com/AmberSahdev/Open-Interface/blob/main/MEDIA.md#demos)
+"Solve Today's Wordle"<br>
+![Solve Today's Wordle](assets/wordle_demo_2x.gif)<br>
 
-
+<details>
+    <summary><a href="https://github.com/AmberSahdev/Open-Interface/blob/main/MEDIA.md#demos">More Demos</a></summary>
+    <ul>
+	    <li>
+		    "Make me a meal plan in Google Docs"
+		    <img src="assets/meal_plan_demo_2x.gif" style="margin: 5px; border-radius: 10px;">
+	    </li>
+	    <li>
+		    "Write a Web App"
+		    <img src="assets/code_web_app_demo_2x.gif" style="margin: 5px; border-radius: 10px;">
+	    </li>
+    </ul>
+</details>
 
 <hr>
 
@@ -120,8 +129,8 @@ Open Interface
     <summary><b>Set up the OpenAI API key</b></summary>
 
 - Get your OpenAI API key
-  - Open Interface needs access to GPT-4V to perform user requests. GPT-4V keys can be downloaded from your [OpenAI account](https://platform.openai.com/).
-  - [Follow the steps here](https://help.openai.com/en/articles/8264644-what-is-prepaid-billing) to add balance to your OpenAI account. To unlock GPT-4V a minimum payment of $5 is needed.
+  - Open Interface needs access to GPT-4o to perform user requests. GPT-4o keys can be downloaded from your OpenAI account at [platform.openai.com/settings/organization/api-keys](https://platform.openai.com/settings/organization/api-keys).
+  - [Follow the steps here](https://help.openai.com/en/articles/8264644-what-is-prepaid-billing) to add balance to your OpenAI account. To unlock GPT-4o a minimum payment of $5 is needed.
   - [More info](https://help.openai.com/en/articles/7102672-how-can-i-access-gpt-4)
 - Save the API key in Open Interface settings
   - In Open Interface, go to the Settings menu on the top right and enter the key you received from OpenAI into the text field like so: <br>
@@ -131,7 +140,7 @@ Open Interface
   </picture><br>
   <br>
 
-- After setting the API key for the first time you'll need to restart the app.
+- After setting the API key for the first time you'll need to <b>restart the app</b>.
 
 </details>
 
