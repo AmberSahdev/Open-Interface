@@ -226,9 +226,6 @@ Open Interface
 
 
 <div align="center">
-	<a href="https://www.producthunt.com/posts/open-interface-2?embed=true&utm_source=badge-featured&utm_medium=badge&utm_souce=badge-open&#0045;interface&#0045;2" target="_blank"><img src="https://api.producthunt.com/widgets/embed-image/v1/featured.svg?post_id=790479&theme=light&t=1737074650306" alt="Open&#0032;Interface - Control&#0032;Your&#0032;Computer&#0032;Using&#0032;LLMs | Product Hunt" style="width: 250px; height: 54px;" width="250" height="54" /></a>
-	<br>
 	<img alt="GitHub Repo stars" src="https://img.shields.io/github/stars/AmberSahdev/Open-Interface">
-	<!-- <br>
-	<img alt="GitHub followers" src="https://img.shields.io/github/followers/AmberSahdev?style=flat-square">-->
+	<a href="https://github.com/AmberSahdev"> <img alt="GitHub followers" src="https://img.shields.io/github/followers/AmberSahdev"> </a>
 </div>
