@@ -30,6 +30,7 @@ Open Interface
 ### <ins>Demo</ins> 💻
 "Solve Today's Wordle"<br>
 ![Solve Today's Wordle](assets/wordle_demo_2x.gif)<br>
+*clipped, 2x*
 
 <details>
     <summary><a href="https://github.com/AmberSahdev/Open-Interface/blob/main/MEDIA.md#demos">More Demos</a></summary>
@@ -130,6 +131,7 @@ Open Interface
       <li>Enter the directory <code>cd Open-Interface</code></li>
       <li><b>Optionally</b> use a Python virtual environment 
         <ul>
+          <li>Note: pyenv handles tkinter installation weirdly so you may have to debug for your own system yourself.</li>
           <li><code>pyenv local 3.12.2</code></li>
           <li><code>python -m venv .venv</code></li> 
           <li><code>source .venv/bin/activate</code></li>
