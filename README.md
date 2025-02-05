@@ -123,6 +123,22 @@ Open Interface
     </ul>
 </details>
 
+<details>
+    <summary><img src="https://upload.wikimedia.org/wikipedia/commons/thumb/c/c3/Python-logo-notext.svg/1869px-Python-logo-notext.svg.png" alt="Python Logo" width="15" height="15"> <b>Run as a Script</b></summary>
+    <ul>
+	  <li>Clone the repo <code>git clone https://github.com/AmberSahdev/Open-Interface.git</code></li>
+      <li>Enter the directory <code>cd Open-Interface</code></li>
+      <li><b>Optionally</b> use a Python virtual environment 
+        <ul>
+          <li><code>pyenv local 3.12.2</code></li>
+          <li><code>python -m venv .venv</code></li> 
+          <li><code>source .venv/bin/activate</code></li>
+        </ul>
+      </li>
+      <li>Install dependencies <code>pip install -r requirements.txt</code></li>
+      <li>Run the app using <code>python app/app.py</code></li>
+    </ul>
+</details>
 
 ### <ins id="setup">Setup</ins> 🛠️
 <details>
