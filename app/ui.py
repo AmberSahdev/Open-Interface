@@ -317,6 +317,9 @@ class UI:
             # Interrupt currently running request by queueing a stop signal.
             self.user_request_queue.put('stop')
 
+            # force quit program
+            self.destroy()
+
         def display_input(self) -> str:
             # Get the entry and update the input display
             user_input = self.entry.get()
