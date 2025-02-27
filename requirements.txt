@@ -38,3 +38,4 @@ tqdm==4.66.4
 ttkbootstrap==1.10.1
 typing_extensions==4.9.0
 urllib3==2.2.2
+google-genai==1.4.0

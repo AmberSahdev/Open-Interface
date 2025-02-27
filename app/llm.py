@@ -59,16 +59,13 @@ class LLM:
         self.model = ModelFactory.create_model(self.model_name, base_url, api_key, context)
 
     def get_settings_values(self) -> tuple[str, str, str]:
-        model_name = self.settings_dict.get('model')
-        if not model_name:
-            model_name = DEFAULT_MODEL_NAME
-
-        base_url = self.settings_dict.get('base_url', '')
-        if not base_url:
-            base_url = 'https://api.openai.com/v1/'
-        base_url = base_url.rstrip('/') + '/'
-
+        model_name = self.settings_dict.get('model') or DEFAULT_MODEL_NAME
+        base_url = (self.settings_dict.get('base_url') or 'https://api.openai.com/v1/').rstrip('/') + '/'
         api_key = self.settings_dict.get('api_key')
+
+        if model_name.startswith('gemini'):
+            api_key = self.settings_dict.get('gemini_api_key')
+            model_name = self.settings_dict.get('gemini_model') or 'gemini-2.0-flash'
 
         return model_name, base_url, api_key
 
