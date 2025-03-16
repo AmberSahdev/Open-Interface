@@ -63,10 +63,6 @@ class LLM:
         base_url = (self.settings_dict.get('base_url') or 'https://api.openai.com/v1/').rstrip('/') + '/'
         api_key = self.settings_dict.get('api_key')
 
-        if model_name.startswith('gemini'):
-            api_key = self.settings_dict.get('gemini_api_key')
-            model_name = self.settings_dict.get('gemini_model') or 'gemini-2.0-flash'
-
         return model_name, base_url, api_key
 
     def read_context_txt_file(self) -> str:

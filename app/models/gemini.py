@@ -1,4 +1,5 @@
 import json
+import os
 from typing import Any
 
 from google import genai
@@ -12,6 +13,9 @@ class Gemini:
         self.api_key = api_key
         self.context = context
         self.client = genai.Client(api_key=api_key)
+
+        if api_key:
+            os.environ['GEMINI_API_KEY'] = api_key
 
     def get_instructions_for_objective(self, original_user_request: str, step_num: int = 0) -> dict[str, Any]:
         safety_settings = [
@@ -47,7 +51,6 @@ class Gemini:
         return message_content
 
     def convert_llm_response_to_json_instructions(self, llm_response) -> dict[str, Any]:
-
         llm_response_data = llm_response.text.strip()
 
         start_index = llm_response_data.find("{")

@@ -1,3 +1,3 @@
 from packaging.version import Version
 
-version = Version('0.8.0')
+version = Version('0.9.0')
