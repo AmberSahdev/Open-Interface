@@ -31,24 +31,40 @@ class UI:
         Self-contained settings sub-window for the UI
         """
 
+        _instance = None
         def __init__(self, parent):
+            if UI.AdvancedSettingsWindow._instance:
+                return
             super().__init__(parent)
+            UI.AdvancedSettingsWindow._instance = self
             self.title('Advanced Settings')
             self.minsize(300, 300)
             self.settings = Settings()
             self.create_widgets()
+            self.protocol("WM_DELETE_WINDOW", self.on_close)
 
             # Populate UI
             settings_dict = self.settings.get_dict()
 
             if 'base_url' in settings_dict:
                 self.base_url_entry.insert(0, settings_dict['base_url'])
-            if 'model' in settings_dict:
-                self.model_entry.insert(0, settings_dict['model'])
-                self.model_var.set(settings_dict.get('model', 'custom'))
+            if 'selected_model_radio' in settings_dict:
+                self.model_var.set(settings_dict['selected_model_radio'])
+            elif 'model' in settings_dict:
+                loaded_model = settings_dict['model']
+                if loaded_model in self.gemini_models:
+                    self.model_var.set('gemini')
+                else:
+                    self.model_var.set('custom')
+                    self.model_entry.insert(0, loaded_model)
             else:
-                self.model_entry.insert(0, DEFAULT_MODEL_NAME)
                 self.model_var.set(DEFAULT_MODEL_NAME)
+
+            self.update_ui_visibility()
+            
+        def on_close(self):
+            UI.AdvancedSettingsWindow._instance = None
+            self.destroy()
 
         def create_widgets(self) -> None:
             # Radio buttons for model selection
@@ -64,53 +80,111 @@ class UI:
                 ('GPT-4o-mini (Cheapest, Fastest)', 'gpt-4o-mini'),
                 ('GPT-4v (Deprecated. Most-Accurate, Slowest)', 'gpt-4-vision-preview'),
                 ('GPT-4-Turbo (Least Accurate, Fast)', 'gpt-4-turbo'),
+                ('Gemini (Free, Fast)', 'gemini'),
                 ('Custom (Specify Settings Below)', 'custom')
             ]
             for text, value in models:
-                ttk.Radiobutton(radio_frame, text=text, value=value, variable=self.model_var, bootstyle="info").pack(
-                    anchor=ttk.W, pady=5)
+                radio_button = ttk.Radiobutton(radio_frame, text=text, value=value, variable=self.model_var, bootstyle="info")
+                radio_button.pack(anchor=ttk.W, pady=5)
+                radio_button.config(command=self.update_ui_visibility)
+            
+            # Gemini Model Selection
+            self.gemini_model_label = ttk.Label(self, text='Select or Type Gemini Model:', bootstyle="primary")
+            self.gemini_model_var = ttk.StringVar(value='gemini-2.0-flash')
 
-            label_base_url = ttk.Label(self, text='Custom OpenAI-Like API Model Base URL', bootstyle="secondary")
-            label_base_url.pack(pady=10)
+            self.gemini_model_frame = ttk.Frame(self)
+
+            self.gemini_models = [
+                'gemini-2.0-flash',
+                'gemini-2.0-flash-lite',
+                'gemini-2.0-flash-thinking-exp',
+                'gemini-2.0-pro-exp-02-05'
+            ]
+            self.gemini_model_combobox = ttk.Combobox(self.gemini_model_frame, textvariable=self.gemini_model_var, values=self.gemini_models, width=30)
+            self.gemini_model_combobox.pack(pady=5)
+            self.gemini_model_combobox.set('gemini-2.0-flash')
+
+            # Custom Base URL
+            self.custom_frame = ttk.Frame(self)
+            
+            self.label_base_url = ttk.Label(self.custom_frame, text='Custom OpenAI-Like API Model Base URL', bootstyle="secondary")
+            self.label_base_url.pack(pady=10)
 
             # Entry for Base URL
-            self.base_url_entry = ttk.Entry(self, width=30)
+            self.base_url_entry = ttk.Entry(self.custom_frame, width=30)
             self.base_url_entry.pack()
 
             # Model Label
-            label_model = ttk.Label(self, text='Custom Model Name:', bootstyle="secondary")
-            label_model.pack(pady=10)
+            self.label_model = ttk.Label(self.custom_frame, text='Custom Model Name:', bootstyle="secondary")
+            self.label_model.pack(pady=10)
 
             # Entry for Model
-            self.model_entry = ttk.Entry(self, width=30)
+            self.model_entry = ttk.Entry(self.custom_frame, width=30)
             self.model_entry.pack()
 
             # Save Button
             save_button = ttk.Button(self, text='Save Settings', bootstyle="success", command=self.save_button)
             save_button.pack(pady=20)
 
+        def update_ui_visibility(self):
+            """Update the visibility of UI elements based on model selection"""
+            model_choice = self.model_var.get()
+            
+            # First hide all optional frames
+            self.gemini_model_label.pack_forget()
+            self.gemini_model_frame.pack_forget()
+            self.custom_frame.pack_forget()
+            
+            # Then show only the relevant ones
+            if model_choice == 'gemini':
+                self.gemini_model_label.pack(pady=10, padx=10)
+                self.gemini_model_frame.pack(padx=20, pady=10)
+                if 'gemini_model' in self.settings.get_dict():
+                    self.gemini_model_combobox.set(self.settings.get_dict()['gemini_model'])
+            
+            if model_choice == 'custom':
+                self.custom_frame.pack(padx=20, pady=10)
+                previous_model = self.settings.get_dict().get('model', DEFAULT_MODEL_NAME)
+                if previous_model not in self.gemini_models:
+                    self.model_entry.delete(0, ttk.END)  
+                    self.model_entry.insert(0, previous_model)
+
         def save_button(self) -> None:
             base_url = self.base_url_entry.get().strip()
-            model = self.model_var.get() if self.model_var.get() != 'custom' else self.model_entry.get().strip()
+            model = self.model_var.get()
+            
+            if model == 'custom':
+                model = self.model_entry.get().strip()
+            elif model == 'gemini':
+                model = self.gemini_model_var.get().strip()
+            
             settings_dict = {
                 'base_url': base_url,
                 'model': model,
+                'gemini_model': self.gemini_model_var.get().strip(),
+                'selected_model_radio': self.model_var.get()
             }
 
             self.settings.save_settings_to_file(settings_dict)
             self.destroy()
+            UI.AdvancedSettingsWindow._instance = None
 
     class SettingsWindow(ttk.Toplevel):
         """
         Self-contained settings sub-window for the UI
         """
 
+        _instance = None
         def __init__(self, parent):
+            if UI.SettingsWindow._instance:
+                return
             super().__init__(parent)
+            UI.SettingsWindow._instance = self
             self.title('Settings')
             self.minsize(300, 450)
             self.available_themes = ['darkly', 'cyborg', 'journal', 'solar', 'superhero']
             self.create_widgets()
+            self.protocol("WM_DELETE_WINDOW", self.on_close)
 
             self.settings = Settings()
 
@@ -119,20 +193,31 @@ class UI:
 
             if 'api_key' in settings_dict:
                 self.api_key_entry.insert(0, settings_dict['api_key'])
+            if 'gemini_api_key' in settings_dict:
+                self.gemini_api_key_entry.insert(0, settings_dict['gemini_api_key'])
             if 'default_browser' in settings_dict:
                 self.browser_combobox.set(settings_dict['default_browser'])
             if 'play_ding_on_completion' in settings_dict:
                 self.play_ding.set(1 if settings_dict['play_ding_on_completion'] else 0)
-            if 'custom_llm_instructions':
+            if 'custom_llm_instructions' in settings_dict:
                 self.llm_instructions_text.insert('1.0', settings_dict['custom_llm_instructions'])
             self.theme_combobox.set(settings_dict.get('theme', 'superhero'))
+            
+        def on_close(self):
+            UI.SettingsWindow._instance = None
+            self.destroy()
+
+        def create_label_and_entry(self, parent, label_text):
+            ttk.Label(parent, text=label_text, bootstyle="info").pack(pady=10)
+            entry = ttk.Entry(parent, width=30)
+            entry.pack()
+            return entry
 
         def create_widgets(self) -> None:
             # API Key Widgets
-            label_api = ttk.Label(self, text='OpenAI API Key:', bootstyle="info")
-            label_api.pack(pady=10)
-            self.api_key_entry = ttk.Entry(self, width=30)
-            self.api_key_entry.pack()
+            self.api_key_entry = self.create_label_and_entry(self, 'OpenAI API Key:')
+            
+            self.gemini_api_key_entry = self.create_label_and_entry(self, 'Gemini API Key:')
 
             # Label for Browser Choice
             label_browser = ttk.Label(self, text='Choose Default Browser:', bootstyle="info")
@@ -179,21 +264,20 @@ class UI:
                                                   command=self.open_advanced_settings)
             advanced_settings_button.pack(pady=(0, 10))
 
-            # Hyperlink Label
-            link_label = ttk.Label(self, text='Setup Instructions', bootstyle="primary")
-            link_label.pack()
-            link_label.bind('<Button-1>', lambda e: open_link(
-                'https://github.com/AmberSahdev/Open-Interface?tab=readme-ov-file#setup-%EF%B8%8F'))
-
-            # Check for updates Label
-            update_label = ttk.Label(self, text='Check for Updates', bootstyle="primary")
-            update_label.pack()
-            update_label.bind('<Button-1>', lambda e: open_link(
-                'https://github.com/AmberSahdev/Open-Interface/releases/latest'))
+            # Create clickable labels
+            self.create_link_label('Setup Instructions', 
+                'https://github.com/AmberSahdev/Open-Interface?tab=readme-ov-file#setup-%EF%B8%8F')
+            self.create_link_label('Check for Updates', 
+                'https://github.com/AmberSahdev/Open-Interface/releases/latest')
 
             # Version Label
             version_label = ttk.Label(self, text=f'Version: {str(version)}', font=('Helvetica', 10))
             version_label.pack(side="bottom", pady=10)
+
+        def create_link_label(self, text, url):
+            link_label = ttk.Label(self, text=text, bootstyle="primary")
+            link_label.pack()
+            link_label.bind('<Button-1>', lambda e: open_link(url))
 
         def on_theme_change(self, event=None) -> None:
             # Apply theme immediately when selected
@@ -201,23 +285,20 @@ class UI:
             self.master.change_theme(theme)
 
         def save_button(self) -> None:
-            theme = self.theme_var.get()
-            api_key = self.api_key_entry.get().strip()
-            default_browser = self.browser_var.get()
             settings_dict = {
-                'api_key': api_key,
-                'default_browser': default_browser,
+                'api_key': self.api_key_entry.get().strip(),
+                'gemini_api_key': self.gemini_api_key_entry.get().strip(),
+                'default_browser': self.browser_var.get(),
                 'play_ding_on_completion': bool(self.play_ding.get()),
                 'custom_llm_instructions': self.llm_instructions_text.get("1.0", "end-1c").strip(),
-                'theme': theme
+                'theme': self.theme_var.get()
             }
 
-            # Remove redundant theme change since it's already applied
             self.settings.save_settings_to_file(settings_dict)
             self.destroy()
+            UI.SettingsWindow._instance = None
 
         def open_advanced_settings(self):
-            # Open the advanced settings window
             UI.AdvancedSettingsWindow(self)
 
     class MainWindow(ttk.Window):
