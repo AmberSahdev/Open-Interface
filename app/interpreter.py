@@ -77,7 +77,8 @@ class Interpreter:
                 function_to_call(keys_to_press, presses=presses, interval=interval)
             elif function_name == 'hotkey':
                 # 'hotkey' function expects multiple key arguments, not a list
-                function_to_call(list(parameters.values()))
+                keys = list(parameters.values())
+                function_to_call(*keys)
             else:
                 # For other functions, pass the parameters as they are
                 function_to_call(**parameters)
