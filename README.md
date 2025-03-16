@@ -7,7 +7,7 @@
 ### Control Your Computer Using LLMs
 
 Open Interface
-- Self-drives your computer by sending your requests to an LLM backend (GPT-4o, etc) to figure out the required steps.
+- Self-drives your computer by sending your requests to an LLM backend (GPT-4o, Gemini, etc) to figure out the required steps.
 - Automatically executes these steps by simulating keyboard and mouse input.
 - Course-corrects by sending the LLM backend updated screenshots of the progress as needed.
 
@@ -163,16 +163,28 @@ Open Interface
 </details>
 
 <details>
+    <summary><b>Set up the Google Gemini API key</b></summary>
+
+- Go to Settings -> Advanced Settings and select the Gemini model you wish to use.
+- Get your Google Gemini API key from https://aistudio.google.com/app/apikey.
+- Save the API key in Open Interface settings.
+- Save the settings and <b>restart the app</b>.
+
+</details>
+
+<details>
     <summary><b>Optional: Setup a Custom LLM</b></summary>
 
 - Open Interface supports using other OpenAI API style LLMs (such as Llava) as a backend and can be configured easily in the Advanced Settings window.
 - Enter the custom base url and model name in the Advanced Settings window and the API key in the Settings window as needed. 
-- You may need to enter a random string like "xxx" in the API key input box.
-  <br>
-  <picture>
-	<img src="assets/advanced_settings.png" align="middle" alt="Set API key in settings" width="400">
-  </picture><br>
-  <br>
+- NOTE - If you're using Llama:
+  - You may need to enter a random string like "xxx" in the API key input box.
+  - You may need to append /v1/ to the base URL.
+    <br>
+    <picture>
+      <img src="assets/advanced_settings.png" align="middle" alt="Set API key in settings" width="400">
+    </picture><br>
+    <br>
 - If your LLM does not support an OpenAI style API, you can use a library like [this](https://github.com/BerriAI/litellm) to convert it to one.
 - You will need to restart the app after these changes.
 
