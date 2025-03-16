@@ -172,6 +172,11 @@ def zip():
     return zip_name
 
 
+def setup():
+    # Update the venv with any new updates
+    os.system("pip install -r requirements.txt")
+
+
 if __name__ == '__main__':
     apple_code_signing_key = None
     if len(sys.argv) > 1:
@@ -180,4 +185,5 @@ if __name__ == '__main__':
     elif len(sys.argv) == 1 and platform.system() == 'Darwin':
         input("Are you sure you don't wanna sign your code? ")
 
+    setup()
     build(apple_code_signing_key)
