@@ -403,6 +403,7 @@ class UI:
                 print(f"Error updating message: {e}")
 
         def _update_message_on_main_thread(self, message: str) -> None:
+            # TODO: This lambda is not being executed, investigate
             print(f"inside lambda to update message 1 = message: {message}")
             self.message_display.config(text=message)
             print("inside lambda to update message 2")
