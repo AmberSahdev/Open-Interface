@@ -392,7 +392,17 @@ class UI:
         def update_message(self, message: str) -> None:
             # Update the message display with the provided text.
             # Ensure thread safety when updating the Tkinter GUI.
-            if threading.current_thread() is threading.main_thread():
-                self.message_display['text'] = message
-            else:
-                self.message_display.after(0, lambda: self.message_display.config(text=message))
+            try:
+                if threading.current_thread() is threading.main_thread():
+                    self.message_display['text'] = message
+                else:
+                    print("calling lambda 1")
+                    self.message_display.after(0, lambda: self._update_message_on_main_thread(message))
+                    print("calling lambda 2")
+            except Exception as e:
+                print(f"Error updating message: {e}")
+
+        def _update_message_on_main_thread(self, message: str) -> None:
+            print(f"inside lambda to update message 1 = message: {message}")
+            self.message_display.config(text=message)
+            print("inside lambda to update message 2")
