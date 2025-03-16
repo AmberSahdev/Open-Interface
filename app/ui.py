@@ -240,9 +240,6 @@ class UI:
             UI.AdvancedSettingsWindow(self)
 
     class MainWindow(ttk.Window):
-        def change_theme(self, theme_name: str) -> None:
-            self.style.theme_use(theme_name)
-
         def __init__(self):
             settings = Settings()
             settings_dict = settings.get_dict()
@@ -274,12 +271,22 @@ class UI:
             # This adds app icon in linux which pyinstaller can't
             self.tk.call('wm', 'iconphoto', self._w, self.logo_img)
 
+            ###
             # MP Queue to facilitate communication between UI and Core.
             # Put user requests received from UI text box into this queue which will then be dequeued in App to be sent
             # to core.
             self.user_request_queue = Queue()
 
+            # Put messages to display on the UI here so we can dequeue them in the main thread
+            self.message_display_queue = Queue()
+            # Set up periodic UI processing
+            self.after(200, self.process_message_display_queue)
+            ###
+
             self.create_widgets()
+
+        def change_theme(self, theme_name: str) -> None:
+            self.style.theme_use(theme_name)
 
         def create_widgets(self) -> None:
             # Creates and arranges the UI elements
@@ -396,14 +403,17 @@ class UI:
                 if threading.current_thread() is threading.main_thread():
                     self.message_display['text'] = message
                 else:
-                    print("calling lambda 1")
-                    self.message_display.after(0, lambda: self._update_message_on_main_thread(message))
-                    print("calling lambda 2")
+                    self.message_display_queue.put(message)
             except Exception as e:
                 print(f"Error updating message: {e}")
 
-        def _update_message_on_main_thread(self, message: str) -> None:
-            # TODO: This lambda is not being executed, investigate
-            print(f"inside lambda to update message 1 = message: {message}")
-            self.message_display.config(text=message)
-            print("inside lambda to update message 2")
+        def process_message_display_queue(self):
+            try:
+                while not self.message_display_queue.empty():
+                    message = self.message_display_queue.get_nowait()
+                    self.message_display.config(text=message)
+            except Exception as e:
+                print(f"Error processing message_display_queue: {e}")
+
+            # Call this function every 100ms
+            self.after(200, self.process_message_display_queue)

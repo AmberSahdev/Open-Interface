@@ -100,6 +100,11 @@ def compile(signing_key=None):
         '--hidden-import=ttkbootstrap',
         '--hidden-import=openai',
 
+        # pypi google_genai doesn't play nice with pyinstaller without this
+        '--hidden-import=google_genai',
+        '--hidden-import=google',
+        '--hidden-import=google.genai',
+
         # NOTE: speech_recognition is the name of the directory that this package is in within ../site-packages/,
         # whereas the pypi name is SpeechRecognition (pip install SpeechRecognition).
         # This was hard to pin down and took a long time to debug.
