@@ -64,11 +64,20 @@ class UI:
                 ('GPT-4o-mini (Cheapest, Fastest)', 'gpt-4o-mini'),
                 ('GPT-4v (Deprecated. Most-Accurate, Slowest)', 'gpt-4-vision-preview'),
                 ('GPT-4-Turbo (Least Accurate, Fast)', 'gpt-4-turbo'),
+                ('', ''),
+                ('Gemini gemini-2.0-flash (Free, Fast)', 'gemini-2.0-flash'),
+                ('Gemini gemini-2.0-flash-lite', 'gemini-2.0-flash-lite'),
+                ('Gemini gemini-2.0-flash-thinking-exp', 'gemini-2.0-flash-thinking-exp'),
+                ('Gemini gemini-2.0-pro-exp-02-05', 'gemini-2.0-pro-exp-02-05'),
+                ('', ''),
                 ('Custom (Specify Settings Below)', 'custom')
             ]
             for text, value in models:
-                ttk.Radiobutton(radio_frame, text=text, value=value, variable=self.model_var, bootstyle="info").pack(
-                    anchor=ttk.W, pady=5)
+                if text == '' and value == '':
+                    ttk.Separator(radio_frame, orient='horizontal').pack(fill='x', pady=10)
+                else:
+                    ttk.Radiobutton(radio_frame, text=text, value=value, variable=self.model_var, bootstyle="info").pack(
+                        anchor=ttk.W, pady=5)
 
             label_base_url = ttk.Label(self, text='Custom OpenAI-Like API Model Base URL', bootstyle="secondary")
             label_base_url.pack(pady=10)
@@ -88,6 +97,11 @@ class UI:
             # Save Button
             save_button = ttk.Button(self, text='Save Settings', bootstyle="success", command=self.save_button)
             save_button.pack(pady=20)
+
+            # Restart App Label
+            restart_app_label = ttk.Label(self, text='Restart the app after any change in settings',
+                                          font=('Helvetica', 10))
+            restart_app_label.pack(pady=(0, 20))
 
         def save_button(self) -> None:
             base_url = self.base_url_entry.get().strip()
@@ -129,7 +143,7 @@ class UI:
 
         def create_widgets(self) -> None:
             # API Key Widgets
-            label_api = ttk.Label(self, text='OpenAI API Key:', bootstyle="info")
+            label_api = ttk.Label(self, text='OpenAI/Gemini/LLM Model API Key:', bootstyle="info")
             label_api.pack(pady=10)
             self.api_key_entry = ttk.Entry(self, width=30)
             self.api_key_entry.pack()
@@ -170,14 +184,19 @@ class UI:
             # Add binding for immediate theme change
             self.theme_combobox.bind('<<ComboboxSelected>>', self.on_theme_change)
 
-            # Save Button
-            save_button = ttk.Button(self, text='Save Settings', bootstyle="success", command=self.save_button)
-            save_button.pack(pady=(10, 5))
-
             # Button to open Advanced Settings
             advanced_settings_button = ttk.Button(self, text='Advanced Settings', bootstyle="info",
                                                   command=self.open_advanced_settings)
-            advanced_settings_button.pack(pady=(0, 10))
+            advanced_settings_button.pack(pady=(10, 0))
+
+            # Save Button
+            save_button = ttk.Button(self, text='Save Settings', bootstyle="success", command=self.save_button)
+            save_button.pack(pady=5)
+
+            # Restart App Label
+            restart_app_label = ttk.Label(self, text='Restart the app after any change in settings',
+                                          font=('Helvetica', 10))
+            restart_app_label.pack(pady=(0, 10))
 
             # Hyperlink Label
             link_label = ttk.Label(self, text='Setup Instructions', bootstyle="primary")
