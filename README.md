@@ -106,7 +106,7 @@ Open Interface
     </ul>
 </details>
 <details>
-    <summary><img src="https://upload.wikimedia.org/wikipedia/commons/thumb/3/3c/TuxFlat.svg/640px-TuxFlat.svg.png" alt="Linux Logo" width="15" height="15"> <b>Linux</b></summary>
+    <summary><img src="https://upload.wikimedia.org/wikipedia/commons/a/af/Tux.png" alt="Linux Logo" width="15" height="15"> <b>Linux</b></summary>
     <ul>
         <li>Linux binary has been tested on Ubuntu 20.04 so far.</li>
         <li>Download the Linux zip file from the latest <a href="https://github.com/AmberSahdev/Open-Interface/releases/latest">release</a>.</li>
