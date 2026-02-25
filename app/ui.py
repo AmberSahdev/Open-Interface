@@ -60,7 +60,8 @@ class UI:
             radio_frame.pack(padx=20, pady=10)  # Add padding around the frame
 
             models = [
-                ('GPT-4o (Default. Medium-Accurate, Medium-Fast)', 'gpt-4o'),
+                ('GPT-5.2 (Default)', 'gpt-5.2'),
+                ('GPT-4o (Medium-Accurate, Medium-Fast)', 'gpt-4o'),
                 ('GPT-4o-mini (Cheapest, Fastest)', 'gpt-4o-mini'),
                 ('GPT-4v (Deprecated. Most-Accurate, Slowest)', 'gpt-4-vision-preview'),
                 ('GPT-4-Turbo (Least Accurate, Fast)', 'gpt-4-turbo'),

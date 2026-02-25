@@ -54,6 +54,10 @@ class Interpreter:
             1. time.sleep() - to wait for web pages, applications, and other things to load.
             2. pyautogui calls to interact with system's mouse and keyboard.
         """
+        # Strip to bare name to normalize
+        if function_name.startswith('pyautogui.'):
+            function_name = function_name.split('.')[-1]
+
         # Sometimes pyautogui needs warming up i.e. sometimes first call isn't executed hence padding a random call here
         pyautogui.press("command", interval=0.2)
 
@@ -64,9 +68,9 @@ class Interpreter:
             function_to_call = getattr(pyautogui, function_name)
 
             # Special handling for the 'write' function
-            if function_name == 'write' and ('string' in parameters or 'text' in parameters):
+            if function_name == 'write' and ('string' in parameters or 'text' in parameters or 'message' in parameters):
                 # 'write' function expects a string, not a 'text' keyword argument but LLM sometimes gets confused on the parameter name.
-                string_to_write = parameters.get('string') or parameters.get('text')
+                string_to_write = parameters.get('string') or parameters.get('text') or parameters.get('message')
                 interval = parameters.get('interval', 0.1)
                 function_to_call(string_to_write, interval=interval)
             elif function_name == 'press' and ('keys' in parameters or 'key' in parameters):
@@ -77,8 +81,14 @@ class Interpreter:
                 function_to_call(keys_to_press, presses=presses, interval=interval)
             elif function_name == 'hotkey':
                 # 'hotkey' function expects multiple key arguments, not a list
-                keys = list(parameters.values())
-                function_to_call(*keys)
+                keys_to_press = parameters.get('keys') or parameters.get('key')
+                if isinstance(keys_to_press, list):
+                    function_to_call(*keys_to_press)
+                elif isinstance(keys_to_press, str):
+                    function_to_call(keys_to_press)
+                else:
+                    keys = list(parameters.values())
+                    function_to_call(*keys)
             else:
                 # For other functions, pass the parameters as they are
                 function_to_call(**parameters)
