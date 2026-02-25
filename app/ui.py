@@ -59,26 +59,64 @@ class UI:
             radio_frame = ttk.Frame(self)
             radio_frame.pack(padx=20, pady=10)  # Add padding around the frame
 
-            models = [
+            openai_models = [
                 ('GPT-5.2 (Default)', 'gpt-5.2'),
+                ('OpenAI computer-use-preview (GUI actions)', 'computer-use-preview'),
+            ]
+
+            gemini_models = [
+                ('Gemini gemini-3-pro-preview', 'gemini-3-pro-preview'),
+                ('Gemini gemini-3-flash-preview', 'gemini-3-flash-preview'),
+            ]
+
+            deprecated_models = [
                 ('GPT-4o (Medium-Accurate, Medium-Fast)', 'gpt-4o'),
                 ('GPT-4o-mini (Cheapest, Fastest)', 'gpt-4o-mini'),
-                ('GPT-4v (Deprecated. Most-Accurate, Slowest)', 'gpt-4-vision-preview'),
+                ('GPT-4v (Most-Accurate, Slowest)', 'gpt-4-vision-preview'),
                 ('GPT-4-Turbo (Least Accurate, Fast)', 'gpt-4-turbo'),
-                ('', ''),
-                ('Gemini gemini-2.0-flash (Free, Fast)', 'gemini-2.0-flash'),
+                ('Gemini gemini-2.5-pro', 'gemini-2.5-pro'),
+                ('Gemini gemini-2.5-flash', 'gemini-2.5-flash'),
+                ('Gemini gemini-2.5-flash-lite', 'gemini-2.5-flash-lite'),
+                ('Gemini gemini-2.0-flash', 'gemini-2.0-flash'),
                 ('Gemini gemini-2.0-flash-lite', 'gemini-2.0-flash-lite'),
                 ('Gemini gemini-2.0-flash-thinking-exp', 'gemini-2.0-flash-thinking-exp'),
                 ('Gemini gemini-2.0-pro-exp-02-05', 'gemini-2.0-pro-exp-02-05'),
-                ('', ''),
-                ('Custom (Specify Settings Below)', 'custom')
             ]
-            for text, value in models:
-                if text == '' and value == '':
-                    ttk.Separator(radio_frame, orient='horizontal').pack(fill='x', pady=10)
-                else:
-                    ttk.Radiobutton(radio_frame, text=text, value=value, variable=self.model_var, bootstyle="info").pack(
-                        anchor=ttk.W, pady=5)
+
+            for text, value in openai_models:
+                ttk.Radiobutton(radio_frame, text=text, value=value, variable=self.model_var, bootstyle="info").pack(
+                    anchor=ttk.W, pady=5)
+
+            ttk.Separator(radio_frame, orient='horizontal').pack(fill='x', pady=8)
+
+            for text, value in gemini_models:
+                ttk.Radiobutton(radio_frame, text=text, value=value, variable=self.model_var, bootstyle="info").pack(
+                    anchor=ttk.W, pady=5)
+
+            ttk.Separator(radio_frame, orient='horizontal').pack(fill='x', pady=10)
+
+            self.deprecated_expanded = False
+            self.deprecated_toggle_button = ttk.Button(
+                radio_frame,
+                text='Older Models ▸',
+                bootstyle='secondary-link',
+                command=self.toggle_deprecated_section
+            )
+            self.deprecated_toggle_button.pack(anchor=ttk.W, pady=(0, 5))
+
+            self.deprecated_frame = ttk.Frame(radio_frame)
+            for text, value in deprecated_models:
+                ttk.Radiobutton(self.deprecated_frame, text=text, value=value, variable=self.model_var, bootstyle="info").pack(
+                    anchor=ttk.W, pady=5)
+
+            ttk.Separator(radio_frame, orient='horizontal').pack(fill='x', pady=10)
+            ttk.Radiobutton(
+                radio_frame,
+                text='Custom (Specify Settings Below)',
+                value='custom',
+                variable=self.model_var,
+                bootstyle="info"
+            ).pack(anchor=ttk.W, pady=5)
 
             label_base_url = ttk.Label(self, text='Custom OpenAI-Like API Model Base URL', bootstyle="secondary")
             label_base_url.pack(pady=10)
@@ -103,6 +141,16 @@ class UI:
             restart_app_label = ttk.Label(self, text='Restart the app after any change in settings',
                                           font=('Helvetica', 10))
             restart_app_label.pack(pady=(0, 20))
+
+        def toggle_deprecated_section(self) -> None:
+            if self.deprecated_expanded:
+                self.deprecated_frame.pack_forget()
+                self.deprecated_toggle_button.config(text='Older Models ▸')
+                self.deprecated_expanded = False
+            else:
+                self.deprecated_frame.pack(anchor=ttk.W, padx=(12, 0), pady=(0, 6), after=self.deprecated_toggle_button)
+                self.deprecated_toggle_button.config(text='Older Models ▾')
+                self.deprecated_expanded = True
 
         def save_button(self) -> None:
             base_url = self.base_url_entry.get().strip()

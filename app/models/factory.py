@@ -1,6 +1,7 @@
 from models.gpt4o import GPT4o
 from models.gpt4v import GPT4v
 from models.gpt5 import GPT5
+from models.openai_computer_use import OpenAIComputerUse
 from models.gemini import Gemini
 
 
@@ -10,6 +11,8 @@ class ModelFactory:
         try:
             if model_name == 'gpt-4o' or model_name == 'gpt-4o-mini':
                 return GPT4o(model_name, *args)
+            elif model_name == 'computer-use-preview':
+                return OpenAIComputerUse(model_name, *args)
             elif model_name.startswith('gpt-5'):
                 return GPT5(model_name, *args)
             elif model_name == 'gpt-4-vision-preview' or model_name == 'gpt-4-turbo':
