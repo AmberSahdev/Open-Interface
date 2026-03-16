@@ -7,9 +7,9 @@
 ### Control Your Computer Using LLMs
 
 Open Interface
-- Self-drives your computer by sending your requests to an LLM backend (GPT-4o, Gemini, etc) to figure out the required steps.
-- Automatically executes these steps by simulating keyboard and mouse input.
-- Course-corrects by sending the LLM backend updated screenshots of the progress as needed.
+- Runs a screenshot-driven desktop agent loop powered by GPT-5, GPT-4o, GPT-4V, Gemini, Claude, Qwen, and compatible OpenAI-style endpoints.
+- Asks the model for at most one next UI action at a time, then executes it with local keyboard and mouse control.
+- Re-observes the screen after each step, optionally verifies visual change locally, and course-corrects until the task is done or safely stopped.
 
 
 <div align="center">
@@ -102,7 +102,7 @@ Open Interface
       </ul>
 </details>
       <ul>
-        <li>Lastly, checkout the <a href="#setup">Setup</a> section to connect Open Interface to LLMs (OpenAI GPT-4V)</li>
+        <li>Lastly, checkout the <a href="#setup">Setup</a> section to connect Open Interface to your preferred LLM provider.</li>
     </ul>
 </details>
 <details>
@@ -111,7 +111,7 @@ Open Interface
         <li>Linux binary has been tested on Ubuntu 20.04 so far.</li>
         <li>Download the Linux zip file from the latest <a href="https://github.com/AmberSahdev/Open-Interface/releases/latest">release</a>.</li>
         <li>
-            Extract the executable and checkout the <a href="https://github.com/AmberSahdev/Open-Interface?tab=readme-ov-file#setup">Setup</a> section to connect Open Interface to LLMs, such as OpenAI GPT-4V.</li>
+            Extract the executable and checkout the <a href="https://github.com/AmberSahdev/Open-Interface?tab=readme-ov-file#setup">Setup</a> section to connect Open Interface to LLMs such as GPT-5, GPT-4o, Gemini, Claude, or Qwen.</li>
     </ul>
 </details>
 <details>
@@ -120,7 +120,7 @@ Open Interface
 	<li>Windows binary has been tested on Windows 10.</li>
 	<li>Download the Windows zip file from the latest <a href="https://github.com/AmberSahdev/Open-Interface/releases/latest">release</a>.</li>
 	<li>Unzip the folder, move the exe to the desired location, double click to open, and voila.</li>
-	<li>Checkout the <a href="https://github.com/AmberSahdev/Open-Interface?tab=readme-ov-file#setup">Setup</a> section to connect Open Interface to LLMs (OpenAI GPT-4V)</li>
+	<li>Checkout the <a href="https://github.com/AmberSahdev/Open-Interface?tab=readme-ov-file#setup">Setup</a> section to connect Open Interface to your preferred LLM provider.</li>
     </ul>
 </details>
 
@@ -147,8 +147,8 @@ Open Interface
     <summary><b>Set up the OpenAI API key</b></summary>
 
 - Get your OpenAI API key
-  - Open Interface needs access to GPT-4o to perform user requests. GPT-4o keys can be downloaded from your OpenAI account at [platform.openai.com/settings/organization/api-keys](https://platform.openai.com/settings/organization/api-keys).
-  - [Follow the steps here](https://help.openai.com/en/articles/8264644-what-is-prepaid-billing) to add balance to your OpenAI account. To unlock GPT-4o a minimum payment of $5 is needed.
+  - Open Interface can use OpenAI-compatible models including GPT-4o, GPT-4V, GPT-5, and `computer-use-preview` depending on your configuration. OpenAI keys can be downloaded from your OpenAI account at [platform.openai.com/settings/organization/api-keys](https://platform.openai.com/settings/organization/api-keys).
+  - [Follow the steps here](https://help.openai.com/en/articles/8264644-what-is-prepaid-billing) to add balance to your OpenAI account. Some higher-tier models may require prepaid billing or additional account access.
   - [More info](https://help.openai.com/en/articles/7102672-how-can-i-access-gpt-4)
 - Save the API key in Open Interface settings
   - In Open Interface, go to the Settings menu on the top right and enter the key you received from OpenAI into the text field like so: <br>
@@ -192,6 +192,46 @@ Open Interface
 
 <hr>
 
+### <ins>Current Architecture</ins> 🧠
+
+Open Interface now uses a structured request pipeline and Prompt System v1. The current app is still a strict single-step visual agent loop, but the prompt, history, and verification layers are more explicit and consistent than the earlier `context.txt + request_data JSON` approach.
+
+- The runtime is a single-step closed loop, not a multi-step batch planner.
+- Each model round may return multiple steps, but the runtime executes only the first executable one.
+- `Core` creates a structured `request_context` for every request and persists messages plus execution logs through `SessionStore`.
+- Most providers now share one prompt semantics source; provider adapters differ mainly in API message formatting.
+- `computer-use-preview` is still a separate tool-driven path rather than the standard JSON step-output flow.
+
+#### Request Flow
+
+1. The UI sends the user's natural-language goal into a queue.
+2. `App` forwards it to `Core.execute_user_request(...)` on a worker thread.
+3. `Core` stops any previous request, snapshots the active session history, stores the new user message, and builds `request_context`.
+4. `LLM` and the selected provider capture the latest screenshot and build a unified prompt package.
+5. The model returns JSON with `steps` and `done`; the runtime keeps at most one step.
+6. `Interpreter` executes the step locally and writes an execution log.
+7. If local verification is enabled, `StepVerifier` compares before/after screenshots and feeds the result back into the next round.
+8. The loop repeats until the model returns `done`, the request is interrupted, or the runtime stops after repeated failure.
+
+#### Prompt System v1
+
+Prompt assembly now lives under `app/prompting/` and is built through `app/prompting/builder.py`.
+
+- Stable prompt layers: `PromptSystemContext` and registry-generated `PromptToolSchema`
+- Dynamic prompt layers: `PromptTaskContext`, `PromptExecutionTimeline`, `PromptRecentDetails`, `PromptVisualContext`, and `PromptOutputContract`
+- `context.txt` now stores stable rules only; dynamic runtime state is assembled from `request_context`
+- Tool definitions come from `ToolRegistry`, so models see an explicit allowlist of tool names, parameters, and usage rules
+- Coordinate actions use the same `0-100` ruler values shown on the screenshot grid; the runtime converts them locally to pixels
+
+#### State, Memory, and Verification
+
+- `session_history_snapshot` captures narrative session history at request start
+- `step_history` records authoritative per-request execution progress and verification results
+- `agent_memory` keeps compact loop memory such as recent failures, recent actions, and unreliable anchors
+- Local step verification can be toggled with `runtime.disable_local_step_verification`
+- When local verification is disabled, successful steps are still re-observed and recorded as `verification_status = skipped`
+- Prompt text dumps can be enabled with `advanced.save_prompt_text_dumps`, which writes final prompt text to `promptdump/`
+
 ### <ins>Stuff It’s Error-Prone At, For Now</ins> 😬
 
 - Accurate spatial-reasoning and hence clicking buttons.
@@ -211,36 +251,40 @@ Open Interface
 (User requests can require between two to a few dozen LLM backend calls depending on the request's complexity.)
 - You can interrupt the app anytime by pressing the Stop button, or by dragging your cursor to any of the screen corners.
 - Open Interface can only see your primary display when using multiple monitors. Therefore, if the cursor/focus is on a secondary screen, it might keep retrying the same actions as it is unable to see its progress.
+- Most providers now share one prompt contract, but `computer-use-preview` still follows a separate real-tool execution path.
+- Prompt text dumps are available for debugging through `advanced.save_prompt_text_dumps`; they exclude API credentials and image binaries.
 
 <hr>
 
 ### <ins>System Diagram</ins> 🖼️
 ```
-+----------------------------------------------------+
-| App                                                |
-|                                                    |
-|    +-------+                                       |
-|    |  GUI  |                                       |
-|    +-------+                                       |
-|        ^                                           |
-|        |                                           |
-|        v                                           |
-|  +-----------+  (Screenshot + Goal)  +-----------+ |
-|  |           | --------------------> |           | |
-|  |    Core   |                       |    LLM    | |
-|  |           | <-------------------- |  (GPT-4o) | |
-|  +-----------+    (Instructions)     +-----------+ |
-|        |                                           |
-|        v                                           |
-|  +-------------+                                   |
-|  | Interpreter |                                   |
-|  +-------------+                                   |
-|        |                                           |
-|        v                                           |
-|  +-------------+                                   |
-|  |   Executer  |                                   |
-|  +-------------+                                   |
-+----------------------------------------------------+
++-------------------------------------------------------------------+
+| App / UI                                                          |
+|                                                                   |
+|  user goal -> Core -> SessionStore                                |
+|                  |                                                 |
+|                  v                                                 |
+|             request_context                                        |
+|                  |                                                 |
+|                  v                                                 |
+|          LLM / Provider Adapter                                    |
+|                  |                                                 |
+|                  v                                                 |
+|     PromptBuilder + ToolRegistry + Screenshot                      |
+|                  |                                                 |
+|                  v                                                 |
+|        Model returns JSON { steps, done }                          |
+|                  |                                                 |
+|                  v                                                 |
+|            Interpreter executes one step                           |
+|                  |                                                 |
+|                  v                                                 |
+|      StepVerifier observes before/after screen change              |
+|                  |                                                 |
+|                  +-----> step_history / agent_memory ----+         |
+|                                                          |         |
+|  <---------------- repeat until done / stop / failure ---+         |
++-------------------------------------------------------------------+
 ```
 
 --- 

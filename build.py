@@ -38,10 +38,31 @@ NOTES:
 import os
 import platform
 import sys
+import sysconfig
 
 import PyInstaller.__main__
 
 from app.version import version
+
+
+def build_add_data_option(source: str, destination: str) -> str:
+    separator = ':'
+    if platform.system() == 'Windows':
+        separator = ';'
+    return f'--add-data={source}{separator}{destination}'
+
+
+def build_site_packages_paths() -> list[str]:
+    candidate_paths: list[str] = []
+    purelib_path = str(sysconfig.get_paths().get('purelib') or '').strip()
+    if purelib_path != '':
+        candidate_paths.append(purelib_path)
+
+    platlib_path = str(sysconfig.get_paths().get('platlib') or '').strip()
+    if platlib_path != '' and platlib_path not in candidate_paths:
+        candidate_paths.append(platlib_path)
+
+    return candidate_paths
 
 
 def build(signing_key=None):
@@ -76,6 +97,8 @@ def compile(signing_key=None):
     # Path to your main application script
     app_script = os.path.join('app', 'app.py')
 
+    pyinstaller_paths = build_site_packages_paths()
+
     # Common PyInstaller options
     pyinstaller_options = [
         '--clean',
@@ -89,9 +112,6 @@ def compile(signing_key=None):
         '--icon=app/resources/icon.png',
         '--windowed',  # Remove this if your application is a console program, also helps to remove this while debugging
         # '--onefile',  # NOTE: Might not work on Windows. Also discouraged to enable both windowed and one file on Mac.
-
-        # Where to find necessary packages to bundle (python3 -m pip show xxx)
-        '--paths=./env/lib/python3.12/site-packages',
 
         # Packaging fails without explicitly including these modules here as shown by the logs outputted by debug=all
         '--hidden-import=pyautogui',
@@ -112,15 +132,20 @@ def compile(signing_key=None):
 
         # Static files and resources --add-data=src:dest
         # - File reads change accordingly - https://pyinstaller.org/en/stable/runtime-information.html#placing-data-files-at-expected-locations-inside-the-bundle
-        '--add-data=app/resources/*:resources',
+        build_add_data_option('app/resources/*', 'resources'),
 
         # Manually including source code and submodules because app doesn't launch without it
-        '--add-data=app/*.py:.',
-        '--add-data=app/utils/*.py:utils',  # Submodules need to be included manually
-        '--add-data=app/models/*.py:models',  # Submodules need to be included manually
+        build_add_data_option('app/*.py', '.'),
+        build_add_data_option('app/utils/*.py', 'utils'),  # Submodules need to be included manually
+        build_add_data_option('app/models/*.py', 'models'),  # Submodules need to be included manually
+        build_add_data_option('app/prompting/*.py', 'prompting'),
+        build_add_data_option('app/platform_support/*.py', 'platform_support'),
 
         app_script
     ]
+
+    for pyinstaller_path in pyinstaller_paths:
+        pyinstaller_options.append(f'--paths={pyinstaller_path}')
 
     # Platform-specific options
     if platform.system() == 'Darwin':  # MacOS
@@ -152,6 +177,7 @@ def zip():
     app_name = 'Open\\ Interface'
 
     zip_name = 'Open-Interface-v' + str(version)
+    zip_cli_command = ''
     if platform.system() == 'Darwin':  # MacOS
         if platform.processor() == 'arm':
             zip_name = zip_name + '-MacOS-M-Series' + '.zip'
@@ -166,6 +192,9 @@ def zip():
     elif platform.system() == 'Windows':
         zip_name = zip_name + '-Windows.zip'
         zip_cli_command = 'cd dist & powershell Compress-Archive -Path \'Open Interface.exe\' -DestinationPath ' + zip_name
+
+    if zip_cli_command == '':
+        raise RuntimeError(f'Unsupported platform for packaging: {platform.system()}')
 
     # input(f'zip_cli_command - {zip_cli_command} \nExecute?')
     os.system(zip_cli_command)

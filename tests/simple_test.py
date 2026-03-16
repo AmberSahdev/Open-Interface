@@ -1,3 +1,10 @@
+"""Manual GUI smoke helper.
+
+This script launches the real desktop app and injects a couple of sample
+requests. It is kept as a low-frequency manual verification entry and is not
+part of the default automated regression gate.
+"""
+
 import os
 import sys
 import threading
@@ -18,7 +25,7 @@ def main():
 
 
 def simple_test(app):
-    # Says hi, waits 12 seconds, requests to open chrome
+    # Manual-only smoke flow: send two sample requests to the real GUI.
     time.sleep(1)
     put_requests_in_app(app, 'Hello')
     time.sleep(12)

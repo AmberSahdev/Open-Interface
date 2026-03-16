@@ -1,12 +1,14 @@
-import os
 import platform
 
+from platform_support.local_apps import get_installed_apps_sample
+
 """
-List the apps the user has locally, default browsers, etc. 
+List the apps the user has locally and basic OS information.
 """
 try:
-    locally_installed_apps: list[str] = [app for app in os.listdir('/Applications') if app.endswith('.app')]
-except:
-    locally_installed_apps: list[str] = ["Unknown"]
+    locally_installed_apps: list[str] = get_installed_apps_sample()
+except Exception as exc:
+    print(f'Warning: failed to inspect locally installed apps: {exc}')
+    locally_installed_apps = []
 
 operating_system: str = platform.platform()
