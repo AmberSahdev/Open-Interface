@@ -1,6 +1,7 @@
 from models.gpt4o import GPT4o
 from models.gpt4v import GPT4v
 from models.gpt5 import GPT5
+from models.minimax import MiniMax
 from models.openai_computer_use import OpenAIComputerUse
 from models.gemini import Gemini
 
@@ -19,6 +20,8 @@ class ModelFactory:
                 return GPT4v(model_name, *args)
             elif model_name.startswith("gemini"):
                 return Gemini(model_name, *args[1:])
+            elif model_name.startswith("MiniMax"):
+                return MiniMax(model_name, *args)
             else:
                 # Llama/Llava models will work with the standard code I wrote for GPT4V without the assitant mode features of gpt4o
                 return GPT4v(model_name, *args)

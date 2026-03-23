@@ -7,7 +7,7 @@
 ### Control Your Computer Using LLMs
 
 Open Interface
-- Self-drives your computer by sending your requests to an LLM backend (GPT-4o, Gemini, etc) to figure out the required steps.
+- Self-drives your computer by sending your requests to an LLM backend (GPT-4o, Gemini, MiniMax, etc) to figure out the required steps.
 - Automatically executes these steps by simulating keyboard and mouse input.
 - Course-corrects by sending the LLM backend updated screenshots of the progress as needed.
 
@@ -169,6 +169,17 @@ Open Interface
 - Get your Google Gemini API key from https://aistudio.google.com/app/apikey.
 - Save the API key in Open Interface settings.
 - Save the settings and <b>restart the app</b>.
+
+</details>
+
+<details>
+    <summary><b>Set up the MiniMax API key</b></summary>
+
+- Go to Settings -> Advanced Settings and select the MiniMax model you wish to use (MiniMax-M2.7 or MiniMax-M2.5-highspeed).
+- Get your MiniMax API key from https://platform.minimaxi.com/
+- Save the API key in Open Interface settings.
+- Save the settings and **restart the app**.
+- Alternatively, set the `MINIMAX_API_KEY` environment variable and the API key will be auto-detected.
 
 </details>
 
