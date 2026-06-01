@@ -8,11 +8,16 @@ from utils.screen import Screen
 
 
 class LiteLLMModel(Model):
+    # Default base_url injected by llm.py when no custom URL is set.
+    _DEFAULT_OPENAI_BASE_URL = 'https://api.openai.com/v1/'
+
     def __init__(self, model_name, base_url, api_key, context):
         self.model_name = model_name
-        self.base_url = base_url
         self.api_key = api_key
         self.context = context
+        # Only store base_url if the user explicitly set a custom endpoint.
+        # The default OpenAI URL would break LiteLLM's own provider routing.
+        self.base_url = base_url if base_url != self._DEFAULT_OPENAI_BASE_URL else None
 
     def get_instructions_for_objective(self, original_user_request: str, step_num: int = 0) -> dict[str, Any]:
         message = self.format_user_request_for_llm(original_user_request, step_num)
