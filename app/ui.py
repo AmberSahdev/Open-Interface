@@ -69,13 +69,6 @@ class UI:
                 ('Gemini gemini-3-flash-preview', 'gemini-3-flash-preview'),
             ]
 
-            litellm_models = [
-                ('LiteLLM: anthropic/claude-sonnet-4-20250514', 'anthropic/claude-sonnet-4-20250514'),
-                ('LiteLLM: anthropic/claude-haiku-4-5-20251001', 'anthropic/claude-haiku-4-5-20251001'),
-                ('LiteLLM: bedrock/anthropic.claude-sonnet-4-20250514-v1:0', 'bedrock/anthropic.claude-sonnet-4-20250514-v1:0'),
-                ('LiteLLM: vertex_ai/gemini-2.5-flash', 'vertex_ai/gemini-2.5-flash'),
-            ]
-
             deprecated_models = [
                 ('GPT-4o (Medium-Accurate, Medium-Fast)', 'gpt-4o'),
                 ('GPT-4o-mini (Cheapest, Fastest)', 'gpt-4o-mini'),
@@ -97,12 +90,6 @@ class UI:
             ttk.Separator(radio_frame, orient='horizontal').pack(fill='x', pady=8)
 
             for text, value in gemini_models:
-                ttk.Radiobutton(radio_frame, text=text, value=value, variable=self.model_var, bootstyle="info").pack(
-                    anchor=ttk.W, pady=5)
-
-            ttk.Separator(radio_frame, orient='horizontal').pack(fill='x', pady=8)
-
-            for text, value in litellm_models:
                 ttk.Radiobutton(radio_frame, text=text, value=value, variable=self.model_var, bootstyle="info").pack(
                     anchor=ttk.W, pady=5)
 
