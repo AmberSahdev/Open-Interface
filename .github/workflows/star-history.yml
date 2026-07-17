@@ -20,6 +20,7 @@ jobs:
       - uses: narayann7/star-history-action@29310fc87122228fe128d811f14027be3ca99601
         with:
           repos: AmberSahdev/Open-Interface
+          token: ${{ secrets.STAR_HISTORY_TOKEN }}
           output-dir: assets/star-history
           themes: light
           type: Date
