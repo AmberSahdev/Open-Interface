@@ -249,9 +249,7 @@ Open Interface
 ### <ins>Star History</ins> ⭐️
 
 <!-- star-history:start -->
-<a href="https://www.star-history.com/?repos=AmberSahdev%2FOpen-Interface&type=date&legend=top-left">
-  <img alt="Star history" src="https://api.star-history.com/chart?repos=AmberSahdev/Open-Interface&type=date&legend=top-left&sealed_token=IgBsnKBlQM60goJK9DF5RRfBYxTQ0MKLj7IodpL7BlmJuAQhIy0PsL4HelQBH3sKtW42Z7HxyBpYe2orSGZ9FdgHV3J8zSOZDMVUwqBa5FqIYsVKa5D0z22igWLHB6wLRXVV1_0577Bv6CKchloATHxBaDeaKTZHD5KHaPXBi27my5z-0DKts1sxZPmo">
-</a>
+<img alt="Star history" src="assets/star-history/star-history-light.svg">
 <!-- star-history:end -->
 
 ---
