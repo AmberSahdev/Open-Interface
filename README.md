@@ -127,6 +127,7 @@ Open Interface
 <details>
     <summary><img src="https://upload.wikimedia.org/wikipedia/commons/thumb/c/c3/Python-logo-notext.svg/120px-Python-logo-notext.svg.png?20250701090410" alt="Python Logo" width="15" height="15"> <b>Run as a Script</b></summary>
     <ul>
+	  <li>Install Python 3.12 or newer.</li>
 	  <li>Clone the repo <code>git clone https://github.com/AmberSahdev/Open-Interface.git</code></li>
       <li>Enter the directory <code>cd Open-Interface</code></li>
       <li><b>Optionally</b> use a Python virtual environment 
