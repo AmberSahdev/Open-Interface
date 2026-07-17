@@ -1,0 +1,28 @@
+name: Star History
+
+on:
+  schedule:
+    - cron: "17 */6 * * *"
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: star-history
+  cancel-in-progress: false
+
+jobs:
+  update:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v6
+      - uses: narayann7/star-history-action@29310fc87122228fe128d811f14027be3ca99601
+        with:
+          repos: AmberSahdev/Open-Interface
+          output-dir: assets/star-history
+          themes: light
+          type: Date
+          update-readme: true
+          readme: README.md
+          readme-format: picture
