@@ -69,6 +69,11 @@ class UI:
                 ('Gemini gemini-3-flash-preview', 'gemini-3-flash-preview'),
             ]
 
+            minimax_models = [
+                ('MiniMax-M2.7 (1M Context)', 'MiniMax-M2.7'),
+                ('MiniMax-M2.5-highspeed (204K, Fast)', 'MiniMax-M2.5-highspeed'),
+            ]
+
             deprecated_models = [
                 ('GPT-4o (Medium-Accurate, Medium-Fast)', 'gpt-4o'),
                 ('GPT-4o-mini (Cheapest, Fastest)', 'gpt-4o-mini'),
@@ -90,6 +95,12 @@ class UI:
             ttk.Separator(radio_frame, orient='horizontal').pack(fill='x', pady=8)
 
             for text, value in gemini_models:
+                ttk.Radiobutton(radio_frame, text=text, value=value, variable=self.model_var, bootstyle="info").pack(
+                    anchor=ttk.W, pady=5)
+
+            ttk.Separator(radio_frame, orient='horizontal').pack(fill='x', pady=8)
+
+            for text, value in minimax_models:
                 ttk.Radiobutton(radio_frame, text=text, value=value, variable=self.model_var, bootstyle="info").pack(
                     anchor=ttk.W, pady=5)
 
@@ -192,7 +203,7 @@ class UI:
 
         def create_widgets(self) -> None:
             # API Key Widgets
-            label_api = ttk.Label(self, text='OpenAI/Gemini/LLM Model API Key:', bootstyle="info")
+            label_api = ttk.Label(self, text='OpenAI/Gemini/MiniMax/LLM Model API Key:', bootstyle="info")
             label_api.pack(pady=10)
             self.api_key_entry = ttk.Entry(self, width=30)
             self.api_key_entry.pack()
