@@ -50,7 +50,7 @@ Open Interface
 
 ### <ins>Install</ins> 💽
 <details>
-    <summary><img src="https://upload.wikimedia.org/wikipedia/commons/thumb/8/84/Apple_Computer_Logo_rainbow.svg/960px-Apple_Computer_Logo_rainbow.svg.png" alt="MacOS Logo" width="13" height="15"> <b>MacOS</b></summary>
+    <summary><img src="assets/install/macos.png" alt="MacOS Logo" width="13" height="15"> <b>MacOS</b></summary>
     <ul>
         <li>Download the MacOS binary from the latest <a href="https://github.com/AmberSahdev/Open-Interface/releases/latest">release</a>.</li>
         <li>Unzip the file and move Open Interface to the Applications Folder.<br><br> 
@@ -105,8 +105,9 @@ Open Interface
         <li>Lastly, checkout the <a href="#setup">Setup</a> section to connect Open Interface to LLMs (OpenAI GPT-4V)</li>
     </ul>
 </details>
+<!-- Tux by Larry Ewing (lewing@isc.tamu.edu), created with The GIMP. -->
 <details>
-    <summary><img src="https://upload.wikimedia.org/wikipedia/commons/a/af/Tux.png" alt="Linux Logo" width="18" height="18"> <b>Linux</b></summary>
+    <summary><img src="assets/install/linux.png" alt="Linux Logo" width="18" height="18"> <b>Linux</b></summary>
     <ul>
         <li>Linux binary has been tested on Ubuntu 20.04 so far.</li>
         <li>Download the Linux zip file from the latest <a href="https://github.com/AmberSahdev/Open-Interface/releases/latest">release</a>.</li>
@@ -115,7 +116,7 @@ Open Interface
     </ul>
 </details>
 <details>
-    <summary><img src="https://upload.wikimedia.org/wikipedia/commons/5/5f/Windows_logo_-_2012.svg" alt="Linux Logo" width="15" height="15"> <b>Windows</b></summary>
+    <summary><img src="assets/install/windows.svg" alt="Windows Logo" width="15" height="15"> <b>Windows</b></summary>
     <ul>
 	<li>Windows binary has been tested on Windows 10.</li>
 	<li>Download the Windows zip file from the latest <a href="https://github.com/AmberSahdev/Open-Interface/releases/latest">release</a>.</li>
@@ -125,7 +126,7 @@ Open Interface
 </details>
 
 <details>
-    <summary><img src="https://upload.wikimedia.org/wikipedia/commons/thumb/c/c3/Python-logo-notext.svg/120px-Python-logo-notext.svg.png" alt="Python Logo" width="15" height="15"> <b>Run as a Script</b></summary>
+    <summary><img src="assets/install/python.png" alt="Python Logo" width="15" height="15"> <b>Run as a Script</b></summary>
     <ul>
 	  <li>Install Python 3.12 or newer.</li>
 	  <li>Clone the repo <code>git clone https://github.com/AmberSahdev/Open-Interface.git</code></li>
