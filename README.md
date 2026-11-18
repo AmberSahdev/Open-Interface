@@ -50,7 +50,7 @@ Open Interface
 
 ### <ins>Install</ins> 💽
 <details>
-    <summary><img src="https://upload.wikimedia.org/wikipedia/commons/thumb/8/84/Apple_Computer_Logo_rainbow.svg/960px-Apple_Computer_Logo_rainbow.svg.png?20250629104313" alt="MacOS Logo" width="13" height="15"> <b>MacOS</b></summary>
+    <summary><img src="https://upload.wikimedia.org/wikipedia/commons/thumb/8/84/Apple_Computer_Logo_rainbow.svg/960px-Apple_Computer_Logo_rainbow.svg.png" alt="MacOS Logo" width="13" height="15"> <b>MacOS</b></summary>
     <ul>
         <li>Download the MacOS binary from the latest <a href="https://github.com/AmberSahdev/Open-Interface/releases/latest">release</a>.</li>
         <li>Unzip the file and move Open Interface to the Applications Folder.<br><br> 
@@ -125,7 +125,7 @@ Open Interface
 </details>
 
 <details>
-    <summary><img src="https://upload.wikimedia.org/wikipedia/commons/thumb/c/c3/Python-logo-notext.svg/120px-Python-logo-notext.svg.png?20250701090410" alt="Python Logo" width="15" height="15"> <b>Run as a Script</b></summary>
+    <summary><img src="https://upload.wikimedia.org/wikipedia/commons/thumb/c/c3/Python-logo-notext.svg/120px-Python-logo-notext.svg.png" alt="Python Logo" width="15" height="15"> <b>Run as a Script</b></summary>
     <ul>
 	  <li>Install Python 3.12 or newer.</li>
 	  <li>Clone the repo <code>git clone https://github.com/AmberSahdev/Open-Interface.git</code></li>
