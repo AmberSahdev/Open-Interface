@@ -3,6 +3,15 @@ from models.gpt4v import GPT4v
 from models.gpt5 import GPT5
 from models.openai_computer_use import OpenAIComputerUse
 from models.gemini import Gemini
+from models.litellm_model import LiteLLMModel
+
+LITELLM_PREFIXES = (
+    'anthropic/', 'bedrock/', 'vertex_ai/', 'azure/', 'azure_ai/',
+    'huggingface/', 'ollama/', 'cohere/', 'mistral/', 'groq/',
+    'together_ai/', 'fireworks_ai/', 'deepseek/', 'perplexity/',
+    'replicate/', 'ai21/', 'cloudflare/', 'cerebras/', 'sambanova/',
+    'nvidia_nim/', 'xai/', 'litellm/',
+)
 
 
 class ModelFactory:
@@ -19,6 +28,8 @@ class ModelFactory:
                 return GPT4v(model_name, *args)
             elif model_name.startswith("gemini"):
                 return Gemini(model_name, *args[1:])
+            elif model_name.startswith(LITELLM_PREFIXES):
+                return LiteLLMModel(model_name, *args)
             else:
                 # Llama/Llava models will work with the standard code I wrote for GPT4V without the assitant mode features of gpt4o
                 return GPT4v(model_name, *args)
